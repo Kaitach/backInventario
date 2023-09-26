@@ -1,0 +1,20 @@
+/* eslint-disable prettier/prettier */
+import { Injectable } from "@nestjs/common";
+import { Observable } from "rxjs";
+
+import { BranchDomainService } from "apps/back-inventario/src/domain/services/branchServiceDomain";
+import { BranchTypeOrmEntity } from "../entities";
+import { branchRepository } from "../repositories";
+import { RegisterBranchDto } from "../../../utils/dto/branch/registerBranch";
+
+@Injectable()
+export class branchServiceBD implements  BranchDomainService<BranchTypeOrmEntity> {
+  constructor(private readonly BranchRepository: branchRepository) { }
+  RegisterBranch(data: RegisterBranchDto): Observable<BranchTypeOrmEntity> {
+    return this.BranchRepository.RegisterBranch(data);
+  }
+
+
+
+
+}

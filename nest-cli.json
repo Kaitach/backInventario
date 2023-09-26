@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/back-inventario/src",
+  "compilerOptions": {
+    "deleteOutDir": true,
+    "webpack": true,
+    "tsConfigPath": "apps/back-inventario/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/back-inventario",
+  "projects": {
+    "back-inventario": {
+      "type": "application",
+      "root": "apps/back-inventario",
+      "entryFile": "main",
+      "sourceRoot": "apps/back-inventario/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/back-inventario/tsconfig.app.json"
+      }
+    },
+    "users": {
+      "type": "application",
+      "root": "apps/users",
+      "entryFile": "main",
+      "sourceRoot": "apps/users/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/users/tsconfig.app.json"
+      }
+    }
+  }
+}
