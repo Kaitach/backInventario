@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prettier/prettier */
 
+import { ValueObjectException } from "apps/shared";
 import { ValueObjectBase } from "apps/shared/bases";
-import { IErrorValueObject } from "apps/shared/interface";
 import { isName } from "apps/shared/validations";
 
 export class BranchNameValueObject extends ValueObjectBase<string> {
@@ -17,15 +17,17 @@ export class BranchNameValueObject extends ValueObjectBase<string> {
 
   private minExtension(): void {
     if (this.value.length < this.MIN_EXTENSION) {
-      this.errorsTrue = true;
-      this.errorMessage = `Branch Name must be at least ${this.MIN_EXTENSION} characters`;
+  
+      throw new ValueObjectException(`Branch Name must be at least ${this.MIN_EXTENSION} characters`,)
+
     }
   }
 
   private maxExtension(): void {
     if (this.value.length > this.MAX_EXTENSION) {
-      this.errorsTrue = true;
-      this.errorMessage = `Branch Name must be maximum ${this.MAX_EXTENSION} characters`;
+   
+      throw new ValueObjectException(`Branch Name must be maximum ${this.MAX_EXTENSION} characters`,)
+
     }
   }
 

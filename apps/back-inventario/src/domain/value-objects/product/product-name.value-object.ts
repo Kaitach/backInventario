@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prettier/prettier */
 
+import { ValueObjectException } from "apps/shared";
 import { ValueObjectBase } from "apps/shared/bases";
 import { IErrorValueObject } from "apps/shared/interface";
 
@@ -8,8 +9,7 @@ import { IErrorValueObject } from "apps/shared/interface";
 export class ProductNameValueObject extends ValueObjectBase<string> {
   MIN_EXTENSION = 3;
   MAX_EXTENSION = 40;
-  errorMessage: string = "";
-  errorsTrue: boolean = false;
+
   validateData(): void {
     this.minExtension();
     this.maxExtension();
@@ -18,8 +18,8 @@ export class ProductNameValueObject extends ValueObjectBase<string> {
   minExtension(): void {
     if (this.value.length < this.MIN_EXTENSION) {
 
-      this.errorsTrue = true;
-      this.errorMessage = `Product Name must be at least ${this.MIN_EXTENSION} characters`;
+      throw new ValueObjectException(`Product Name must be at least ${this.MIN_EXTENSION} characters`,)
+
     }
   }
 
@@ -28,8 +28,9 @@ export class ProductNameValueObject extends ValueObjectBase<string> {
   maxExtension(): void {
     if (this.value.length > this.MAX_EXTENSION) {
 
-      this.errorsTrue = true;
-      this.errorMessage = `Product Name must be maximum ${this.MAX_EXTENSION} characters`;
+      
+      throw new ValueObjectException(`Product Name must be at least ${this.MAX_EXTENSION} characters`,)
+
     }
 
   }

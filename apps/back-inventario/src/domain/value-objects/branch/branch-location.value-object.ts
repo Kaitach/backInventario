@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prettier/prettier */
 
+import { ValueObjectException } from "apps";
 import { ValueObjectBase } from "apps/shared/bases";
 import { IErrorValueObject } from "apps/shared/interface";
 import { isName } from "apps/shared/validations";
@@ -25,29 +26,33 @@ export class BranchLocationValueObject extends ValueObjectBase<Location> {
 
   private minContryExtension(): void {
     if (this.value.country.length < this.MIN_EXTENSION) {
-      this.errorsTrue = true;
-      this.errorMessage = `Location Country must be at least ${this.MIN_EXTENSION} characters`;
+    
+      throw new ValueObjectException(`Location Country must be at least ${this.MIN_EXTENSION} characters`,)
+
     }
   }
 
   private minCityExtension(): void {
     if (this.value.city.length < this.MIN_EXTENSION) {
-      this.errorsTrue = true;
-      this.errorMessage = `Location City must be at least ${this.MIN_EXTENSION} characters`;
+  
+      throw new ValueObjectException(`Location City must be at least ${this.MIN_EXTENSION} characters`,)
+
     }
   }
 
   private maxCountryExtension(): void {
     if (this.value.country.length > this.MAX_COUNTRY_EXTENSION) {
-      this.errorsTrue = true;
-      this.errorMessage = `Location Country must be maximum ${this.MAX_COUNTRY_EXTENSION} characters`;
+    
+      throw new ValueObjectException(`Location Country must be maximum ${this.MAX_COUNTRY_EXTENSION} characters`,)
+
     }
   }
 
   private maxCityExtension(): void {
     if (this.value.city.length > this.MAX_CITY_EXTENSION) {
-      this.errorsTrue = true;
-      this.errorMessage = `Location City must be maximum ${this.MAX_CITY_EXTENSION} characters`;
+   
+      throw new ValueObjectException(`Location City must be maximum ${this.MAX_CITY_EXTENSION} characters`,)
+
     }
   }
 

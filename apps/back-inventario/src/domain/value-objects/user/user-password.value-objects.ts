@@ -17,7 +17,6 @@ export class UserPasswordValueObject extends ValueObjectBase<string> {
     
       throw new ValueObjectException(`User Password must be at least ${this.MIN_LENGTH} characters`,)
 
-      return false;
     }
     return true;
   }
