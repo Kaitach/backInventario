@@ -4,13 +4,14 @@ import { Observable } from "rxjs";
 import { IUseCase } from '../../domain/interfaces/IUseCase';
 import { BranchDomainService, IBranchEntiy } from "../../domain";
 import { registerBranchUseCase } from "../useCase/branchUseCase/registerBranchUseCase";
+import { CommandBus } from "apps/back-inventario/src/domain/services/eventService";
 
 
 export class BranchDelegate implements IUseCase {
   private delegate: IUseCase;
 
   constructor(
-    private readonly BranchService: BranchDomainService<IBranchEntiy>
+    private readonly BranchService: BranchDomainService<IBranchEntiy>,  private readonly eventBus: CommandBus
   ) { }
 
   execute<Response>(...args: any[]): Observable<Response> {
@@ -19,7 +20,8 @@ export class BranchDelegate implements IUseCase {
 
   registerBranch(): void {
     this.delegate = new registerBranchUseCase(
-      this.BranchService
+      this.BranchService,
+      this.eventBus
     );
   }
 

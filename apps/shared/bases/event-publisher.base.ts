@@ -1,31 +1,47 @@
 /* eslint-disable prettier/prettier */
 // eslint-disable-next-line prettier/prettier
 import { IEventPublisher } from "../interface";
-
+import { Observable, Subject, } from "rxjs";
 
 export abstract class EventPublisherBase<Response> implements IEventPublisher {
-  private _response: Response | Response[] | null;
+  private responseSubject = new Subject<Response | Response[] | null>();
 
-  constructor(private readonly eventPublisher: IEventPublisher) { }
+  constructor(private readonly eventPublisher: IEventPublisher) {}
+  sendObservable<Result = any, Input = any>(pattern: any, data: Input): Observable<Result> {
+    const observable = new Observable<Result>((observer) => {
+      this.eventPublisher.sendObservable(pattern, data).subscribe((result) => {
+        observer.next(result);
+        observer.complete();
+      });
+    });
 
-  get response(): Response | Response[] | null {
-    return this._response;
+    return observable  }
+    emitObservable<Result = any, Input = Response>(
+      pattern: any,
+      data: Input
+    ): Observable<Result> {
+      return new Observable<Result>((observer) => {
+        this.eventPublisher.emitObservable(pattern, data).subscribe({
+          next: (result) => {
+            observer.next(result);
+          },
+          error: (error) => {
+            observer.error(error);
+          },
+          complete: () => {
+            observer.complete();
+          },
+        });
+      });
+    }
+    
+
+  get responses(): Observable<Response | Response[] | null> {
+    return this.responseSubject.asObservable();
   }
 
-  set response(value: Response | Response[] | null) {
-    this._response = value;
-  }
 
-  send<Result, Input = Response>(pattern: any, data: Input): Promise<Result> {
-    return this.eventPublisher.send(pattern, data);
-  }
 
-  emit<Result = any, Input = Response>(
-    pattern: any,
-    data: Input,
-  ): Promise<Result> {
-    return this.eventPublisher.emit(pattern, data);
-  }
-
-  abstract publish<Result = any>(): Promise<Result>;
+  abstract publish<Result = any>(): Observable<Result>;
 }
+

@@ -1,5 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { UserDomainService, IUserEntity, BranchDomainService, IBranchEntiy } from "apps/back-inventario/src/domain";
+import { CreateUserCommand } from "apps/back-inventario/src/domain/events/commands/newUserCommand";
+import { CommandBus } from "apps/back-inventario/src/domain/services/eventService";
 import { UserEmailValueObject } from "apps/back-inventario/src/domain/value-objects/user/user-email.value-object";
 import { UserNameValueObject } from "apps/back-inventario/src/domain/value-objects/user/user-name.value-object";
 import { UserPasswordValueObject } from "apps/back-inventario/src/domain/value-objects/user/user-password.value-objects";
@@ -8,7 +10,7 @@ import { Observable, catchError, map, of, switchMap, throwError } from "rxjs";
 
 export class registeruserUseCase {
   constructor(private readonly userService: UserDomainService<IUserEntity>,
-              private readonly breachDomanService: BranchDomainService<IBranchEntiy>) { }
+              private readonly breachDomanService: BranchDomainService<IBranchEntiy>, private readonly comandBus: CommandBus) { }
 
   private validateUserData(data: IUserEntity): Observable<IUserEntity> {
 
@@ -28,7 +30,9 @@ export class registeruserUseCase {
       userRole: userRoleValueObject.valueOf(),
       userPassword: userPasswordValueObject.valueOf(),
     };
-  
+      
+    const createBranchCommand = new CreateUserCommand(validatedUser);
+     this.comandBus.execute(createBranchCommand)
     return of(validatedUser); 
   }
 

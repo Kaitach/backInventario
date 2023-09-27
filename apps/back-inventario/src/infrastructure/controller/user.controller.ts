@@ -4,6 +4,7 @@ import { userDelegate } from '../../application/delegate/userDelegate';
 import { UserTypeOrmEntity, branchServiceBD, userDBService } from '../database';
 import { RegisterUserDto } from '../utils/dto/user/registerUser';
 import { Observable } from 'rxjs';
+import { CommandBus } from '@nestjs/cqrs';
 
 @Controller('user')
 export class UserController {
@@ -12,9 +13,9 @@ export class UserController {
     constructor(
       private readonly userService: userDBService,
       private readonly branchService: branchServiceBD,
-  
+       private readonly comandBus: CommandBus
     ) {
-      this.useCase = new userDelegate(this.userService, this.branchService ); 
+      this.useCase = new userDelegate(this.userService,  this.comandBus,this.branchService ); 
     }
   
     @Post()

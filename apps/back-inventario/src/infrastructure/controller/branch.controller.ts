@@ -1,4 +1,6 @@
 /* eslint-disable prettier/prettier */
+import { CommandBus } from '@nestjs/cqrs';
+
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { BranchDelegate } from '../../application/delegate/branchDelegate';
 import { BranchTypeOrmEntity, branchServiceBD } from '../database';
@@ -11,9 +13,10 @@ export class BranchController {
 
     constructor(
       private readonly branchService: branchServiceBD,
+      private readonly eventBus: CommandBus
   
     ) {
-      this.useCase = new BranchDelegate(this.branchService); 
+      this.useCase = new BranchDelegate(this.branchService, this.eventBus); 
     }
   
     @Post()
