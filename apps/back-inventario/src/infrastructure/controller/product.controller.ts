@@ -4,7 +4,7 @@ import { Controller, Post, Body, Param, Get } from "@nestjs/common";
 import { Observable } from "rxjs";
 import { productServiceBD } from "..";
 import { productDelegate } from "../../application/delegate/productDelegate";
-import { ProductTypeOrmEntity } from "../database";
+import { ProductTypeOrmEntity, branchServiceBD } from "../database";
 import { RegisterProductInventoryStockDTO } from "../utils/dto/product/registerProductInventory";
 import { RegisterProductDTO } from "../utils/dto/product/registerProductRegister";
 import { RegisterSaleDTO } from "../utils/dto/product/registerSale";
@@ -14,10 +14,11 @@ export class ProductController {
     private readonly useCase: productDelegate;
 
     constructor(
-      private readonly productService: productServiceBD,
+      private readonly productService: productServiceBD,       private readonly brancService: branchServiceBD, 
+
   
     ) {
-      this.useCase = new productDelegate(this.productService); 
+      this.useCase = new productDelegate(this.productService, this.brancService); 
     }
   
     @Post()

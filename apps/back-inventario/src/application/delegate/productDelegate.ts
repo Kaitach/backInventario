@@ -3,7 +3,7 @@ import { Injectable } from "@nestjs/common";
 import { Observable } from "rxjs";
 import { registerProductInventoryStockUseCase } from './../useCase/productUseCase/registerProductInventotyStockUseCase';
 
-import { IProductEntity, ProductDomainService } from "../../domain";
+import { BranchDomainService, IBranchEntiy, IProductEntity, ProductDomainService } from "../../domain";
 import { registerCustomerSaleUseCase } from "../useCase/productUseCase/registerCustomerSaleUseCase";
 import { RegisterProductUseCase } from "../useCase/productUseCase/registerProductUseCase";
 import { RegisterResellerSaleUseCase } from '../useCase/productUseCase/registerResellerSaleUseCase';
@@ -15,7 +15,7 @@ export class productDelegate implements IUseCase {
   private delegate: IUseCase;
 
   constructor(
-    private readonly productService: ProductDomainService<IProductEntity>
+    private readonly productService: ProductDomainService<IProductEntity>, private readonly branchDomanService: BranchDomainService<IBranchEntiy>
   ) { }
 
   execute<Response>(...args: any[]): Observable<Response> {
@@ -30,7 +30,8 @@ export class productDelegate implements IUseCase {
 
   registerProduct(): void {
     this.delegate = new RegisterProductUseCase(
-      this.productService
+      this.productService,
+      this.branchDomanService
     );
   }
   
