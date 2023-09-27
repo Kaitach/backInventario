@@ -1,5 +1,4 @@
 /* eslint-disable prettier/prettier */
-import { Injectable } from "@nestjs/common";
 import { Observable } from "rxjs";
 import { registerProductInventoryStockUseCase } from './../useCase/productUseCase/registerProductInventotyStockUseCase';
 
@@ -10,7 +9,6 @@ import { RegisterResellerSaleUseCase } from '../useCase/productUseCase/registerR
 import { IUseCase } from '../../domain/interfaces/IUseCase';
 
 
-@Injectable()
 export class productDelegate implements IUseCase {
   private delegate: IUseCase;
 

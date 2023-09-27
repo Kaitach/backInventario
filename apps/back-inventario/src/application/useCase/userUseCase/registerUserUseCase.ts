@@ -1,5 +1,4 @@
 /* eslint-disable prettier/prettier */
-import { Injectable } from "@nestjs/common";
 import { UserDomainService, IUserEntity, BranchDomainService, IBranchEntiy } from "apps/back-inventario/src/domain";
 import { UserEmailValueObject } from "apps/back-inventario/src/domain/value-objects/user/user-email.value-object";
 import { UserNameValueObject } from "apps/back-inventario/src/domain/value-objects/user/user-name.value-object";
@@ -7,12 +6,11 @@ import { UserPasswordValueObject } from "apps/back-inventario/src/domain/value-o
 import { RoleUserValueObject } from "apps/back-inventario/src/domain/value-objects/user/user-role.value-object";
 import { Observable, catchError, map, of, switchMap, throwError } from "rxjs";
 
-@Injectable()
 export class registeruserUseCase {
   constructor(private readonly userService: UserDomainService<IUserEntity>,
               private readonly breachDomanService: BranchDomainService<IBranchEntiy>) { }
 
-  private validateUserData(data: IUserEntity): Observable<string[]> {
+  private validateUserData(data: IUserEntity): Observable<IUserEntity> {
 
     const userEmailValueObject = new UserEmailValueObject(data.userEmail);
     const userNameValueObject = new UserNameValueObject(data.username);
@@ -23,36 +21,22 @@ export class registeruserUseCase {
     userRoleValueObject.validateData();
     userPasswordValueObject.validateData();
 
-
-   
-    if (userPasswordValueObject.errorValidate()) {
-      return throwError(userPasswordValueObject.errorMessage);
-    }
-
-    if (userEmailValueObject.errorValidate()) {
-      return throwError(userEmailValueObject.errorMessage);
-    }
-
-    if (userRoleValueObject.errorValidate()) {
-      return throwError(userRoleValueObject.errorMessage);
-    }
-    if (userNameValueObject.errorValidate()) {
-      return throwError(userNameValueObject.errorMessage);
-    }
-
-    return new Observable<string[]>(observer => {
-      observer.next([]);
-      observer.complete();
-    });
+    const validatedUser: IUserEntity = {
+      ...data, 
+      userEmail: userEmailValueObject.valueOf(),
+      username: userNameValueObject.valueOf(),
+      userRole: userRoleValueObject.valueOf(),
+      userPassword: userPasswordValueObject.valueOf(),
+    };
+  
+    return of(validatedUser); 
   }
-
-
 
 
   private validateBranchExistence(branchId: string): Observable<boolean> {
     return this.breachDomanService.findBranchById(branchId).pipe(
-      map(branch => !!branch), // Verifica si la sucursal existe
-      catchError(() => of(false)) // Maneja errores si la sucursal no existe o si ocurre algún otro error
+      map(branch => !!branch),
+      catchError(() => of(false)) 
     );
   }
 
@@ -63,8 +47,8 @@ export class registeruserUseCase {
           return throwError("La sucursal no existe.");
         }
         return this.validateUserData(data).pipe(
-          switchMap(() => {
-            return this.userService.registerUser(data);
+          switchMap(validatedUser => {
+            return this.userService.registerUser(validatedUser);
           }),
           catchError(error => {
             return throwError(`Validation error: ${error}`);

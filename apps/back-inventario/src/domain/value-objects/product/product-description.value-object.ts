@@ -30,9 +30,7 @@ export class ProductDescriptionValueObject extends ValueObjectBase<string> {
     }
   }
 
-  errorValidate(): boolean {
-    return this.errorsTrue;
-  }
+
 
 
 }

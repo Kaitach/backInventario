@@ -1,15 +1,13 @@
 /* eslint-disable prettier/prettier */
-import { Injectable } from "@nestjs/common";
 import { BranchDomainService, IBranchEntiy } from "apps/back-inventario/src/domain";
 import { BranchLocationValueObject } from "apps/back-inventario/src/domain/value-objects/branch/branch-location.value-object";
 import { BranchNameValueObject } from "apps/back-inventario/src/domain/value-objects/branch/branch-name.value-object";
-import { Observable, catchError, switchMap, throwError } from "rxjs";
+import { Observable, catchError, of, switchMap, throwError } from "rxjs";
 
-@Injectable()
 export class registerBranchUseCase {
   constructor(private readonly branchService: BranchDomainService<IBranchEntiy>) {}
 
-  private validateUserData(data: IBranchEntiy): Observable<string[]> {
+  private validateBranchData(data: IBranchEntiy): Observable<IBranchEntiy> {
     const branchNameValueObject = new BranchNameValueObject(data.branchName);
 
     if (data.branchLocation === null || data.branchLocation === undefined) {
@@ -31,22 +29,17 @@ export class registerBranchUseCase {
     branchNameValueObject.validateData();
     branchLocationValueObject.validateData();
 
-    if (branchNameValueObject.errorValidate()) {
-      return throwError(branchNameValueObject.errorMessage);
-    }
-
-    if (branchLocationValueObject.errorValidate()) {
-      return throwError(branchLocationValueObject.errorMessage);
-    }
-
-    return new Observable<string[]>(observer => {
-      observer.next([]);
-      observer.complete();
-    });
+    const validatedUser: IBranchEntiy = {
+      ...data, 
+      branchName: branchNameValueObject.valueOf(),
+      branchLocation: branchLocationValueObject.valueOf()
+    };
+  
+    return of(validatedUser); 
   }
 
   registerBranch(data: IBranchEntiy): Observable<IBranchEntiy> {
-    return this.validateUserData(data).pipe(
+    return this.validateBranchData(data).pipe(
       switchMap(() => {
         return this.branchService.RegisterBranch(data);
       }),
@@ -56,7 +49,10 @@ export class registerBranchUseCase {
     );
   }
 
+
   execute(data: IBranchEntiy): Observable<IBranchEntiy> {
-    return this.registerBranch(data);
-  }
+    return this.validateBranchData(data).pipe(
+      switchMap((validatedProduct) => this.registerBranch(validatedProduct)),
+      catchError(error => throwError(`Validation error: ${error}`))
+    );  }
 }

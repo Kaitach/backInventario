@@ -1,27 +1,23 @@
 /* eslint-disable prettier/prettier */
-import {  Injectable } from "@nestjs/common";
 import { IProductEntity } from "apps/back-inventario/src/domain";
-import { Observable, catchError, map, mergeMap, throwError } from "rxjs";
+import { Observable, catchError, map, mergeMap, of, switchMap, throwError } from "rxjs";
 import { ProductDomainService } from './../../../domain/services/productServiceDomain';
-import { RegisterProductInventoryStockDTO } from "apps/back-inventario/src/infrastructure/utils/dto/product/registerProductInventory";
 import { ProductInventoryStockValueObject } from "apps/back-inventario/src/domain/value-objects/product/product-inventory-stock.value-object";
 
-@Injectable()
 export class registerProductInventoryStockUseCase {
   constructor(private readonly productDomainService: ProductDomainService<IProductEntity>) { }
 
-  private validateProductData(data: IProductEntity): Observable<void> {
+  private validateProductData(data: IProductEntity): Observable<IProductEntity> {
     const productInventoryStockValueObject = new ProductInventoryStockValueObject(data.productInventoryStock);
     productInventoryStockValueObject.validateData();
 
-    if (productInventoryStockValueObject.errorValidate()) {
-      productInventoryStockValueObject.errorMessage
-        }
 
-    return new Observable<void>(observer => {
-      observer.next();
-      observer.complete();
-    });
+    const validatedProduct: IProductEntity = {
+      ...data, 
+      productInventoryStock: productInventoryStockValueObject.valueOf()
+    };
+  
+    return of(validatedProduct); 
   }
 
   registerProductInventoryStock(data: IProductEntity): Observable<IProductEntity> {
@@ -48,7 +44,9 @@ export class registerProductInventoryStockUseCase {
     );
   }
 
-  execute(data: RegisterProductInventoryStockDTO): Observable<IProductEntity> {
-    return this.registerProductInventoryStock(data);
-  }
+  execute(data: IProductEntity): Observable<IProductEntity> {
+    return this.validateProductData(data).pipe(
+      switchMap((validatedProduct) => this.registerProductInventoryStock(validatedProduct)),
+      catchError(error => throwError(`Validation error: ${error}`))
+    );  }
 }

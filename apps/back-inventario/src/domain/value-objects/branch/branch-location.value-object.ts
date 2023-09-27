@@ -14,8 +14,7 @@ export class BranchLocationValueObject extends ValueObjectBase<Location> {
   MIN_EXTENSION = 3;
   MAX_COUNTRY_EXTENSION = 35;
   MAX_CITY_EXTENSION = 85;
-  errorMessage: string;
-  errorsTrue = false;
+
 
   validateData(): void {
     this.minContryExtension();
@@ -52,7 +51,5 @@ export class BranchLocationValueObject extends ValueObjectBase<Location> {
     }
   }
 
-  errorValidate(): boolean {
-    return this.errorsTrue;
-  }
+
 }

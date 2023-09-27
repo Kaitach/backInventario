@@ -8,8 +8,7 @@ import { isName } from "apps/shared/validations";
 export class BranchNameValueObject extends ValueObjectBase<string> {
   MIN_EXTENSION = 3;
   MAX_EXTENSION = 40;
-  errorMessage: string;
-  errorsTrue = false;
+
 
   validateData(): void {
     this.minExtension();
@@ -30,7 +29,5 @@ export class BranchNameValueObject extends ValueObjectBase<string> {
     }
   }
 
-  errorValidate(): boolean {
-    return this.errorsTrue;
-  }
+
 }

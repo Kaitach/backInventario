@@ -18,21 +18,20 @@ enum CATEGORY_ENUM {
 }
 
 export class ProductCategoryValueObject extends ValueObjectBase<string> {
-  errorMessage: string;
-  errorsTrue = false;
+
 
   validateData(): void {
-      this.isIntoEnum();
+    this.isIntoEnum();
   }
-  
+
   isIntoEnum(): void {
-      if (!Object.values(CATEGORY_ENUM).includes(this.value as CATEGORY_ENUM)) {
-          this.errorsTrue = true;
-          this.errorMessage = `Category is not correct`;
-      }
+    if (!Object.values(CATEGORY_ENUM).includes(this.value as CATEGORY_ENUM)) {
+      this.errorsTrue = true;
+      this.errorMessage = `Category is not correct`;
+    }
   }
 
   errorValidate(): boolean {
-      return this.errorsTrue;
+    return this.errorsTrue;
   }
 }

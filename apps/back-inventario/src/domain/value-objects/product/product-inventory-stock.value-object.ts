@@ -15,15 +15,14 @@ export class ProductInventoryStockValueObject extends ValueObjectBase<number> {
 
   minValue(): void {
     if (this.value < this.MIN_VALUE) {
-       {
-      this.errorsTrue = true;
-      this.errorMessage =  `Product Inventory Stock must be greater than ${this.MIN_VALUE}`;
+      {
+        this.errorsTrue = true;
+        this.errorMessage = `Product Inventory Stock must be greater than ${this.MIN_VALUE}`;
+      }
     }
-    }}
-
-
-  
-  errorValidate(): boolean {
-    return this.errorsTrue;
   }
+
+
+
+
 }

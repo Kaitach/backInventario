@@ -1,14 +1,8 @@
-import { IErrorValueObject } from '../interface';
+/* eslint-disable prettier/prettier */
+import { HttpException, HttpStatus } from '@nestjs/common';
 
-export class ValueObjectException extends Error {
-  private _errors: Array<IErrorValueObject>;
-
-  constructor(message: string, errors: Array<IErrorValueObject>) {
-    super(message);
-    this._errors = errors;
-  }
-
-  get errors(): Array<IErrorValueObject> {
-    return this._errors;
+export class ValueObjectException extends HttpException {
+  constructor(message: string) {
+    super({ statusCode: HttpStatus.BAD_REQUEST, message }, HttpStatus.BAD_REQUEST);
   }
 }

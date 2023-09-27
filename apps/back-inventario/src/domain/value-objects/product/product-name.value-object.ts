@@ -17,23 +17,21 @@ export class ProductNameValueObject extends ValueObjectBase<string> {
 
   minExtension(): void {
     if (this.value.length < this.MIN_EXTENSION) {
-   
-        this.errorsTrue = true;
-        this.errorMessage =  `Product Name must be at least ${this.MIN_EXTENSION} characters`;
-      }
+
+      this.errorsTrue = true;
+      this.errorMessage = `Product Name must be at least ${this.MIN_EXTENSION} characters`;
     }
-   
-  
+  }
+
+
 
   maxExtension(): void {
     if (this.value.length > this.MAX_EXTENSION) {
-    
+
       this.errorsTrue = true;
-      this.errorMessage =  `Product Name must be maximum ${this.MAX_EXTENSION} characters`;
+      this.errorMessage = `Product Name must be maximum ${this.MAX_EXTENSION} characters`;
     }
-    
+
   }
-  errorValidate(): boolean {
-    return this.errorsTrue;
-  }
+
 }
