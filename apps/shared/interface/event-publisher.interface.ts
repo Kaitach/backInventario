@@ -1,4 +1,13 @@
+/* eslint-disable prettier/prettier */
+import { Observable } from "rxjs";
+
 export interface IEventPublisher {
-  send<Result = any, Input = any>(pattern: any, data: Input): Promise<Result>;
-  emit<Result = any, Input = any>(pattern: any, data: Input): Promise<Result>;
+   sendObservable<Result = any, Input = any>(
+    pattern: any,
+    data: Input
+  ): Observable<Result>;
+  emitObservable<Result = any, Input = any>(
+    pattern: any,
+    data: Input
+  ): Observable<Result>;
 }

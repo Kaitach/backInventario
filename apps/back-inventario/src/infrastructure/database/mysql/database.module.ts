@@ -5,6 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { BranchTypeOrmEntity, ProductTypeOrmEntity, UserTypeOrmEntity } from './entities';
 import { branchServiceBD, productServiceBD, userDBService } from './services';
 import { ProductRepository, branchRepository, userRepository } from './repositories';
+import { MongoModule } from '../mongoDB/mongo.module';
+import { EventRepository } from '../mongoDB/repository/eventRepository';
 
 ;
 
@@ -17,9 +19,10 @@ import { ProductRepository, branchRepository, userRepository } from './repositor
     UserTypeOrmEntity
       , ProductTypeOrmEntity, BranchTypeOrmEntity
     ]),
+    MongoModule,
   ],
   controllers: [],
-  providers: [userDBService, userRepository, productServiceBD, ProductRepository, branchRepository, branchServiceBD],
-  exports: [userDBService, userRepository, productServiceBD, ProductRepository, branchRepository, branchServiceBD],
+  providers: [EventRepository, userDBService, userRepository, productServiceBD, ProductRepository, branchRepository, branchServiceBD],
+  exports: [EventRepository,userDBService, userRepository, productServiceBD, ProductRepository, branchRepository, branchServiceBD],
 })
 export class DatabaseModule { }

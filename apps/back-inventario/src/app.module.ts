@@ -7,10 +7,12 @@ import { DatabaseModule } from './infrastructure/database/mysql';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './infrastructure/utils/middleware/jwt.middleware';
+import { CqrsModule } from '@nestjs/cqrs';
+import { CreateBranchHandler } from './infrastructure/events/CreateBranchHandler';
 
 
 @Module({
-  imports: [DatabaseModule,
+  imports: [DatabaseModule,CqrsModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       secret: 'claveSuperSegura', 
@@ -21,6 +23,7 @@ import { JwtStrategy } from './infrastructure/utils/middleware/jwt.middleware';
     ProductController,
     BranchController,
     UserController],
-  providers: [JwtStrategy],
+    
+  providers: [JwtStrategy, CreateBranchHandler ],
 })
 export class AppModule { }
