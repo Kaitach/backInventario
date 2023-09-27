@@ -13,4 +13,6 @@ export interface IProduct {
     productPrice: ProductPriceValueObject | number ;
     productInventoryStock: ProductInventoryStockValueObject | number ;
     productCategory: ProductCategoryValueObject | string;
+    branchID: string
+
   }

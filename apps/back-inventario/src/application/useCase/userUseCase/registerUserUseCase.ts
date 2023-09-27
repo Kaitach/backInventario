@@ -1,15 +1,16 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from "@nestjs/common";
-import { UserDomainService, IUserEntity } from "apps/back-inventario/src/domain";
+import { UserDomainService, IUserEntity, BranchDomainService, IBranchEntiy } from "apps/back-inventario/src/domain";
 import { UserEmailValueObject } from "apps/back-inventario/src/domain/value-objects/user/user-email.value-object";
 import { UserNameValueObject } from "apps/back-inventario/src/domain/value-objects/user/user-name.value-object";
 import { UserPasswordValueObject } from "apps/back-inventario/src/domain/value-objects/user/user-password.value-objects";
 import { RoleUserValueObject } from "apps/back-inventario/src/domain/value-objects/user/user-role.value-object";
-import { Observable, catchError, switchMap, throwError } from "rxjs";
+import { Observable, catchError, map, of, switchMap, throwError } from "rxjs";
 
 @Injectable()
 export class registeruserUseCase {
-  constructor(private readonly userService: UserDomainService<IUserEntity>) { }
+  constructor(private readonly userService: UserDomainService<IUserEntity>,
+              private readonly breachDomanService: BranchDomainService<IBranchEntiy>) { }
 
   private validateUserData(data: IUserEntity): Observable<string[]> {
 
@@ -48,13 +49,27 @@ export class registeruserUseCase {
 
 
 
+  private validateBranchExistence(branchId: string): Observable<boolean> {
+    return this.breachDomanService.findBranchById(branchId).pipe(
+      map(branch => !!branch), // Verifica si la sucursal existe
+      catchError(() => of(false)) // Maneja errores si la sucursal no existe o si ocurre algún otro error
+    );
+  }
+
   registeruser(data: IUserEntity): Observable<IUserEntity> {
-    return this.validateUserData(data).pipe(
-      switchMap(() => {
-        return this.userService.registerUser(data);
-      }),
-      catchError(error => {
-        return throwError(`Validation error: ${error}`);
+    return this.validateBranchExistence(data.branchID).pipe(
+      switchMap(branchExists => {
+        if (!branchExists) {
+          return throwError("La sucursal no existe.");
+        }
+        return this.validateUserData(data).pipe(
+          switchMap(() => {
+            return this.userService.registerUser(data);
+          }),
+          catchError(error => {
+            return throwError(`Validation error: ${error}`);
+          })
+        );
       })
     );
   }

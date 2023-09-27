@@ -61,7 +61,8 @@ export class RegisterResellerSaleUseCase {
       productInventoryStock,
       productName: "",
       productDescription: "",
-      productCategory: ""
+      productCategory: "",
+      branchID: undefined
     };
 
     return this.validateProductData(productEntity).pipe(

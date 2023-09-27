@@ -12,4 +12,6 @@ export interface IUser  {
     userPassword: string | UserPasswordValueObject;
     userEmail: string | UserEmailValueObject;
     userRole: string | RoleUserValueObject; 
+    branchID: string
+
 }

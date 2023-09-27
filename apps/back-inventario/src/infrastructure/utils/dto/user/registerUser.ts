@@ -7,5 +7,6 @@ export class RegisterUserDto extends UserTypeOrmEntity {
     userPassword: string;
     userRole: string;
     username: string;
+    branchID: string
 
 }

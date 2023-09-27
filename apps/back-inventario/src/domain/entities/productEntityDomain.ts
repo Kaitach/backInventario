@@ -8,7 +8,8 @@ export class IProductEntity  implements IProduct{
     productPrice:  number ;
     productInventoryStock:  number ;
     productCategory:  string;
-  
+    branchID: string
+
     constructor(
       productName: string,
       productDescription: string,

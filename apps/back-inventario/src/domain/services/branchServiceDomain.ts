@@ -3,4 +3,5 @@
 
 export interface BranchDomainService<T> {
     RegisterBranch(data: T): Observable<T>;
+    findBranchById(id: string): Observable<T>
   }

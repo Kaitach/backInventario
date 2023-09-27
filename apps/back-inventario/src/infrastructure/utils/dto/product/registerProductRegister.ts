@@ -7,4 +7,5 @@ export interface RegisterProductDTO extends ProductTypeOrmEntity {
     productPrice: number;
     productInventoryStock: number;
     productCategory: string;
+    branchID: string;
   }

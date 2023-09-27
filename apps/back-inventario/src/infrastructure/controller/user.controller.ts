@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Body, Controller, Post } from '@nestjs/common';
 import { userDelegate } from '../../application/delegate/userDelegate';
-import { UserTypeOrmEntity, userDBService } from '../database';
+import { UserTypeOrmEntity, branchServiceBD, userDBService } from '../database';
 import { RegisterUserDto } from '../utils/dto/user/registerUser';
 import { Observable } from 'rxjs';
 
@@ -11,9 +11,10 @@ export class UserController {
 
     constructor(
       private readonly userService: userDBService,
+      private readonly branchService: branchServiceBD,
   
     ) {
-      this.useCase = new userDelegate(this.userService); 
+      this.useCase = new userDelegate(this.userService, this.branchService ); 
     }
   
     @Post()

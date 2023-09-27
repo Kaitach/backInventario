@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { BranchDelegate } from '../../application/delegate/branchDelegate';
 import { BranchTypeOrmEntity, branchServiceBD } from '../database';
 import { RegisterBranchDto } from '../utils/dto/branch/registerBranch';
@@ -20,6 +20,11 @@ export class BranchController {
    registerBranch(@Body() branch: RegisterBranchDto): Observable<BranchTypeOrmEntity> {
       this.useCase.registerBranch();
       return this.useCase.execute(branch);
+    }
+
+    @Get(':id')
+    findById(@Param('id') id: string): Observable<BranchTypeOrmEntity> {
+      return this.branchService.findBranchById(id);
     }
     
 }

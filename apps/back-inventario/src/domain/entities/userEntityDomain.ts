@@ -9,7 +9,7 @@ export class IUserEntity implements IUser {
     userPassword: string;
     userEmail: string;
     userRole: string;
-  
+    branchID: string
     constructor(
       username: string,
       userPassword: string,

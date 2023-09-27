@@ -2,7 +2,7 @@
 import { Injectable } from "@nestjs/common";
 import { Observable } from "rxjs";
 
-import {  IUserEntity, UserDomainService } from "../../domain";
+import {  BranchDomainService, IBranchEntiy, IUserEntity, UserDomainService } from "../../domain";
 import { IUseCase } from '../../domain/interfaces/IUseCase';
 import { registeruserUseCase } from "../useCase/userUseCase/registerUserUseCase";
 
@@ -12,7 +12,7 @@ export class userDelegate implements IUseCase {
   private delegate: IUseCase;
 
   constructor(
-    private readonly userService: UserDomainService<IUserEntity>
+    private readonly userService: UserDomainService<IUserEntity>, private readonly BranchService: BranchDomainService<IBranchEntiy>
   ) { }
 
   execute<Response>(...args: any[]): Observable<Response> {
@@ -21,7 +21,9 @@ export class userDelegate implements IUseCase {
 
   registerUser(): void {
     this.delegate = new registeruserUseCase(
-      this.userService
+      this.userService,
+      this.BranchService
+
     );
   }
 

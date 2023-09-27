@@ -1,8 +1,6 @@
 /* eslint-disable prettier/prettier */
 
 
-import { IProductEntity } from 'apps/back-inventario/src/domain/entities/productEntityDomain';
-import { IUserEntity } from 'apps/back-inventario/src/domain/entities/userEntityDomain';
 import { UUID } from 'crypto';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ProductTypeOrmEntity } from './productDBEntity';
@@ -19,9 +17,9 @@ export class BranchTypeOrmEntity implements IBranch {
   @Column('json') 
   branchLocation: string;
 
-  @OneToMany(() => ProductTypeOrmEntity, product => product.productId)
-  branchProducts: IProductEntity[];
-
-  @OneToMany(() => UserTypeOrmEntity, user => user.userId)
-  branchEmployees: IUserEntity[];
+  @OneToMany(() => ProductTypeOrmEntity, product => product.branchID)
+  branchProducts: ProductTypeOrmEntity[];
+  
+  @OneToMany(() => UserTypeOrmEntity, user => user.branchID)
+  branchEmployees: UserTypeOrmEntity[];
 }
