@@ -16,6 +16,7 @@ export class UserNameValueObject extends ValueObjectBase<string> {
   MAX_LENGTH = 100;
 
   validateData(): void {
+    console.log(this.value);
     this.minLength();
     this.maxLength();
   }

@@ -2,8 +2,6 @@
 import { IProductEntity } from "apps/back-inventario/src/domain";
 import { Observable, catchError, map, mergeMap, of, switchMap, throwError } from "rxjs";
 import { ProductDomainService } from './../../../domain/services/productServiceDomain';
-import { ProductInventoryStockValueObject } from "apps/back-inventario/src/domain/value-objects/product/product-inventory-stock.value-object";
-import { ProductPriceValueObject } from "apps/back-inventario/src/domain/value-objects/product/product-price.value-object";
 import { CommandBus } from "apps/back-inventario/src/domain/services/eventService";
 import { newProductSalecommand } from "apps/back-inventario/src/domain/events/commands/newProdcutSaleCommand";
 
@@ -12,19 +10,9 @@ export class registerCustomerSaleUseCase {
   
   
     private validateProductData(data: IProductEntity): Observable<IProductEntity> {
-      const productPriceValueObject = new ProductPriceValueObject(data.productPrice);
-      const productInventoryStockValueObject = new ProductInventoryStockValueObject(data.productInventoryStock);
-  
-      productPriceValueObject.validateData();
-      productInventoryStockValueObject.validateData();
-  
-      const validatedProduct: IProductEntity = {
-        ...data, 
-        productPrice: productPriceValueObject.valueOf(),
-        productInventoryStock: productInventoryStockValueObject.valueOf()
-      };
-    
-      return of(validatedProduct); 
+      const validatedProduct = new IProductEntity(data);
+
+    return of(validatedProduct);
     }
   
     registercustomerSale(data: IProductEntity): Observable<IProductEntity> {

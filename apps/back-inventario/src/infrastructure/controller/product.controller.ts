@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { CommandBus } from '@nestjs/cqrs';
 /* eslint-disable prettier/prettier */
 

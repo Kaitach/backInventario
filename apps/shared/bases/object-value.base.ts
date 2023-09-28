@@ -103,6 +103,7 @@ export abstract class ValueObjectBase<Type> {
    * @memberof ValueObjectBase
    */
   valueOf(): Type {
+    this.validateData()
     return this._value;
   }
 }

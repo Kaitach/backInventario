@@ -1,25 +1,23 @@
 /* eslint-disable prettier/prettier */
 
-import { UUID } from "crypto";
-import { IUser } from "../interfaces/userInterfaceDomain";
+import { IUser } from "../interfaces";
+import { IdValueObject, RoleUserValueObject, UserEmailValueObject, UserNameValueObject, UserPasswordValueObject } from "../value-objects";
 
-export class IUserEntity implements IUser {
-    userId: UUID;
+export class IUserEntity  {
+    userId: string;
     username: string;
     userPassword: string;
     userEmail: string;
     userRole: string;
     branchID: string
-    constructor(
-      username: string,
-      userPassword: string,
-      userEmail: string,
-      userRole: string
-    ) {
-      this.username = username;
-      this.userPassword = userPassword;
-      this.userEmail = userEmail;
-      this.userRole = userRole;
+    constructor(data: IUser ) {
+      
+      this.username = new UserNameValueObject(
+        data.username
+      ).valueOf();
+      this.userPassword = new UserPasswordValueObject(data.userPassword).valueOf();
+      this.userEmail = new UserEmailValueObject(data.userEmail).valueOf();
+      this.userRole = new RoleUserValueObject(data.userRole).valueOf();
+      this.branchID = new IdValueObject(data.branchID).valueOf()
     }
-  
   }

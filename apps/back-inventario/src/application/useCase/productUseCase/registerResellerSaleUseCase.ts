@@ -1,40 +1,37 @@
 /* eslint-disable prettier/prettier */
-import { IProductEntity } from "apps/back-inventario/src/domain";
-import { Observable, catchError, map, mergeMap, of, switchMap, throwError } from "rxjs";
+import { IProductEntity } from 'apps/back-inventario/src/domain';
+import {
+  Observable,
+  catchError,
+  map,
+  mergeMap,
+  of,
+  switchMap,
+  throwError,
+} from 'rxjs';
 import { ProductDomainService } from './../../../domain/services/productServiceDomain';
-import { ProductInventoryStockValueObject } from "apps/back-inventario/src/domain/value-objects/product/product-inventory-stock.value-object";
-import { ProductPriceValueObject } from "apps/back-inventario/src/domain/value-objects/product/product-price.value-object";
-import { CommandBus } from "apps/back-inventario/src/domain/services/eventService";
-import { newProductSaleReSellerCommand } from "apps/back-inventario/src/domain/events/commands/newProductSaleReSellerCommand";
+
+import { CommandBus } from 'apps/back-inventario/src/domain/services/eventService';
+import { newProductSaleReSellerCommand } from 'apps/back-inventario/src/domain/events/commands/newProductSaleReSellerCommand';
 
 export class RegisterResellerSaleUseCase {
-  constructor(private readonly productDomainService: ProductDomainService<IProductEntity>, private readonly commandBus: CommandBus) { }
+  constructor(
+    private readonly productDomainService: ProductDomainService<IProductEntity>,
+    private readonly commandBus: CommandBus,
+  ) {}
 
-  private validateProductData(data: IProductEntity): Observable<IProductEntity> {
-    const productPriceValueObject = new ProductPriceValueObject(data.productPrice);
-    const productInventoryStockValueObject = new ProductInventoryStockValueObject(data.productInventoryStock);
+  private validateProductData(
+    data: IProductEntity,
+  ): Observable<IProductEntity> {
+    const validatedProduct = new IProductEntity(data);
 
-    productPriceValueObject.validateData();
-    productInventoryStockValueObject.validateData();
-
-
- 
-
-
-    const validatedProduct: IProductEntity = {
-      ...data, 
-      productPrice: productPriceValueObject.valueOf(),
-      productInventoryStock: productInventoryStockValueObject.valueOf()
-    };
-  
-    return of(validatedProduct); 
+    return of(validatedProduct);
   }
 
   registerResellerSale(data: IProductEntity): Observable<IProductEntity> {
     return this.productDomainService.findByID(data.productId as string).pipe(
-      
       catchError(() => throwError('Product not found')),
-      
+
       map((product) => {
         if (!product) {
           throw new Error('Product not found');
@@ -44,9 +41,10 @@ export class RegisterResellerSaleUseCase {
           throw new Error('Insufficient inventory');
         }
 
-        product.productInventoryStock = +product.productInventoryStock - +data.productInventoryStock;
+        product.productInventoryStock =
+          +product.productInventoryStock - +data.productInventoryStock;
         const createBranchCommand = new newProductSaleReSellerCommand(product);
-        this.commandBus.execute(createBranchCommand)
+        this.commandBus.execute(createBranchCommand);
         return this.productDomainService.registerResellerSale(product);
       }),
       mergeMap((savedProduct) => savedProduct),
@@ -55,12 +53,10 @@ export class RegisterResellerSaleUseCase {
 
   execute(data: IProductEntity): Observable<IProductEntity> {
     return this.validateProductData(data).pipe(
-      
-      switchMap((validatedProduct) => this.registerResellerSale(validatedProduct)),
-      catchError(error => throwError(`Validation error: ${error}`))
-    );  }
-  
-  
-  
-  
+      switchMap((validatedProduct) =>
+        this.registerResellerSale(validatedProduct),
+      ),
+      catchError((error) => throwError(`Validation error: ${error}`)),
+    );
+  }
 }
