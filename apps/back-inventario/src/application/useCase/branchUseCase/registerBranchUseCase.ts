@@ -1,12 +1,11 @@
 /* eslint-disable prettier/prettier */
+import { Observable, catchError, of, switchMap, throwError } from 'rxjs';
 import {
   BranchDomainService,
+  CreateBranchCommand,
   IBranchEntiy,
-} from 'apps/back-inventario/src/domain';
-import { Observable, catchError, of, switchMap, throwError } from 'rxjs';
-import { CreateBranchCommand } from 'apps/back-inventario/src/domain/events/commands/newBranchCommand';
-import { CommandBus } from 'apps/back-inventario/src/domain/services/eventService';
-
+} from '../../../../../';
+import { CommandBus } from '../../../domain/services';
 export class registerBranchUseCase {
   constructor(
     private readonly branchService: BranchDomainService<IBranchEntiy>,

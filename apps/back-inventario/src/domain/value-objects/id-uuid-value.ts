@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { ValueObjectBase } from "apps/shared/bases";
-import { IsUuid } from "apps/shared/validations";
+import { ValueObjectBase } from "../../../../shared/bases";
+import { IsUuid } from "../../../../shared/validations";
 import { v4 as uuid } from "uuid";
 
 

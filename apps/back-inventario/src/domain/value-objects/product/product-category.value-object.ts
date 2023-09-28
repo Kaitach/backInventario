@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prettier/prettier */
 
-import { ValueObjectException } from "apps/shared";
-import { ValueObjectBase } from "apps/shared/bases";
-import { IErrorValueObject } from "apps/shared/interface";
+import { ValueObjectException } from '../../../../../shared';
+import { ValueObjectBase } from '../../../../../shared/bases';
+
 
 enum CATEGORY_ENUM {
   Hand_Tools = 'hand tools',
@@ -19,18 +19,13 @@ enum CATEGORY_ENUM {
 }
 
 export class ProductCategoryValueObject extends ValueObjectBase<string> {
-
-
   validateData(): void {
     this.isIntoEnum();
   }
 
   isIntoEnum(): void {
     if (!Object.values(CATEGORY_ENUM).includes(this.value as CATEGORY_ENUM)) {
-     
-      throw new ValueObjectException( `Category is not correct`)
-
+      throw new ValueObjectException(`Category is not correct`);
     }
   }
-
 }

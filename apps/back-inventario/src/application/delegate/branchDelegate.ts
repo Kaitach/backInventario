@@ -4,7 +4,7 @@ import { Observable } from "rxjs";
 import { IUseCase } from '../../domain/interfaces/IUseCase';
 import { BranchDomainService, IBranchEntiy } from "../../domain";
 import { registerBranchUseCase } from "../useCase/branchUseCase/registerBranchUseCase";
-import { CommandBus } from "apps/back-inventario/src/domain/services/eventService";
+import { CommandBus } from "../../../../";
 
 
 export class BranchDelegate implements IUseCase {

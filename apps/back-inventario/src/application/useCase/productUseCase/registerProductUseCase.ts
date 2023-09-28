@@ -1,15 +1,13 @@
 /* eslint-disable prettier/prettier */
+import { Observable, catchError, map, of, switchMap, throwError } from 'rxjs';
 import {
-  ProductDomainService,
-  IProductEntity,
   BranchDomainService,
+  CommandBus,
   IBranchEntiy,
-} from 'apps/back-inventario/src/domain';
-import { newProductCommand } from 'apps/back-inventario/src/domain/events/commands/newProductCommand';
-import { CommandBus } from 'apps/back-inventario/src/domain/services/eventService';
-
-import { Observable, throwError, switchMap, catchError, of, map } from 'rxjs';
-
+  IProductEntity,
+  ProductDomainService,
+  newProductCommand,
+} from '../../../../../';
 export class RegisterProductUseCase {
   constructor(
     private readonly productDomainService: ProductDomainService<IProductEntity>,

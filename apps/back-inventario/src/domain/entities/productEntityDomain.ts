@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { IProduct } from "../interfaces/productInterfaceDomain";
 import { IdValueObject, ProductCategoryValueObject, ProductDescriptionValueObject, ProductInventoryStockValueObject, ProductNameValueObject, ProductPriceValueObject } from "../value-objects";
+import { v4 as uuidv4 } from 'uuid';
 
 export class IProductEntity  implements IProduct{
     productId:  string;
@@ -12,7 +13,8 @@ export class IProductEntity  implements IProduct{
     branchID: string
 
     constructor(data: IProduct) {
-      this.productId = data.productId ? new IdValueObject(data.productId).valueOf() : '';
+      if (data.productId) this.productId = new IdValueObject(data.productId).valueOf();
+      else this.productId = new IdValueObject(uuidv4()).valueOf();
       this.productName = data.productName ? new ProductNameValueObject(data.productName).valueOf() : '';
       this.productDescription = data.productDescription ? new ProductDescriptionValueObject(data.productDescription).valueOf() : '';
       this.productPrice = data.productPrice ? new ProductPriceValueObject(data.productPrice).valueOf() : 0;

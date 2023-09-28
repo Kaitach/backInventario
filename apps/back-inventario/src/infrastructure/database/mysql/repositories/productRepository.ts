@@ -6,7 +6,7 @@ import { Observable, catchError, from,   throwError,  } from "rxjs";
 import { ProductTypeOrmEntity } from '../entities/productDBEntity';
 import { RegisterProductInventoryStockDTO } from './../../../utils/dto/product/registerProductInventory';
 import { RegisterProductDTO } from './../../../utils/dto/product/registerProductRegister';
-import { ProductDomainService } from "apps/back-inventario/src/domain/services/productServiceDomain";
+import { ProductDomainService } from "../../../../../../back-inventario/src/domain/services/productServiceDomain";
 import { RegisterSaleDTO } from '../../../utils/dto/product/registerSale';
 
 @Injectable()

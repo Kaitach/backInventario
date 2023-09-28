@@ -1,4 +1,4 @@
-import { CommandBus } from "apps/back-inventario/src/domain/services/eventService";
+import { CommandBus } from "../../../../";
 import { Observable } from "rxjs";
 import { registerProductInventoryStockUseCase } from './../useCase/productUseCase/registerProductInventotyStockUseCase';
 

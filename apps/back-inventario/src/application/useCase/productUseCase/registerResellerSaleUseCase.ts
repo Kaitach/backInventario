@@ -1,5 +1,4 @@
 /* eslint-disable prettier/prettier */
-import { IProductEntity } from 'apps/back-inventario/src/domain';
 import {
   Observable,
   catchError,
@@ -9,11 +8,9 @@ import {
   switchMap,
   throwError,
 } from 'rxjs';
+import { CommandBus, IProductEntity } from '../../../../../';
+import { newProductSaleReSellerCommand } from '../../../../../';
 import { ProductDomainService } from './../../../domain/services/productServiceDomain';
-
-import { CommandBus } from 'apps/back-inventario/src/domain/services/eventService';
-import { newProductSaleReSellerCommand } from 'apps/back-inventario/src/domain/events/commands/newProductSaleReSellerCommand';
-
 export class RegisterResellerSaleUseCase {
   constructor(
     private readonly productDomainService: ProductDomainService<IProductEntity>,

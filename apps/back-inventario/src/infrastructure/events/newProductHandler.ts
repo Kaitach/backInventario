@@ -2,7 +2,7 @@
 import {CommandHandler, EventBus, ICommandHandler} from '@nestjs/cqrs'
 import { EventRepository } from '../database/mongoDB/repository/eventRepository';
 import { CreateEventDto } from '../utils/dto/eventDto';
-import { newProductCommand } from '../../domain/events/commands/newProductCommand';
+import { newProductCommand } from '../../domain/events/commands/';
 
 @CommandHandler(newProductCommand)
 export class newProductHandler implements ICommandHandler<newProductCommand> {

@@ -2,7 +2,7 @@
 import { Injectable } from "@nestjs/common";
 import { Observable } from "rxjs";
 
-import { BranchDomainService } from "apps/back-inventario/src/domain/services/branchServiceDomain";
+import { BranchDomainService } from "../../../../../../back-inventario/src/domain/services/branchServiceDomain";
 import { BranchTypeOrmEntity } from "../entities";
 import { branchRepository } from "../repositories";
 import { RegisterBranchDto } from "../../../utils/dto/branch/registerBranch";

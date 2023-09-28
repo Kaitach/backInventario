@@ -1,10 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prettier/prettier */
 
-import { ValueObjectException } from "apps";
-import { ValueObjectBase } from "apps/shared/bases";
-import { IErrorValueObject } from "apps/shared/interface";
-import { isName } from "apps/shared/validations";
+import { ValueObjectBase, ValueObjectException } from "../../../../../shared";
+
 
 type Location = {
   country: string;

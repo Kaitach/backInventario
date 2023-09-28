@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { IUserEntity } from "apps/back-inventario/src/domain/entities/userEntityDomain";
+import { IUserEntity } from "../../../../../../back-inventario/src/domain/entities/userEntityDomain";
 import { UUID } from "crypto";
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
 import { BranchTypeOrmEntity } from "./branchDBEntity";

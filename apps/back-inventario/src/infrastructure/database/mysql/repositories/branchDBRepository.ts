@@ -5,7 +5,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Observable, from, catchError, throwError } from "rxjs";
 import { Repository } from "typeorm";
 import { BranchTypeOrmEntity } from "../entities";
-import { BranchDomainService } from "apps/back-inventario/src/domain/services/branchServiceDomain";
+import { BranchDomainService } from "../../../../../../back-inventario/src/domain/services/branchServiceDomain";
 import { RegisterBranchDto } from "../../../utils/dto/branch/registerBranch";
 
 

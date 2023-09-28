@@ -1,9 +1,9 @@
 /* eslint-disable prettier/prettier */
-import { IProductEntity } from "apps/back-inventario/src/domain";
+import { IProductEntity } from "../../../../../";;
 import { Observable, catchError, map, mergeMap, of, switchMap, throwError } from "rxjs";
 import { ProductDomainService } from './../../../domain/services/productServiceDomain';
-import { CommandBus } from "apps/back-inventario/src/domain/services/eventService";
-import { newProductSalecommand } from "apps/back-inventario/src/domain/events/commands/newProdcutSaleCommand";
+import { CommandBus } from "../../../../../";;
+import { newProductSalecommand } from "../../../../../";
 
 export class registerCustomerSaleUseCase {
     constructor(private readonly productDomainService: ProductDomainService<IProductEntity>,private readonly comandBus: CommandBus,) { }
@@ -20,7 +20,8 @@ export class registerCustomerSaleUseCase {
         catchError(() => throwError('Product not found')),
         map((product) => {
           if (!product) {
-            throw new Error('Product not found');
+            catchError(() => throwError('Product not found'))
+
           }
   
           if (product.productInventoryStock < data.productInventoryStock) {
@@ -38,7 +39,7 @@ export class registerCustomerSaleUseCase {
   
     execute(data: IProductEntity): Observable<IProductEntity> {
       return this.validateProductData(data).pipe(
-        switchMap((validatedProduct) => this.registercustomerSale(validatedProduct)),
-        catchError(error => throwError(`Validation error: ${error}`))
-      );  }
+        switchMap((validatedProduct) => this.registercustomerSale(validatedProduct))
+      );
+    }
   }

@@ -2,7 +2,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { UserDomainService } from "apps/back-inventario/src/domain/services/userServiceDomain";
+import { UserDomainService } from "../../../../../../back-inventario/src/domain/services/userServiceDomain";
 import { Observable, from, catchError, throwError } from "rxjs";
 import { UserTypeOrmEntity } from "../entities";
 import { RegisterUserDto } from "../../../utils/dto/user/registerUser";

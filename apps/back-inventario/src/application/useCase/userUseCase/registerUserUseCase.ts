@@ -1,25 +1,22 @@
 /* eslint-disable prettier/prettier */
-import {
-  UserDomainService,
-  IUserEntity,
-  BranchDomainService,
-  IBranchEntiy,
-} from 'apps/back-inventario/src/domain';
-import { CreateUserCommand } from 'apps/back-inventario/src/domain/events/commands/newUserCommand';
-import { CommandBus } from 'apps/back-inventario/src/domain/services/eventService';
-
 import { Observable, catchError, map, of, switchMap, throwError } from 'rxjs';
-
+import {
+  BranchDomainService,
+  CommandBus,
+  IBranchEntiy,
+  IUserEntity,
+  UserDomainService,
+} from '../../../../../';
+import { CreateUserCommand } from '../../../domain/events/commands/';
 export class registeruserUseCase {
   constructor(
     private readonly userService: UserDomainService<IUserEntity>,
     private readonly breachDomanService: BranchDomainService<IBranchEntiy>,
     private readonly comandBus: CommandBus,
-  ) { }
+  ) {}
 
   private validateUserData(data: IUserEntity): Observable<IUserEntity> {
-
-    const userDataOV = new IUserEntity(data)
+    const userDataOV = new IUserEntity(data);
 
     return of(userDataOV);
   }

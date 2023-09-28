@@ -1,7 +1,4 @@
 /* eslint-disable prettier/prettier */
-import { IProductEntity } from 'apps/back-inventario/src/domain';
-import { newProductInventoryCommand } from 'apps/back-inventario/src/domain/events/commands/newProductInvetory';
-import { CommandBus } from 'apps/back-inventario/src/domain/services/eventService';
 import {
   Observable,
   catchError,
@@ -11,19 +8,21 @@ import {
   switchMap,
   throwError,
 } from 'rxjs';
+import {
+  CommandBus,
+  IProductEntity,
+  newProductInventoryCommand,
+} from '../../../../../';
 import { ProductDomainService } from './../../../domain/services/productServiceDomain';
-
 export class registerProductInventoryStockUseCase {
   constructor(
     private readonly productDomainService: ProductDomainService<IProductEntity>,
     private readonly comandBus: CommandBus,
   ) {}
 
-
   private validateProductData(
     data: IProductEntity,
   ): Observable<IProductEntity> {
-    
     const validatedProduct = new IProductEntity(data);
 
     return of(validatedProduct);
