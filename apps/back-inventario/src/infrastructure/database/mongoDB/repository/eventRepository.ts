@@ -13,7 +13,6 @@ export class EventRepository {
   ) {}
 
   create(eventData: CreateEventDto): Observable<EventDocument> {
-    console.log("hgolas")
     const createdEvent = new this.eventModel(eventData);
     return from(createdEvent.save());
   } 

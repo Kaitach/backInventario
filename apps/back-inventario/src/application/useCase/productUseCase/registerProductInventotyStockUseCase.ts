@@ -3,9 +3,11 @@ import { IProductEntity } from "apps/back-inventario/src/domain";
 import { Observable, catchError, map, mergeMap, of, switchMap, throwError } from "rxjs";
 import { ProductDomainService } from './../../../domain/services/productServiceDomain';
 import { ProductInventoryStockValueObject } from "apps/back-inventario/src/domain/value-objects/product/product-inventory-stock.value-object";
+import { CommandBus } from "apps/back-inventario/src/domain/services/eventService";
+import { newProductInventoryCommand } from "apps/back-inventario/src/domain/events/commands/newProductInvetory";
 
 export class registerProductInventoryStockUseCase {
-  constructor(private readonly productDomainService: ProductDomainService<IProductEntity>) { }
+  constructor(private readonly productDomainService: ProductDomainService<IProductEntity>,private readonly comandBus: CommandBus,) { }
 
   private validateProductData(data: IProductEntity): Observable<IProductEntity> {
     const productInventoryStockValueObject = new ProductInventoryStockValueObject(data.productInventoryStock);
@@ -28,6 +30,7 @@ export class registerProductInventoryStockUseCase {
         }
 
         return this.productDomainService.findByID(data.productId).pipe(
+          
           catchError(() => throwError('Product not found')),
           map((product) => {
             if (!product) {
@@ -35,7 +38,8 @@ export class registerProductInventoryStockUseCase {
             }
 
             product.productInventoryStock += data.productInventoryStock;
-
+            const createBranchCommand = new newProductInventoryCommand(data);
+            this.comandBus.execute(createBranchCommand)
             return this.productDomainService.registerProduct(product);
           }),
           mergeMap((savedProduct) => savedProduct),

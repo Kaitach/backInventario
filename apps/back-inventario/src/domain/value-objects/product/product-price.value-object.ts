@@ -6,6 +6,7 @@ import { ValueObjectBase } from "apps/shared/bases";
 import { IErrorValueObject } from "apps/shared/interface";
 
 export class ProductPriceValueObject extends ValueObjectBase<number> {
+
   MIN_VALUE = 0;
 
   validateData(): void {

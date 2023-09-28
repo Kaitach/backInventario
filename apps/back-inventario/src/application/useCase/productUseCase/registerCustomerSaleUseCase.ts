@@ -4,9 +4,11 @@ import { Observable, catchError, map, mergeMap, of, switchMap, throwError } from
 import { ProductDomainService } from './../../../domain/services/productServiceDomain';
 import { ProductInventoryStockValueObject } from "apps/back-inventario/src/domain/value-objects/product/product-inventory-stock.value-object";
 import { ProductPriceValueObject } from "apps/back-inventario/src/domain/value-objects/product/product-price.value-object";
+import { CommandBus } from "apps/back-inventario/src/domain/services/eventService";
+import { newProductSalecommand } from "apps/back-inventario/src/domain/events/commands/newProdcutSaleCommand";
 
 export class registerCustomerSaleUseCase {
-    constructor(private readonly productDomainService: ProductDomainService<IProductEntity>) { }
+    constructor(private readonly productDomainService: ProductDomainService<IProductEntity>,private readonly comandBus: CommandBus,) { }
   
   
     private validateProductData(data: IProductEntity): Observable<IProductEntity> {
@@ -38,6 +40,8 @@ export class registerCustomerSaleUseCase {
           }
   
           product.productInventoryStock = +product.productInventoryStock - +data.productInventoryStock;
+          const createBranchCommand = new newProductSalecommand(data);
+          this.comandBus.execute(createBranchCommand)
           return this.productDomainService.registerCustomerSale(product);
         }),
         mergeMap((savedProduct) => savedProduct),

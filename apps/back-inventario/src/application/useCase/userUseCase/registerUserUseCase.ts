@@ -31,8 +31,7 @@ export class registeruserUseCase {
       userPassword: userPasswordValueObject.valueOf(),
     };
       
-    const createBranchCommand = new CreateUserCommand(validatedUser);
-     this.comandBus.execute(createBranchCommand)
+    
     return of(validatedUser); 
   }
 
@@ -46,12 +45,15 @@ export class registeruserUseCase {
 
   registeruser(data: IUserEntity): Observable<IUserEntity> {
     return this.validateBranchExistence(data.branchID).pipe(
+      
       switchMap(branchExists => {
         if (!branchExists) {
           return throwError("La sucursal no existe.");
         }
         return this.validateUserData(data).pipe(
           switchMap(validatedUser => {
+            const createUserCommand = new CreateUserCommand(validatedUser);
+     this.comandBus.execute(createUserCommand)
             return this.userService.registerUser(validatedUser);
           }),
           catchError(error => {

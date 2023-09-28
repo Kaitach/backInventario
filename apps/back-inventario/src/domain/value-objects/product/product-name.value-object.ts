@@ -7,6 +7,11 @@ import { IErrorValueObject } from "apps/shared/interface";
 
 
 export class ProductNameValueObject extends ValueObjectBase<string> {
+
+  constructor(value?: string){
+    super();
+    this.validateData();
+  }
   MIN_EXTENSION = 3;
   MAX_EXTENSION = 40;
 

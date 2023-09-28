@@ -1,3 +1,4 @@
+import { CommandBus } from '@nestjs/cqrs';
 /* eslint-disable prettier/prettier */
 
 import { Controller, Post, Body, Param, Get } from "@nestjs/common";
@@ -14,11 +15,11 @@ export class ProductController {
     private readonly useCase: productDelegate;
 
     constructor(
-      private readonly productService: productServiceBD,       private readonly brancService: branchServiceBD, 
+      private readonly productService: productServiceBD, private readonly commandBus:  CommandBus    , private readonly brancService: branchServiceBD, 
 
   
     ) {
-      this.useCase = new productDelegate(this.productService, this.brancService); 
+      this.useCase = new productDelegate(this.productService,this.commandBus ,this.brancService); 
     }
   
     @Post()

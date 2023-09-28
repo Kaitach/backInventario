@@ -1,14 +1,14 @@
 /* eslint-disable prettier/prettier */
-import { Injectable } from "@nestjs/common";
 import { IProductEntity } from "apps/back-inventario/src/domain";
 import { Observable, catchError, map, mergeMap, of, switchMap, throwError } from "rxjs";
 import { ProductDomainService } from './../../../domain/services/productServiceDomain';
 import { ProductInventoryStockValueObject } from "apps/back-inventario/src/domain/value-objects/product/product-inventory-stock.value-object";
 import { ProductPriceValueObject } from "apps/back-inventario/src/domain/value-objects/product/product-price.value-object";
+import { CommandBus } from "apps/back-inventario/src/domain/services/eventService";
+import { newProductSaleReSellerCommand } from "apps/back-inventario/src/domain/events/commands/newProductSaleReSellerCommand";
 
-@Injectable()
 export class RegisterResellerSaleUseCase {
-  constructor(private readonly productDomainService: ProductDomainService<IProductEntity>) { }
+  constructor(private readonly productDomainService: ProductDomainService<IProductEntity>, private readonly commandBus: CommandBus) { }
 
   private validateProductData(data: IProductEntity): Observable<IProductEntity> {
     const productPriceValueObject = new ProductPriceValueObject(data.productPrice);
@@ -32,7 +32,9 @@ export class RegisterResellerSaleUseCase {
 
   registerResellerSale(data: IProductEntity): Observable<IProductEntity> {
     return this.productDomainService.findByID(data.productId as string).pipe(
+      
       catchError(() => throwError('Product not found')),
+      
       map((product) => {
         if (!product) {
           throw new Error('Product not found');
@@ -43,6 +45,8 @@ export class RegisterResellerSaleUseCase {
         }
 
         product.productInventoryStock = +product.productInventoryStock - +data.productInventoryStock;
+        const createBranchCommand = new newProductSaleReSellerCommand(product);
+        this.commandBus.execute(createBranchCommand)
         return this.productDomainService.registerResellerSale(product);
       }),
       mergeMap((savedProduct) => savedProduct),
@@ -51,6 +55,7 @@ export class RegisterResellerSaleUseCase {
 
   execute(data: IProductEntity): Observable<IProductEntity> {
     return this.validateProductData(data).pipe(
+      
       switchMap((validatedProduct) => this.registerResellerSale(validatedProduct)),
       catchError(error => throwError(`Validation error: ${error}`))
     );  }

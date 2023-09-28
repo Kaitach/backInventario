@@ -7,6 +7,7 @@ import { IErrorValueObject } from "apps/shared/interface";
 
 
 export class ProductInventoryStockValueObject extends ValueObjectBase<number> {
+
   MIN_VALUE = 0;
 
   validateData(): void {

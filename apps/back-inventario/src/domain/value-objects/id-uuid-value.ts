@@ -13,7 +13,7 @@ export class IdValueObject extends ValueObjectBase<string>{
   */
   constructor(value?: string){
     super(value? value: uuid());
-
+    this.validateData();
   }
 /**
  * It validates the structure of the data.

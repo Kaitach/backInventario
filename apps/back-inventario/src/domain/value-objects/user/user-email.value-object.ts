@@ -3,8 +3,6 @@
 
 import { ValueObjectException } from "apps/shared";
 import { ValueObjectBase } from "apps/shared/bases";
-import { IErrorValueObject } from "apps/shared/interface";
-import { isName } from "apps/shared/validations";
 
 export class UserEmailValueObject extends ValueObjectBase<string> {
 

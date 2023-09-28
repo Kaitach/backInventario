@@ -1,15 +1,15 @@
 /* eslint-disable prettier/prettier */
 import {CommandHandler, EventBus, ICommandHandler} from '@nestjs/cqrs'
-import { CreateBranchCommand } from '../../domain/events/commands/newBranchCommand';
 import { EventRepository } from '../database/mongoDB/repository/eventRepository';
 import { CreateEventDto } from '../utils/dto/eventDto';
+import { newProductSaleReSellerCommand } from '../../domain/events/commands/newProductSaleReSellerCommand';
 
-@CommandHandler(CreateBranchCommand)
-export class CreateBranchHandler implements ICommandHandler<CreateBranchCommand> {
+@CommandHandler(newProductSaleReSellerCommand)
+export class newProductReSellerHandler implements ICommandHandler<newProductSaleReSellerCommand> {
   constructor(private readonly eventBus: EventBus, private readonly repository: EventRepository) {}
 
   createEventFromCommand(command): void {
-    const nameEvent = "Create Branch";
+    const nameEvent = "new prodct re seller"
     const eventDataAsString = JSON.stringify(command);
     const createEventDto = new CreateEventDto(eventDataAsString, nameEvent);
 
@@ -21,9 +21,8 @@ export class CreateBranchHandler implements ICommandHandler<CreateBranchCommand>
     }
   }
 
-  execute(command: CreateBranchCommand): void {
-
-    this.createEventFromCommand(command.branchData);
+  execute(command: newProductSaleReSellerCommand): void {
+    this.createEventFromCommand(command.productEntity);
     console.log(new Date())
     console.log('Command executed successfully');
   }

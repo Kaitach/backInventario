@@ -9,6 +9,11 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './infrastructure/utils/middleware/jwt.middleware';
 import { CqrsModule } from '@nestjs/cqrs';
 import { CreateBranchHandler } from './infrastructure/events/CreateBranchHandler';
+import { CreateUserHandler } from './infrastructure/events/CreateUserHandler';
+import { newProductHandler } from './infrastructure/events/newProductHandler';
+import { newProductInventoryHandler } from './infrastructure/events/newProductInventoryHandler';
+import { newProductReSellerHandler } from './infrastructure/events/newProductReSallerHandler';
+import { NewProductSaleHandler } from './infrastructure/events/newProductSaleHandler';
 
 
 @Module({
@@ -24,6 +29,6 @@ import { CreateBranchHandler } from './infrastructure/events/CreateBranchHandler
     BranchController,
     UserController],
     
-  providers: [JwtStrategy, CreateBranchHandler ],
+  providers: [JwtStrategy, CreateBranchHandler, CreateUserHandler, newProductHandler, newProductInventoryHandler, newProductReSellerHandler, NewProductSaleHandler ],
 })
 export class AppModule { }
