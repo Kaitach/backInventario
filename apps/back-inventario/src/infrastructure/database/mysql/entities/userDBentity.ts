@@ -21,7 +21,8 @@ export class UserTypeOrmEntity implements IUserEntity {
 
   @Column()
   role: string;
-
+  
+  @Column()
   @ManyToOne(() => BranchTypeOrmEntity, (branch) => branch.users)
   branchId: string;
 

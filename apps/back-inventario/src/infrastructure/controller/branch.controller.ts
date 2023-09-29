@@ -29,5 +29,10 @@ export class BranchController {
     findById(@Param('idBranch') id: string): Observable<BranchTypeOrmEntity> {
       return this.branchService.findBranchById(id);
     }
+
+    @Get()
+    getAll(): Observable<BranchTypeOrmEntity[]> {
+      return this.branchService.getall();
+    }
     
 }

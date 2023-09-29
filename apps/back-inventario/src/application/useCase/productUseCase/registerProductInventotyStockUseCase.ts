@@ -36,14 +36,18 @@ export class registerquantityUseCase {
         return this.productDomainService.findByID(data.productId).pipe(
           catchError(() => throwError('Product not found')),
           map((product) => {
+            console.log(product)
             if (!product) {
               throw new Error('Product not found');
             }
 
-            product.quantity += data.quantity;
+            product.quantity = product.quantity + data.quantity
+            data.branchId = product.branchId;
+            console.log(data)
+            console.log(product)
             const createBranchCommand = new newProductInventoryCommand(data);
             this.comandBus.execute(createBranchCommand);
-            return this.productDomainService.registerProduct(product);
+            return this.productDomainService.registerquantity(product);
           }),
           mergeMap((savedProduct) => savedProduct),
         );

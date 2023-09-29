@@ -16,7 +16,9 @@ export class branchServiceBD implements  BranchDomainService<BranchTypeOrmEntity
   RegisterBranch(data: BranchTypeOrmEntity): Observable<BranchTypeOrmEntity> {
     return this.BranchRepository.RegisterBranch(data);
   }
-
+  getall(): Observable<BranchTypeOrmEntity[]> {
+    return this.BranchRepository.getAll();
+  }
 
 
 

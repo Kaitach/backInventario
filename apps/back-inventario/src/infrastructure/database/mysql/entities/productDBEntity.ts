@@ -23,7 +23,8 @@ export class ProductTypeOrmEntity implements IProductEntity {
 
   @Column()
   category: string;
-
+  
+  @Column()
   @ManyToOne(() => BranchTypeOrmEntity, (branch) => branch.products)
   branchId: string;
 }

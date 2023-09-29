@@ -22,16 +22,16 @@ export class registerBranchUseCase {
     return of(validatedUser);
   }
 
-  registerBranch( data: IBranchRegister): Observable<IBranchEntiy> {
-    const newBranch  = {
+  registerBranch(data: IBranchRegister): Observable<IBranchEntiy> {
+  const newBranch  = {
 name:  data.name,
 location: data.location.city + "," + data.location.country
     } as IBranchEntiy
-    return this.validateBranchData( newBranch).pipe(
-      switchMap(() => {
-        const createBranchCommand = new CreateBranchCommand(newBranch);
+    return this.validateBranchData(newBranch).pipe(
+      switchMap((validatedBranch) => {
+        const createBranchCommand = new CreateBranchCommand(validatedBranch);
         this.comandBus.execute(createBranchCommand);
-        return this.branchService.RegisterBranch(newBranch);
+        return this.branchService.RegisterBranch(validatedBranch);
       }),
       catchError((error) => {
         return throwError(`Error de validación: ${error}`);

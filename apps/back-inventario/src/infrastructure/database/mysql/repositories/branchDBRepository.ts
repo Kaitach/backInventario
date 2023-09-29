@@ -29,7 +29,18 @@ export class branchRepository
       ),
     );
   }
-
+  getAll(): Observable<BranchTypeOrmEntity[]> {
+    return from(
+      this.branchRepository
+        .createQueryBuilder('branch')
+        .select(['branch.branchId', 'branch.name', 'branch.location'])
+        .getMany()
+    ).pipe(
+      catchError((error) =>
+        throwError(`Error al obtener todas las sucursales: ${error.message}`)
+      )
+    );
+  }
   RegisterBranch(entity: BranchTypeOrmEntity): Observable<BranchTypeOrmEntity> {
   
     return from(this.branchRepository.save(entity)).pipe(

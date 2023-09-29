@@ -8,10 +8,10 @@ import { CreateUserCommand } from '../../domain/events/commands/newUserCommand';
 export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
   constructor(private readonly eventBus: EventBus, private readonly repository: EventRepository) {}
 
-  createEventFromCommand(command): void {
+  createEventFromCommand(command, idBranch): void {
     const nameEvent = "Create  User";
     const eventDataAsString = JSON.stringify(command);
-    const createEventDto = new CreateEventDto(eventDataAsString, nameEvent);
+    const createEventDto = new CreateEventDto(eventDataAsString, nameEvent, idBranch);
 
     try {
       this.repository.create(createEventDto);
@@ -22,7 +22,7 @@ export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
   }
 
   execute(command: CreateUserCommand): void {
-    this.createEventFromCommand(command.userData);
+    this.createEventFromCommand(command.userData, command.userData.branchId);
     console.log(new Date())
     console.log('Command executed successfully');
   }

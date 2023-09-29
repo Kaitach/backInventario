@@ -44,7 +44,6 @@ export class registeruserUseCase {
       password: data.password,
       role: data.role,
     } as IUserEntity;
-
     return this.validateBranchExistence(newUser.branchId).pipe(
       switchMap((branchExists) => {
         if (!branchExists) {

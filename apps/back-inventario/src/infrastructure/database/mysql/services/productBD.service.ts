@@ -36,4 +36,10 @@ export class productServiceBD
   ): Observable<ProductTypeOrmEntity> {
     return this.productRepository.registerResellerSale(data);
   }
+
+  getall(
+   
+  ): Observable<ProductTypeOrmEntity[]> {
+    return this.productRepository.getAllProducts();
+  }
 }

@@ -26,7 +26,7 @@ export class RegisterResellerSaleUseCase {
   ): Observable<IProductEntity> {
     data.productId = id;
     const validatedProduct = new IProductEntity(data);
-
+    console.log(data)
     return of(validatedProduct);
   }
 
@@ -43,8 +43,10 @@ export class RegisterResellerSaleUseCase {
           throw new Error('Insufficient inventory');
         }
 
-        product.quantity = +product.quantity - +data.quantity;
-        const createBranchCommand = new newProductSaleReSellerCommand(product);
+        product.quantity = product.quantity  +data.quantity;
+        data.branchId = product.branchId;
+
+        const createBranchCommand = new newProductSaleReSellerCommand(data);
         this.commandBus.execute(createBranchCommand);
         return this.productDomainService.registerResellerSale(product);
       }),

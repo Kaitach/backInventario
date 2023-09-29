@@ -26,12 +26,10 @@ export class RegisterProductUseCase {
 
   private validateBranchExistence(branchId: string): Observable<boolean> {
     return this.branchDomainService.findBranchById(branchId).pipe(
-      switchMap((branchExists) => {
-        if (!branchExists) {
-          return throwError('La sucursal no existe.');
-        }
-  }))
-}
+      map((branch) => !!branch),
+      catchError(() => of(false)),
+    );
+  }
 
   registerProduct(data: IProductEntity): Observable<IProductEntity> {
     const createBranchCommand = new newProductCommand(data);

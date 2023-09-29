@@ -43,6 +43,8 @@ export class registerCustomerSaleUseCase {
         }
       
         product.quantity = +product.quantity - +data.quantity;
+        data.branchId = product.branchId;
+
         const createBranchCommand = new newProductSalecommand(data);
         this.comandBus.execute(createBranchCommand);
         return this.productDomainService.registerCustomerSale(product);

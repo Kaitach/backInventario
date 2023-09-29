@@ -8,11 +8,15 @@ import { newProductSaleReSellerCommand } from '../../domain/events/commands/newP
 export class newProductReSellerHandler implements ICommandHandler<newProductSaleReSellerCommand> {
   constructor(private readonly eventBus: EventBus, private readonly repository: EventRepository) {}
 
-  createEventFromCommand(command): void {
-    const nameEvent = "new prodct re seller"
+  createEventFromCommand(command, aggregateID): void {
+    console.log(command, aggregateID);
+    const nameEvent = 'Create  Product';
     const eventDataAsString = JSON.stringify(command);
-    const createEventDto = new CreateEventDto(eventDataAsString, nameEvent);
-
+    const createEventDto = new CreateEventDto(
+      eventDataAsString,
+      nameEvent,
+      aggregateID,
+    );
     try {
       this.repository.create(createEventDto);
       console.log('Event created successfully');
@@ -22,7 +26,7 @@ export class newProductReSellerHandler implements ICommandHandler<newProductSale
   }
 
   execute(command: newProductSaleReSellerCommand): void {
-    this.createEventFromCommand(command.productEntity);
+    this.createEventFromCommand(command.productEntity, command.productEntity.branchId);
     console.log(new Date())
     console.log('Command executed successfully');
   }

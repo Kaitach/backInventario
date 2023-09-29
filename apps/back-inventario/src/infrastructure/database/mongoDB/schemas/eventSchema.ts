@@ -6,6 +6,7 @@ export class EventDocument extends Document {
   eventType: string;
   eventData: string;
   eventPublishedAt: Date;
+  eventAggregateId:string
 }
 
 export const EventSchema = new Schema<EventDocument>({
@@ -13,6 +14,8 @@ export const EventSchema = new Schema<EventDocument>({
   eventType: { type: String, required: true },
   eventData: { type: String, required: true },
   eventPublishedAt: { type: Date, default: Date.now },
+  eventAggregateId: { type: String, required: true },
+
 });
 
 export const EventModelName = 'Event';

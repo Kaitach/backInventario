@@ -8,10 +8,10 @@ import { newProductSalecommand } from '../../domain/events/commands/newProdcutSa
 export class NewProductSaleHandler implements ICommandHandler<newProductSalecommand> {
   constructor(private readonly eventBus: EventBus, private readonly repository: EventRepository) {}
 
-  createEventFromCommand(command): void {
+  createEventFromCommand(command, idbranch): void {
     const nameEvent = "new product sale "
     const eventDataAsString = JSON.stringify(command);
-    const createEventDto = new CreateEventDto(eventDataAsString, nameEvent);
+    const createEventDto = new CreateEventDto(eventDataAsString, nameEvent,idbranch );
 
     try {
       this.repository.create(createEventDto);
@@ -22,7 +22,7 @@ export class NewProductSaleHandler implements ICommandHandler<newProductSalecomm
   }
 
   execute(command: newProductSalecommand): void {
-    this.createEventFromCommand(command.productEntity);
+    this.createEventFromCommand(command.productEntity, command.productEntity.branchId);
     console.log(new Date())
     console.log('Command executed successfully');
   }

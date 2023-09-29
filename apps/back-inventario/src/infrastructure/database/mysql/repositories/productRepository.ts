@@ -21,6 +21,7 @@ export class ProductRepository
     return from(
       this.productRepository
         .createQueryBuilder('product')
+        .select(['product.productId', 'product.name', 'product.description', 'product.price', 'product.quantity', 'product.category', 'product.branchId']) 
         .where('product.productId = :id', { id })
         .getOne(),
     ).pipe(
@@ -51,5 +52,26 @@ export class ProductRepository
     data: RegisterSaleDTO,
   ): Observable<ProductTypeOrmEntity> {
     return from(this.productRepository.save(data));
+  }
+
+  getAllProducts(): Observable<ProductTypeOrmEntity[]> {
+    return from(
+      this.productRepository
+        .createQueryBuilder('product')
+        .select([
+          'product.productId',
+          'product.name',
+          'product.description',
+          'product.price',
+          'product.quantity',
+          'product.category',
+          'product.branchId',
+        ])
+        .getMany(),
+    ).pipe(
+      catchError((error) =>
+        throwError(`Error al obtener todos los productos: ${error.message}`),
+      ),
+    );
   }
 }

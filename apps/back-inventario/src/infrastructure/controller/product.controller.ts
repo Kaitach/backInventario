@@ -62,4 +62,10 @@ export class ProductController {
   findById(@Param('id') id: string): Observable<ProductTypeOrmEntity> {
     return this.productService.findByID(id);
   }
+
+
+  @Get()
+  getAll(): Observable<ProductTypeOrmEntity[]> {
+    return this.productService.getall();
+  }
 }
