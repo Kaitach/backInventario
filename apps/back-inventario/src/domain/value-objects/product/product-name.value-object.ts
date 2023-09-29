@@ -5,7 +5,7 @@ import { ValueObjectException } from '../../../../../shared';
 
 import { ValueObjectBase } from '../../../../../shared';
 
-export class ProductNameValueObject extends ValueObjectBase<string> {
+export class nameValueObject extends ValueObjectBase<string> {
   MIN_EXTENSION = 3;
   MAX_EXTENSION = 40;
 

@@ -17,8 +17,8 @@ describe('registerBranchUseCase', () => {
   it('debería registrar una sucursal correctamente', () => {
     // Arrange
     const branchData = {
-      branchName: 'nueva',
-      branchLocation: {
+      name: 'nueva',
+      location: {
         country: '445',
         city: 'orlando',
       },
@@ -36,8 +36,8 @@ describe('registerBranchUseCase', () => {
   it('debería manejar errores de validación', () => {
     // Arrange
     const branchData = {
-      branchName: '23',
-      branchLocation: {
+      name: '23',
+      location: {
         country: '445',
         city: 'orlando',
       },

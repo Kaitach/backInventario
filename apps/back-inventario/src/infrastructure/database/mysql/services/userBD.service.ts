@@ -10,7 +10,7 @@ export class userDBService implements UserDomainService<UserTypeOrmEntity> {
   constructor(
     private readonly UserRepository: userRepository,
   ) { }
-  registerUser(data: RegisterUserDto): Observable<UserTypeOrmEntity> {
+  registerUser(data: UserTypeOrmEntity): Observable<UserTypeOrmEntity> {
     return this.UserRepository.registerUser(data)
   }
 

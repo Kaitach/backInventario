@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
-import { ProductTypeOrmEntity } from "../../../database";
-import { UUID } from "crypto";
+import { UUID } from 'crypto';
+import { ProductTypeOrmEntity } from '../../../database';
 
-export interface RegisterProductInventoryStockDTO extends ProductTypeOrmEntity {
-    productId: UUID;
-    productStock: number;
-  }
+export interface RegisterquantityDTO extends ProductTypeOrmEntity {
+  productId: UUID;
+  productStock: number;
+}

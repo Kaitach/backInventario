@@ -1,22 +1,22 @@
 /* eslint-disable prettier/prettier */
 
-import { IProductEntity } from "./productEntityDomain";
-import { IUserEntity } from "./userEntityDomain";
-import { IBranch } from "../interfaces/branchInterfaceDomain";
-import { Location } from "../interfaces/LocationInterface";
-import { BranchLocationValueObject, BranchNameValueObject } from "../value-objects";
+import { Location } from '../interfaces/LocationInterface';
+import { IBranch } from '../interfaces/branchInterfaceDomain';
+import { locationValueObject, nameValueObject } from '../value-objects';
+import { IProductEntity } from './productEntityDomain';
+import { IUserEntity } from './userEntityDomain';
 
 export class IBranchEntiy implements IBranch {
+  branchId: string;
+  name: string;
+  location: string ;
+  products: IProductEntity[];
+  users: IUserEntity[];
 
-  
-    branchID: string;
-    branchName:  string;
-    branchLocation: string  | Location ;
-    branchProducts: IProductEntity[];
-    branchEmployees: IUserEntity[]; 
-
-    constructor(   data: IBranch) {
-        this.branchName = new BranchNameValueObject(data.branchName).valueOf();
-        this.branchLocation = new BranchLocationValueObject(data.branchLocation as Location).valueOf();
-      }
-} 
+  constructor(data: IBranch) {
+    this.name = new nameValueObject(data.name).valueOf();
+    this.location = new locationValueObject(
+      data.location ,
+    ).valueOf();
+  }
+}

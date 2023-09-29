@@ -1,24 +1,35 @@
 /* eslint-disable prettier/prettier */
-import { IProduct } from "../interfaces/productInterfaceDomain";
-import { IdValueObject, ProductCategoryValueObject, ProductDescriptionValueObject, ProductInventoryStockValueObject, ProductNameValueObject, ProductPriceValueObject } from "../value-objects";
 import { v4 as uuidv4 } from 'uuid';
+import { IProduct } from '../interfaces/productInterfaceDomain';
+import { IdValueObject, nameValueObject } from '../..';
+import { descriptionValueObject, priceValueObject, quantityValueObject, categoryValueObject } from '../value-objects/product';
 
-export class IProductEntity  implements IProduct{
-    productId:  string;
-    productName:  string;
-    productDescription:  string;
-    productPrice:  number ;
-    productInventoryStock:  number ;
-    productCategory:  string;
-    branchID: string
+export class IProductEntity implements IProduct {
+  productId: string;
+  name: string;
+  description: string;
+  price: number;
+  quantity: number;
+  category: string;
+  branchId: string;
 
-    constructor(data: IProduct) {
-      if (data.productId) this.productId = new IdValueObject(data.productId).valueOf();
-      else this.productId = new IdValueObject(uuidv4()).valueOf();
-      this.productName = data.productName ? new ProductNameValueObject(data.productName).valueOf() : '';
-      this.productDescription = data.productDescription ? new ProductDescriptionValueObject(data.productDescription).valueOf() : '';
-      this.productPrice = data.productPrice ? new ProductPriceValueObject(data.productPrice).valueOf() : 0;
-      this.productInventoryStock = data.productInventoryStock ? new ProductInventoryStockValueObject(data.productInventoryStock).valueOf() : 0;
-      this.productCategory = data.productCategory ? new ProductCategoryValueObject(data.productCategory).valueOf() : '';
-      this.branchID = data.branchID ? new IdValueObject(data.branchID).valueOf() : '';
-    }}
+  constructor(data: IProduct) {
+    if (data.productId)
+      this.productId = new IdValueObject(data.productId).valueOf();
+    else this.productId = new IdValueObject(uuidv4()).valueOf();
+    this.name = data.name ? new nameValueObject(data.name).valueOf() : '';
+    this.description = data.description
+      ? new descriptionValueObject(data.description).valueOf()
+      : '';
+    this.price = data.price ? new priceValueObject(data.price).valueOf() : 0;
+    this.quantity = data.quantity
+      ? new quantityValueObject(data.quantity).valueOf()
+      : 0;
+    this.category = data.category
+      ? new categoryValueObject(data.category).valueOf()
+      : '';
+    this.branchId = data.branchId
+      ? new IdValueObject(data.branchId).valueOf()
+      : '';
+  }
+}

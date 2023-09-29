@@ -13,7 +13,7 @@ export class branchServiceBD implements  BranchDomainService<BranchTypeOrmEntity
   findBranchById(id: string): Observable<BranchTypeOrmEntity> {
     return this.BranchRepository.findBranchById(id);
   }
-  RegisterBranch(data: RegisterBranchDto): Observable<BranchTypeOrmEntity> {
+  RegisterBranch(data: BranchTypeOrmEntity): Observable<BranchTypeOrmEntity> {
     return this.BranchRepository.RegisterBranch(data);
   }
 

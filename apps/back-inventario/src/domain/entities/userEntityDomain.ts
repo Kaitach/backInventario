@@ -1,23 +1,27 @@
 /* eslint-disable prettier/prettier */
 
-import { IUser } from "../interfaces";
-import { IdValueObject, RoleUserValueObject, UserEmailValueObject, UserNameValueObject, UserPasswordValueObject } from "../value-objects";
+import { IUser } from '../interfaces';
+import {
+  IdValueObject,
+  RoleUserValueObject,
+  UserNameValueObject,
+  emailValueObject,
+  passwordValueObject,
+} from '../value-objects';
 
-export class IUserEntity  {
-    userId: string;
-    username: string;
-    userPassword: string;
-    userEmail: string;
-    userRole: string;
-    branchID: string
-    constructor(data: IUser ) {
-      
-      this.username = new UserNameValueObject(
-        data.username
-      ).valueOf();
-      this.userPassword = new UserPasswordValueObject(data.userPassword).valueOf();
-      this.userEmail = new UserEmailValueObject(data.userEmail).valueOf();
-      this.userRole = new RoleUserValueObject(data.userRole).valueOf();
-      this.branchID = new IdValueObject(data.branchID).valueOf()
-    }
+export class IUserEntity {
+  id: string;
+  name: string;
+  password: string;
+  email: string;
+  role: string;
+  branchId: string;
+  constructor(data: IUser) {
+    
+    this.name = new UserNameValueObject(data.name).valueOf();
+    this.password = new passwordValueObject(data.password).valueOf();
+    this.email = new emailValueObject(data.email).valueOf();
+    this.role = new RoleUserValueObject(data.role).valueOf();
+    this.branchId = new IdValueObject(data.branchId).valueOf();
   }
+}

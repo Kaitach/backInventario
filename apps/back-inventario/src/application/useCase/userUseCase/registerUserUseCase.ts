@@ -8,10 +8,11 @@ import {
   UserDomainService,
 } from '../../../../../';
 import { CreateUserCommand } from '../../../domain/events/commands/';
+import { IRegisterUser } from 'apps/back-inventario/src/domain/interfaces/registerUserInterface';
 export class registeruserUseCase {
   constructor(
     private readonly userService: UserDomainService<IUserEntity>,
-    private readonly breachDomanService: BranchDomainService<IBranchEntiy>,
+    private readonly breachDomanService: BranchDomainService<IBranchEntiy >,
     private readonly comandBus: CommandBus,
   ) {}
 
@@ -21,6 +22,7 @@ export class registeruserUseCase {
     return of(userDataOV);
   }
 
+
   private validateBranchExistence(branchId: string): Observable<boolean> {
     return this.breachDomanService.findBranchById(branchId).pipe(
       map((branch) => !!branch),
@@ -28,17 +30,31 @@ export class registeruserUseCase {
     );
   }
 
-  registeruser(data: IUserEntity): Observable<IUserEntity> {
-    return this.validateBranchExistence(data.branchID.valueOf()).pipe(
+  private createUserCommand(userData: IUserEntity): void {
+    const createUserCommand = new CreateUserCommand(userData);
+    this.comandBus.execute(createUserCommand);
+  }
+
+
+  private registerUser(data: IRegisterUser): Observable<IUserEntity> {
+    const newUser = {
+      branchId: data.branchId,
+      email: data.email,
+      name: `${data.name.firstName} ${data.name.lastName}`,
+      password: data.password,
+      role: data.role,
+    } as IUserEntity;
+
+    return this.validateBranchExistence(newUser.branchId).pipe(
       switchMap((branchExists) => {
         if (!branchExists) {
           return throwError('La sucursal no existe.');
         }
-        return this.validateUserData(data).pipe(
-          switchMap((userData) => {
-            const createUserCommand = new CreateUserCommand(userData);
-            this.comandBus.execute(createUserCommand);
-            return this.userService.registerUser(userData);
+
+        return this.validateUserData(newUser).pipe(
+          switchMap(() => {
+            this.createUserCommand(newUser)
+            return this.userService.registerUser(newUser);          
           }),
           catchError((error) => {
             return throwError(`Validation error: ${error}`);
@@ -48,7 +64,8 @@ export class registeruserUseCase {
     );
   }
 
-  execute(data: IUserEntity): Observable<IUserEntity> {
-    return this.registeruser(data);
+  execute(data: IRegisterUser): Observable<IUserEntity> {
+    return this.registerUser(data);
   }
 }
+

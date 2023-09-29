@@ -1,26 +1,29 @@
 /* eslint-disable prettier/prettier */
-import { IUserEntity } from "../../../../../../back-inventario/src/domain/entities/userEntityDomain";
-import { UUID } from "crypto";
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
-import { BranchTypeOrmEntity } from "./branchDBEntity";
+import { UUID } from 'crypto';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { IUserEntity } from '../../../../../../back-inventario/src/domain/entities/userEntityDomain';
+import { BranchTypeOrmEntity } from './branchDBEntity';
+import { RegisterUserDto } from '../../../utils';
 
 @Entity('user')
 export class UserTypeOrmEntity implements IUserEntity {
   @PrimaryGeneratedColumn('uuid')
-  userId: UUID;
+  id: UUID;
 
   @Column()
-  username: string;
+  name: string;
 
   @Column()
-  userPassword: string;
+  password: string;
 
   @Column()
-  userEmail: string;
+  email: string;
 
   @Column()
-  userRole: string;
+  role: string;
 
-  @ManyToOne(() => BranchTypeOrmEntity, branch => branch.branchEmployees)
-  branchID: string;
+  @ManyToOne(() => BranchTypeOrmEntity, (branch) => branch.users)
+  branchId: string;
+
+ 
 }

@@ -3,7 +3,7 @@ import { ValueObjectException } from '../../../../../shared';
 
 import { ValueObjectBase } from '../../../../../shared';
 
-export class UserPasswordValueObject extends ValueObjectBase<string> {
+export class passwordValueObject extends ValueObjectBase<string> {
   MIN_LENGTH = 8;
   MAX_LENGTH = 16;
   REGEX = /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z]).{8,16}$/;

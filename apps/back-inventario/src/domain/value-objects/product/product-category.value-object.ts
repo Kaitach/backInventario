@@ -4,7 +4,6 @@
 import { ValueObjectException } from '../../../../../shared';
 import { ValueObjectBase } from '../../../../../shared/bases';
 
-
 enum CATEGORY_ENUM {
   Hand_Tools = 'hand tools',
   Power_Tools = 'power tools',
@@ -18,7 +17,7 @@ enum CATEGORY_ENUM {
   Home_Fixtures = 'home fixtures',
 }
 
-export class ProductCategoryValueObject extends ValueObjectBase<string> {
+export class categoryValueObject extends ValueObjectBase<string> {
   validateData(): void {
     this.isIntoEnum();
   }

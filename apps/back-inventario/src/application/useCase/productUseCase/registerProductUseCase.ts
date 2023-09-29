@@ -18,6 +18,7 @@ export class RegisterProductUseCase {
   private validateProductData(
     data: IProductEntity,
   ): Observable<IProductEntity> {
+    data.quantity = 0;
     const validatedProduct = new IProductEntity(data);
 
     return of(validatedProduct);
@@ -25,15 +26,17 @@ export class RegisterProductUseCase {
 
   private validateBranchExistence(branchId: string): Observable<boolean> {
     return this.branchDomainService.findBranchById(branchId).pipe(
-      map((branch) => !!branch),
-      catchError(() => of(false)),
-    );
-  }
+      switchMap((branchExists) => {
+        if (!branchExists) {
+          return throwError('La sucursal no existe.');
+        }
+  }))
+}
 
   registerProduct(data: IProductEntity): Observable<IProductEntity> {
     const createBranchCommand = new newProductCommand(data);
     this.comandBus.execute(createBranchCommand);
-    return this.validateBranchExistence(data.branchID).pipe(
+    return this.validateBranchExistence(data.branchId).pipe(
       switchMap(() => this.validateProductData(data)),
       switchMap(() => this.productDomainService.registerProduct(data)),
 
@@ -42,9 +45,6 @@ export class RegisterProductUseCase {
   }
 
   execute(data: IProductEntity): Observable<IProductEntity> {
-    return this.validateProductData(data).pipe(
-      switchMap((validatedProduct) => this.registerProduct(validatedProduct)),
-      catchError((error) => throwError(`Validation error: ${error}`)),
-    );
+    return this.registerProduct(data);
   }
 }

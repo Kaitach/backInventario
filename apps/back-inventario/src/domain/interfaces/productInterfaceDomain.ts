@@ -1,12 +1,11 @@
 /* eslint-disable prettier/prettier */
 
 export interface IProduct {
-    productId:  string;
-    productName:  string;
-    productDescription: string;
-    productPrice:  number ;
-    productInventoryStock:  number ;
-    productCategory: string;
-    branchID: string
-
-  }
+  productId: string;
+  name: string;
+  description: string;
+  price: number;
+  quantity: number;
+  category: string;
+  branchId: string;
+}

@@ -7,7 +7,7 @@ import { BranchTypeOrmEntity, branchServiceBD } from '../database';
 import { RegisterBranchDto } from '../utils/dto/branch/registerBranch';
 import { Observable } from 'rxjs';
 
-@Controller('branch')
+@Controller('api/v1/branch')
 export class BranchController {
     private readonly useCase: BranchDelegate;
 
@@ -19,14 +19,14 @@ export class BranchController {
       this.useCase = new BranchDelegate(this.branchService, this.eventBus); 
     }
   
-    @Post()
+    @Post('register')
    registerBranch(@Body() branch: RegisterBranchDto): Observable<BranchTypeOrmEntity> {
       this.useCase.registerBranch();
       return this.useCase.execute(branch);
     }
 
-    @Get(':id')
-    findById(@Param('id') id: string): Observable<BranchTypeOrmEntity> {
+    @Get(':idBranch')
+    findById(@Param('idBranch') id: string): Observable<BranchTypeOrmEntity> {
       return this.branchService.findBranchById(id);
     }
     

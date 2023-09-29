@@ -26,12 +26,12 @@ describe('registerProductUseCase', () => {
   it('debería registrar un Product correctamente', () => {
     // Arrange
     const ProductData = {
-      productName: 'fes',
-      productDescription: 'rer',
-      productPrice: 19.99,
-      productInventoryStock: 100,
-      productCategory: 'electrical',
-      branchID: '9828eacd-01fb-45d2-91dc-24518b30b0a8',
+      name: 'fes',
+      description: 'rer',
+      price: 19.99,
+      quantity: 100,
+      category: 'electrical',
+      branchId: '9828eacd-01fb-45d2-91dc-24518b30b0a8',
     } as IProductEntity;
 
     useCase.execute = jest.fn().mockReturnValueOnce(of(ProductData));
@@ -46,12 +46,12 @@ describe('registerProductUseCase', () => {
   it('debería manejar errores de validación', () => {
     // Arrange
     const ProductData = {
-      productName: '04',
-      productDescription: 'rer',
-      productPrice: 19.99,
-      productInventoryStock: 0,
-      productCategory: 'electrical',
-      branchID: '9828eacd-01fb-45d2-91dc-24518b30b0a8',
+      name: '04',
+      description: 'rer',
+      price: 19.99,
+      quantity: 0,
+      category: 'electrical',
+      branchId: '9828eacd-01fb-45d2-91dc-24518b30b0a8',
     } as IProductEntity;
 
     useCase.execute = jest

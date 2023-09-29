@@ -6,24 +6,32 @@ import {
   IBranchEntiy,
 } from '../../../../../';
 import { CommandBus } from '../../../domain/services';
+import { IBranchRegister } from 'apps/back-inventario/src/domain/interfaces/branchBaseDomainInterface';
 export class registerBranchUseCase {
   constructor(
     private readonly branchService: BranchDomainService<IBranchEntiy>,
     private readonly comandBus: CommandBus,
   ) {}
 
-  private validateBranchData(data: IBranchEntiy): Observable<IBranchEntiy> {
+  private validateBranchData(
+    data: IBranchEntiy,
+  
+  ): Observable<IBranchEntiy> {
     const validatedUser = new IBranchEntiy(data);
 
     return of(validatedUser);
   }
 
-  registerBranch(data: IBranchEntiy): Observable<IBranchEntiy> {
-    return this.validateBranchData(data).pipe(
+  registerBranch( data: IBranchRegister): Observable<IBranchEntiy> {
+    const newBranch  = {
+name:  data.name,
+location: data.location.city + "," + data.location.country
+    } as IBranchEntiy
+    return this.validateBranchData( newBranch).pipe(
       switchMap(() => {
-        const createBranchCommand = new CreateBranchCommand(data);
+        const createBranchCommand = new CreateBranchCommand(newBranch);
         this.comandBus.execute(createBranchCommand);
-        return this.branchService.RegisterBranch(data);
+        return this.branchService.RegisterBranch(newBranch);
       }),
       catchError((error) => {
         return throwError(`Error de validación: ${error}`);
@@ -31,10 +39,7 @@ export class registerBranchUseCase {
     );
   }
 
-  execute(data: IBranchEntiy): Observable<IBranchEntiy> {
-    return this.validateBranchData(data).pipe(
-      switchMap((validatedProduct) => this.registerBranch(validatedProduct)),
-      catchError((error) => throwError(`Validation error: ${error}`)),
-    );
+  execute(data: IBranchRegister): Observable<IBranchEntiy> {
+    return this.registerBranch( data);
   }
 }

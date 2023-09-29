@@ -5,7 +5,7 @@ import { ValueObjectException } from '../../../../../shared';
 
 import { ValueObjectBase } from '../../../../../shared';
 
-export class ProductPriceValueObject extends ValueObjectBase<number> {
+export class priceValueObject extends ValueObjectBase<number> {
   MIN_VALUE = 0;
 
   validateData(): void {

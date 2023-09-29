@@ -5,7 +5,7 @@ import { ValueObjectException } from '../../../../../shared';
 
 import { ValueObjectBase } from '../../../../../shared';
 
-export class UserEmailValueObject extends ValueObjectBase<string> {
+export class emailValueObject extends ValueObjectBase<string> {
   REGEX = '^[^@]+@[^@]+\\.[a-zA-Z]{2,}$';
 
   validateData(): void {

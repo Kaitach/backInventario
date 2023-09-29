@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
-import { IProductEntity } from "../../../../../../back-inventario/src/domain/entities/productEntityDomain";
-import { UUID } from "crypto";
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
-import { BranchTypeOrmEntity } from "./branchDBEntity";
+import { UUID } from 'crypto';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { IProductEntity } from '../../../../../../back-inventario/src/domain/entities/productEntityDomain';
+import { BranchTypeOrmEntity } from './branchDBEntity';
 
 @Entity('product')
 export class ProductTypeOrmEntity implements IProductEntity {
@@ -10,20 +10,20 @@ export class ProductTypeOrmEntity implements IProductEntity {
   productId: UUID;
 
   @Column()
-  productName: string;
+  name: string;
 
   @Column()
-  productDescription: string;
+  description: string;
 
   @Column()
-  productPrice: number;
+  price: number;
 
   @Column()
-  productInventoryStock: number;
+  quantity: number;
 
   @Column()
-  productCategory: string;
+  category: string;
 
-  @ManyToOne(() => BranchTypeOrmEntity, branch => branch.branchProducts)
-  branchID: string;
+  @ManyToOne(() => BranchTypeOrmEntity, (branch) => branch.products)
+  branchId: string;
 }

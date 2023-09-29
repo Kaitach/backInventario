@@ -22,7 +22,7 @@ describe('registerProductReSellerUseCase', () => {
   it('debería registrar una venta  correctamente', () => {
     // Arrange
     const ProductData = {
-      productInventoryStock: 100,
+      quantity: 100,
 
       productId: '9828eacd-01fb-45d2-91dc-24518b30b0a8',
     } as IProductEntity;
@@ -39,7 +39,7 @@ describe('registerProductReSellerUseCase', () => {
   it('debería manejar errores de validación', () => {
     // Arrange
     const ProductData = {
-      productInventoryStock: -1,
+      quantity: -1,
 
       productId: '9828eacd-01fb-45d2-91dc-24518b30b0a8',
     } as IProductEntity;

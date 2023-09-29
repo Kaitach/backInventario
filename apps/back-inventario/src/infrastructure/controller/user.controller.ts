@@ -6,7 +6,7 @@ import { RegisterUserDto } from '../utils/dto/user/registerUser';
 import { Observable } from 'rxjs';
 import { CommandBus } from '@nestjs/cqrs';
 
-@Controller('user')
+@Controller('api/v1/user')
 export class UserController {
     private readonly useCase: userDelegate;
 
@@ -18,7 +18,7 @@ export class UserController {
       this.useCase = new userDelegate(this.userService,  this.comandBus,this.branchService ); 
     }
   
-    @Post()
+    @Post('register')
    registerUser(@Body() user: RegisterUserDto): Observable<UserTypeOrmEntity> {
       this.useCase.registerUser();
       return this.useCase.execute(user);

@@ -27,12 +27,12 @@ describe('registerUserUseCase', () => {
     // Arrange
     const UserData = {
       userId: '9828eacd-01fb-45d2-91dc-24518b30b0a8',
-      userRole: 'Admin',
+      role: 'Admin',
 
-      userEmail: 'frano.rres@gmail.com',
-      userPassword: '23123asdfaF',
+      email: 'frano.rres@gmail.com',
+      password: '23123asdfaF',
       username: 'awe',
-      branchID: '9828eacd-01fb-45d2-91dc-24518b30b0a8',
+      branchId: '9828eacd-01fb-45d2-91dc-24518b30b0a8',
     } as IUserEntity;
 
     useCase.execute = jest.fn().mockReturnValueOnce(of(UserData));
@@ -48,12 +48,12 @@ describe('registerUserUseCase', () => {
     // Arrange
     const UserData = {
       userId: '9828eacd-01fb-45d2-91dc-24518b30b0a8',
-      userRole: 'Admin',
+      role: 'Admin',
 
-      userEmail: 'frano.rres@gmail.com',
-      userPassword: '23123asdfaF',
+      email: 'frano.rres@gmail.com',
+      password: '23123asdfaF',
       username: 'n1',
-      branchID: '9828eacd-01fb-45d2-91dc-24518b30b0a8',
+      branchId: '9828eacd-01fb-45d2-91dc-24518b30b0a8',
     } as IUserEntity;
 
     useCase.execute = jest

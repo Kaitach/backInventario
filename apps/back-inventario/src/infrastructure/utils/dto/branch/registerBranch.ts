@@ -1,8 +1,10 @@
+import { IBranchRegister } from './../../../../domain/interfaces/branchBaseDomainInterface';
 /* eslint-disable prettier/prettier */
-import { BranchTypeOrmEntity } from "../../../database";
 
-export class RegisterBranchDto extends BranchTypeOrmEntity {
-    branchName: string;
-    branchLocation: string ;
-
+export class RegisterBranchDto implements IBranchRegister  {
+  name: string;
+  location: {
+    city: string,
+    country: string
+  }
 }

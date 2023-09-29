@@ -3,26 +3,23 @@ import {
   CommandBus,
   IProductEntity,
   ProductDomainService,
-  registerProductInventoryStockUseCase,
+  registerquantityUseCase,
 } from '../../../..';
 
-describe('registerProductInventoryStockUseCase', () => {
-  let useCase: registerProductInventoryStockUseCase;
+describe('registerquantityUseCase', () => {
+  let useCase: registerquantityUseCase;
   let ProductServiceMock: ProductDomainService<IProductEntity>;
   let comandBusMock: CommandBus;
 
   beforeEach(() => {
     ProductServiceMock = {} as ProductDomainService<IProductEntity>;
-    useCase = new registerProductInventoryStockUseCase(
-      ProductServiceMock,
-      comandBusMock,
-    );
+    useCase = new registerquantityUseCase(ProductServiceMock, comandBusMock);
   });
 
   it('debería registrar una venta  correctamente', () => {
     // Arrange
     const ProductData = {
-      productInventoryStock: 100,
+      quantity: 100,
 
       productId: '9828eacd-01fb-45d2-91dc-24518b30b0a8',
     } as IProductEntity;
@@ -39,7 +36,7 @@ describe('registerProductInventoryStockUseCase', () => {
   it('debería manejar errores de validación', () => {
     // Arrange
     const ProductData = {
-      productInventoryStock: -1,
+      quantity: -1,
 
       productId: '9828eacd-01fb-45d2-91dc-24518b30b0a8',
     } as IProductEntity;

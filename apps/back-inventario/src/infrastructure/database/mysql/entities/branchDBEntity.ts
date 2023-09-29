@@ -1,25 +1,24 @@
 /* eslint-disable prettier/prettier */
 
-
+import { IBranch } from 'apps/back-inventario/src/domain/interfaces/branchInterfaceDomain';
 import { UUID } from 'crypto';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ProductTypeOrmEntity } from './productDBEntity';
 import { UserTypeOrmEntity } from './userDBentity';
-import { IBranch } from 'apps/back-inventario/src/domain/interfaces/branchInterfaceDomain';
 @Entity('branch')
 export class BranchTypeOrmEntity implements IBranch {
   @PrimaryGeneratedColumn('uuid')
-  branchID: UUID;
+  branchId: UUID;
 
   @Column()
-  branchName: string;
+  name: string;
 
-  @Column('json') 
-  branchLocation: string;
+  @Column()
+  location: string;
 
-  @OneToMany(() => ProductTypeOrmEntity, product => product.branchID)
-  branchProducts: ProductTypeOrmEntity[];
-  
-  @OneToMany(() => UserTypeOrmEntity, user => user.branchID)
-  branchEmployees: UserTypeOrmEntity[];
+  @OneToMany(() => ProductTypeOrmEntity, (product) => product.branchId)
+  products: ProductTypeOrmEntity[];
+
+  @OneToMany(() => UserTypeOrmEntity, (user) => user.branchId)
+  users: UserTypeOrmEntity[];
 }

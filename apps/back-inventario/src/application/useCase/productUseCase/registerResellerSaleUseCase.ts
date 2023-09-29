@@ -8,8 +8,11 @@ import {
   switchMap,
   throwError,
 } from 'rxjs';
-import { CommandBus, IProductEntity } from '../../../../../';
-import { newProductSaleReSellerCommand } from '../../../../../';
+import {
+  CommandBus,
+  IProductEntity,
+  newProductSaleReSellerCommand,
+} from '../../../../../';
 import { ProductDomainService } from './../../../domain/services/productServiceDomain';
 export class RegisterResellerSaleUseCase {
   constructor(
@@ -18,8 +21,10 @@ export class RegisterResellerSaleUseCase {
   ) {}
 
   private validateProductData(
+    id: string,
     data: IProductEntity,
   ): Observable<IProductEntity> {
+    data.productId = id;
     const validatedProduct = new IProductEntity(data);
 
     return of(validatedProduct);
@@ -34,12 +39,11 @@ export class RegisterResellerSaleUseCase {
           throw new Error('Product not found');
         }
 
-        if (product.productInventoryStock < data.productInventoryStock) {
+        if (product.quantity < data.quantity) {
           throw new Error('Insufficient inventory');
         }
 
-        product.productInventoryStock =
-          +product.productInventoryStock - +data.productInventoryStock;
+        product.quantity = +product.quantity - +data.quantity;
         const createBranchCommand = new newProductSaleReSellerCommand(product);
         this.commandBus.execute(createBranchCommand);
         return this.productDomainService.registerResellerSale(product);
@@ -48,8 +52,8 @@ export class RegisterResellerSaleUseCase {
     );
   }
 
-  execute(data: IProductEntity): Observable<IProductEntity> {
-    return this.validateProductData(data).pipe(
+  execute(data: IProductEntity, id: string): Observable<IProductEntity> {
+    return this.validateProductData(id, data).pipe(
       switchMap((validatedProduct) =>
         this.registerResellerSale(validatedProduct),
       ),

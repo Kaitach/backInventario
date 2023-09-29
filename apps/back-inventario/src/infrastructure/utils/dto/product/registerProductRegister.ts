@@ -1,11 +1,10 @@
 /* eslint-disable prettier/prettier */
-import { ProductTypeOrmEntity } from "../../../database";
+import { ProductTypeOrmEntity } from '../../../database';
 
 export interface RegisterProductDTO extends ProductTypeOrmEntity {
-    productName: string;
-    productDescription: string;
-    productPrice: number;
-    productInventoryStock: number;
-    productCategory: string;
-    branchID: string;
-  }
+  name: string;
+  description: string;
+  price: number;
+  category: string;
+  branchId: string;
+}
