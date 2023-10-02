@@ -1,5 +1,7 @@
 /* eslint-disable prettier/prettier */
-import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
+import { Inject } from '@nestjs/common';
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { ClientProxy } from '@nestjs/microservices';
 import { newProductCommand } from '../../domain/events/commands/';
 import { EventRepository } from '../database/mongoDB/repository/eventRepository';
 import { CreateEventDto } from '../utils/dto/eventDto';
@@ -7,14 +9,16 @@ import { CreateEventDto } from '../utils/dto/eventDto';
 @CommandHandler(newProductCommand)
 export class newProductHandler implements ICommandHandler<newProductCommand> {
   constructor(
-    private readonly eventBus: EventBus,
     private readonly repository: EventRepository,
+    @Inject('inventory') private client: ClientProxy,
   ) {}
 
   createEventFromCommand(command, aggregateID): void {
     console.log(command, aggregateID);
     const nameEvent = 'Create  Product';
     const eventDataAsString = JSON.stringify(command);
+    this.client.emit('create product', eventDataAsString);
+
     const createEventDto = new CreateEventDto(
       eventDataAsString,
       nameEvent,

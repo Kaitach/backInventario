@@ -27,6 +27,24 @@
       "compilerOptions": {
         "tsConfigPath": "apps/users/tsconfig.app.json"
       }
+    },
+    "queri-comander": {
+      "type": "application",
+      "root": "apps/queri-comander",
+      "entryFile": "main",
+      "sourceRoot": "apps/queri-comander/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/queri-comander/tsconfig.app.json"
+      }
+    },
+    "persistence": {
+      "type": "application",
+      "root": "apps/persistence",
+      "entryFile": "main",
+      "sourceRoot": "apps/persistence/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/persistence/tsconfig.app.json"
+      }
     }
   }
 }

@@ -1,17 +1,28 @@
 /* eslint-disable prettier/prettier */
-import {CommandHandler, EventBus, ICommandHandler} from '@nestjs/cqrs'
+import { Inject } from '@nestjs/common';
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { ClientProxy } from '@nestjs/microservices';
+import { CreateUserCommand } from '../../domain/events/commands/newUserCommand';
 import { EventRepository } from '../database/mongoDB/repository/eventRepository';
 import { CreateEventDto } from '../utils/dto/eventDto';
-import { CreateUserCommand } from '../../domain/events/commands/newUserCommand';
 
 @CommandHandler(CreateUserCommand)
 export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
-  constructor(private readonly eventBus: EventBus, private readonly repository: EventRepository) {}
+  constructor(
+    private readonly repository: EventRepository,
+    @Inject('inventory') private client: ClientProxy,
+  ) {}
 
   createEventFromCommand(command, idBranch): void {
-    const nameEvent = "Create  User";
+    const nameEvent = 'Create  User';
     const eventDataAsString = JSON.stringify(command);
-    const createEventDto = new CreateEventDto(eventDataAsString, nameEvent, idBranch);
+    this.client.emit('create user', eventDataAsString);
+    console.log(command, idBranch)
+    const createEventDto = new CreateEventDto(
+      eventDataAsString,
+      nameEvent,
+      idBranch,
+    );
 
     try {
       this.repository.create(createEventDto);
@@ -23,8 +34,7 @@ export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
 
   execute(command: CreateUserCommand): void {
     this.createEventFromCommand(command.userData, command.userData.branchId);
-    console.log(new Date())
+    console.log(new Date());
     console.log('Command executed successfully');
   }
 }
-
