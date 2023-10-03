@@ -5,6 +5,8 @@ import { ClientProxy } from '@nestjs/microservices';
 import { newProductSalecommand } from '../../domain/events/commands/newProdcutSaleCommand';
 import { EventRepository } from '../database/mongoDB/repository/eventRepository';
 import { CreateEventDto } from '../utils/dto/eventDto';
+import { RegisterquantityDTO } from '../utils';
+import { blue } from 'colorette';
 
 @CommandHandler(newProductSalecommand)
 export class NewProductSaleHandler
@@ -15,15 +17,21 @@ export class NewProductSaleHandler
     @Inject('inventory') private client: ClientProxy,
   ) {}
 
-  createEventFromCommand(command, idbranch): void {
+  createEventFromCommand(command): void {
+    console.log(blue('data'))
+    const eventAggregateId = command.branchId
+
+    console.log(command)
+    console.log(blue('data'))
+
     const nameEvent = 'new product sale ';
     const eventDataAsString = JSON.stringify(command);
     const createEventDto = new CreateEventDto(
       eventDataAsString,
       nameEvent,
-      idbranch,
+      eventAggregateId,
     );
-    this.client.emit('new product sale', eventDataAsString);
+    this.client.emit('new product sale', command as  RegisterquantityDTO) ;
 
     try {
       this.repository.create(createEventDto);
@@ -36,7 +44,6 @@ export class NewProductSaleHandler
   execute(command: newProductSalecommand): void {
     this.createEventFromCommand(
       command.productEntity,
-      command.productEntity.branchId,
     );
     console.log(new Date());
     console.log('Command executed successfully');

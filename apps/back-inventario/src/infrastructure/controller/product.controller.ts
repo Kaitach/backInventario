@@ -4,9 +4,9 @@ import { CommandBus } from '@nestjs/cqrs';
 
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { productServiceBD } from '..';
 import { productDelegate } from '../../application/delegate/productDelegate';
-import { ProductTypeOrmEntity, branchServiceBD } from '../database';
+import { IProductEntity } from '../../domain';
+import { infrastructureServiceProduct } from '../service/infrastructure.service';
 import { RegisterquantityDTO } from '../utils/dto/product/registerProductInventory';
 import { RegisterProductDTO } from '../utils/dto/product/registerProductRegister';
 import { RegisterSaleDTO } from '../utils/dto/product/registerSale';
@@ -16,21 +16,19 @@ export class ProductController {
   private readonly useCase: productDelegate;
 
   constructor(
-    private readonly productService: productServiceBD,
+    private readonly productService: infrastructureServiceProduct,
     private readonly commandBus: CommandBus,
-    private readonly brancService: branchServiceBD,
   ) {
     this.useCase = new productDelegate(
       this.productService,
       this.commandBus,
-      this.brancService,
     );
   }
 
   @Post('register')
   registerProduct(
     @Body() product: RegisterProductDTO,
-  ): Observable<ProductTypeOrmEntity> {
+  ): Observable<void> {
     this.useCase.registerProduct();
     return this.useCase.execute(product);
   }
@@ -38,7 +36,7 @@ export class ProductController {
   registerCustomerSale(
     @Param('idProduct') idProduct: string,
     @Body() product: RegisterSaleDTO,
-  ): Observable<ProductTypeOrmEntity> {
+  ): Observable<void> {
     this.useCase.registerCustomerSale();
     return this.useCase.execute(product, idProduct);
   }
@@ -46,7 +44,7 @@ export class ProductController {
   registerResellerSale(
     @Param('idProduct') idProduct: string,
     @Body() product: RegisterSaleDTO,
-  ): Observable<ProductTypeOrmEntity> {
+  ): Observable<void> {
     this.useCase.registerResellerSale();
     return this.useCase.execute(product, idProduct);
   }
@@ -54,18 +52,18 @@ export class ProductController {
   registerquantity(
     @Param('idProduct') idProduct: string,
     @Body() product: RegisterquantityDTO,
-  ): Observable<ProductTypeOrmEntity> {
+  ): Observable<void> {
     this.useCase.registerquantity();
     return this.useCase.execute(product, idProduct);
   }
   @Get(':id')
-  findById(@Param('id') id: string): Observable<ProductTypeOrmEntity> {
+  findById(@Param('id') id: string): Observable<IProductEntity> {
     return this.productService.findByID(id);
   }
 
 
   @Get()
-  getAll(): Observable<ProductTypeOrmEntity[]> {
-    return this.productService.getall();
+  getAll(): Observable<void[]> {
+    return this.productService.getAll();
   }
 }

@@ -5,6 +5,7 @@ import { ClientProxy } from '@nestjs/microservices';
 import { newProductSaleReSellerCommand } from '../../domain/events/commands/newProductSaleReSellerCommand';
 import { EventRepository } from '../database/mongoDB/repository/eventRepository';
 import { CreateEventDto } from '../utils/dto/eventDto';
+import { RegisterquantityDTO } from '..';
 
 @CommandHandler(newProductSaleReSellerCommand)
 export class newProductReSellerHandler
@@ -19,7 +20,7 @@ export class newProductReSellerHandler
     console.log(command, aggregateID);
     const nameEvent = 'Create  Product';
     const eventDataAsString = JSON.stringify(command);
-    this.client.emit('new product re seller', eventDataAsString);
+    this.client.emit('new product re seller',command as  RegisterquantityDTO) ;
 
     const createEventDto = new CreateEventDto(
       eventDataAsString,

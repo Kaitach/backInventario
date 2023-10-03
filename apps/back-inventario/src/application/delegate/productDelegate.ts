@@ -3,10 +3,8 @@ import { CommandBus } from '../../../../';
 import { registerquantityUseCase } from './../useCase/productUseCase/registerProductInventotyStockUseCase';
 
 import {
-  BranchDomainService,
-  IBranchEntiy,
   IProductEntity,
-  ProductDomainService,
+  ProductDomainService
 } from '../../domain';
 import { IUseCase } from '../../domain/interfaces/IUseCase';
 import { registerCustomerSaleUseCase } from '../useCase/productUseCase/registerCustomerSaleUseCase';
@@ -19,7 +17,6 @@ export class productDelegate implements IUseCase {
   constructor(
     private readonly productService: ProductDomainService<IProductEntity>,
     private readonly comandBus: CommandBus,
-    private readonly branchDomanService: BranchDomainService<IBranchEntiy>,
   ) {}
 
   execute<Response>(...args: any[]): Observable<Response> {
@@ -36,7 +33,6 @@ export class productDelegate implements IUseCase {
   registerProduct(): void {
     this.delegate = new RegisterProductUseCase(
       this.productService,
-      this.branchDomanService,
       this.comandBus,
     );
   }

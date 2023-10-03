@@ -1,7 +1,8 @@
 /* eslint-disable prettier/prettier */
-import { ProductTypeOrmEntity } from '../../../database';
 
-export interface RegisterProductDTO extends ProductTypeOrmEntity {
+import { IProductEntity } from "apps/back-inventario/src/domain/entities/productEntityDomain";
+
+export interface RegisterProductDTO extends IProductEntity {
   name: string;
   description: string;
   price: number;

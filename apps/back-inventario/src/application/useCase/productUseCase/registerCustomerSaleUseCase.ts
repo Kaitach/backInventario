@@ -1,12 +1,8 @@
 /* eslint-disable prettier/prettier */
 import {
   Observable,
-  catchError,
-  map,
-  mergeMap,
   of,
-  switchMap,
-  throwError,
+  switchMap
 } from 'rxjs';
 import {
   CommandBus,
@@ -30,28 +26,14 @@ export class registerCustomerSaleUseCase {
     return of(validatedProduct);
   }
 
-  registercustomerSale(data: IProductEntity): Observable<IProductEntity> {
-    return this.productDomainService.findByID(data.productId as string).pipe(
-      catchError(() => throwError('Product not found')),
-      map((product) => {
-        if (!product) {
-          catchError(() => throwError('Product not found'));
-        }
-
-        if (product.quantity < data.quantity) {
-          throw new Error('Insufficient inventory');
-        }
-      
-        product.quantity = +product.quantity - +data.quantity;
-        data.branchId = product.branchId;
-
+  registercustomerSale(data: IProductEntity): Observable<IProductEntity> {  
+        
         const createBranchCommand = new newProductSalecommand(data);
         this.comandBus.execute(createBranchCommand);
-        return this.productDomainService.registerCustomerSale(product);
-      }),
-      mergeMap((savedProduct) => savedProduct),
-    );
-  }
+        return this.productDomainService.registerCustomerSale(data);
+      }
+    ;
+  
 
   execute(data: IProductEntity, id: string): Observable<IProductEntity> {
     return this.validateProductData(id, data).pipe(

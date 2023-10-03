@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { ProductTypeOrmEntity } from '../../..';
+import { IProductEntity } from 'apps/persistence/src';
 
 type ProductSale = {
   productId: string;
@@ -7,6 +7,6 @@ type ProductSale = {
   productStock: number;
 };
 
-export interface RegisterSaleDTO extends ProductTypeOrmEntity {
+export interface RegisterSaleDTO extends IProductEntity {
   products: ProductSale[];
 }

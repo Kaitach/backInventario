@@ -22,7 +22,7 @@ export class registerBranchUseCase {
     return of(validatedUser);
   }
 
-  registerBranch(data: IBranchRegister): Observable<IBranchEntiy> {
+  registerBranch(data: IBranchRegister): Observable<void> {
   const newBranch  = {
 name:  data.name,
 location: data.location.city + "," + data.location.country
@@ -39,7 +39,8 @@ location: data.location.city + "," + data.location.country
     );
   }
 
-  execute(data: IBranchRegister): Observable<IBranchEntiy> {
+  execute(data: IBranchRegister): Observable<void> {
     return this.registerBranch( data);
+    
   }
 }

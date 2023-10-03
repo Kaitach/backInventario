@@ -2,8 +2,6 @@
 import {
   Observable,
   catchError,
-  map,
-  mergeMap,
   of,
   switchMap,
   throwError,
@@ -31,28 +29,13 @@ export class RegisterResellerSaleUseCase {
   }
 
   registerResellerSale(data: IProductEntity): Observable<IProductEntity> {
-    return this.productDomainService.findByID(data.productId as string).pipe(
-      catchError(() => throwError('Product not found')),
-
-      map((product) => {
-        if (!product) {
-          throw new Error('Product not found');
-        }
-
-        if (product.quantity < data.quantity) {
-          throw new Error('Insufficient inventory');
-        }
-
-        product.quantity = product.quantity  +data.quantity;
-        data.branchId = product.branchId;
-
+  
         const createBranchCommand = new newProductSaleReSellerCommand(data);
         this.commandBus.execute(createBranchCommand);
-        return this.productDomainService.registerResellerSale(product);
-      }),
-      mergeMap((savedProduct) => savedProduct),
-    );
-  }
+        return this.productDomainService.registerResellerSale(data);
+      }
+    
+  
 
   execute(data: IProductEntity, id: string): Observable<IProductEntity> {
     return this.validateProductData(id, data).pipe(

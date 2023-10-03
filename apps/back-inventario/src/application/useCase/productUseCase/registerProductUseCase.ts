@@ -1,17 +1,14 @@
 /* eslint-disable prettier/prettier */
-import { Observable, catchError, map, of, switchMap, throwError } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import {
-  BranchDomainService,
   CommandBus,
-  IBranchEntiy,
   IProductEntity,
   ProductDomainService,
-  newProductCommand,
+  newProductCommand
 } from '../../../../../';
 export class RegisterProductUseCase {
   constructor(
     private readonly productDomainService: ProductDomainService<IProductEntity>,
-    private readonly branchDomainService: BranchDomainService<IBranchEntiy>,
     private readonly comandBus: CommandBus,
   ) {}
 
@@ -24,25 +21,20 @@ export class RegisterProductUseCase {
     return of(validatedProduct);
   }
 
-  private validateBranchExistence(branchId: string): Observable<boolean> {
-    return this.branchDomainService.findBranchById(branchId).pipe(
-      map((branch) => !!branch),
-      catchError(() => of(false)),
-    );
-  }
+ 
+  
 
-  registerProduct(data: IProductEntity): Observable<IProductEntity> {
+  registerProduct(data: any): Observable<IProductEntity> {
+
     const createBranchCommand = new newProductCommand(data);
-    this.comandBus.execute(createBranchCommand);
-    return this.validateBranchExistence(data.branchId).pipe(
-      switchMap(() => this.validateProductData(data)),
-      switchMap(() => this.productDomainService.registerProduct(data)),
 
-      catchError((error) => throwError(`Registration error: ${error}`)),
-    );
+    this.comandBus.execute(createBranchCommand);
+   return  this.productDomainService.registerProduct(data)
+
+  
   }
 
-  execute(data: IProductEntity): Observable<IProductEntity> {
+  execute(data: any): Observable<IProductEntity> {
     return this.registerProduct(data);
   }
 }

@@ -1,22 +1,24 @@
-import { RabbitController } from './infrastructure/controller/rabitcontroller.controller';
 import { ClientProxy, ClientsModule, Transport } from '@nestjs/microservices';
 /* eslint-disable prettier/prettier */
 import { ProductController } from './infrastructure/controller/product.controller';
 import { BranchController } from './infrastructure/controller/branch.controller';
 import { UserController } from './infrastructure/controller/user.controller';
 import { Module } from '@nestjs/common';
-import { DatabaseModule } from './infrastructure/database/mysql';
 import { CqrsModule } from '@nestjs/cqrs';
-import { CreateBranchHandler } from './infrastructure/events/CreateBranchHandler';
-import { CreateUserHandler } from './infrastructure/events/CreateUserHandler';
-import { newProductInventoryHandler } from './infrastructure/events/newProductInventoryHandler';
-import { newProductReSellerHandler } from './infrastructure/events/newProductReSallerHandler';
-import { NewProductSaleHandler } from './infrastructure/events/newProductSaleHandler';
 import { EventRepository } from './infrastructure';
+import { NewProductSaleHandler } from './infrastructure/events/newProductSaleHandler';
+import { newProductReSellerHandler } from './infrastructure/events/newProductReSallerHandler';
+import { newProductInventoryHandler } from './infrastructure/events/newProductInventoryHandler';
+import { CreateUserHandler } from './infrastructure/events/CreateUserHandler';
+import { CreateBranchHandler } from './infrastructure/events/CreateBranchHandler';
+import { DatabaseModule } from './infrastructure/database/database.module';
+import { infrastructureServiceProduct } from './infrastructure/service/infrastructure.service';
+import { userServiceIntrastructure } from './infrastructure/service/infrastructureUser.service';
+import { infrastuctureBranchService } from './infrastructure/service/infrastructureBranch.service';
+import { newProductHandler } from './infrastructure/events/newProductHandlercopy';
 
 @Module({
-  imports: [
-    DatabaseModule,
+  imports: [DatabaseModule,
     CqrsModule,
     ClientsModule.register([
       {
@@ -33,14 +35,13 @@ import { EventRepository } from './infrastructure';
     ]),
   ],
   controllers: [
-    RabbitController,
-
     ProductController,
     BranchController,
     UserController,
   ],
 
   providers: [
+    infrastructureServiceProduct, userServiceIntrastructure,infrastuctureBranchService,
     {
       provide: CreateBranchHandler,
       useFactory: (repository: EventRepository, client: ClientProxy) =>
@@ -67,15 +68,18 @@ import { EventRepository } from './infrastructure';
         new newProductReSellerHandler(repository, client),
       inject: [EventRepository, 'inventory'],
     },
-
+    {
+      provide: newProductHandler,
+      useFactory: (repository: EventRepository, client: ClientProxy) =>
+        new newProductHandler(repository, client),
+      inject: [EventRepository, 'inventory'],
+    },
     {
       provide: NewProductSaleHandler,
       useFactory: (repository: EventRepository, client: ClientProxy) =>
         new NewProductSaleHandler(repository, client),
       inject: [EventRepository, 'inventory'],
     },
-
-
   ],
 })
 export class AppModule {}

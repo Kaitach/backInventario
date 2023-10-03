@@ -1,21 +1,12 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { blue } from 'colorette';
-import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { AppModule } from './app.module';
 
 async function bootstrap() {
 
   const app = await NestFactory.create(AppModule);
-  app.connectMicroservice<MicroserviceOptions>({
-    transport: Transport.RMQ,
-    options: {
-      urls: ['amqp://localhost:5672'],
-      queue: 'branch',
-      queueOptions: {
-        durable: false,}
-      },
-  })
+
   app.enableCors({
     origin: 'http://localhost:4200',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',

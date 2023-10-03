@@ -14,9 +14,10 @@ export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
   ) {}
 
   createEventFromCommand(command, idBranch): void {
+    console.log(command)
     const nameEvent = 'Create  User';
     const eventDataAsString = JSON.stringify(command);
-    this.client.emit('create user', eventDataAsString);
+    this.client.emit('create user', command);
     console.log(command, idBranch)
     const createEventDto = new CreateEventDto(
       eventDataAsString,

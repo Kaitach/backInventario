@@ -2,17 +2,17 @@
 import { CommandBus } from '@nestjs/cqrs';
 
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { BranchDelegate } from '../../application/delegate/branchDelegate';
-import { BranchTypeOrmEntity, branchServiceBD } from '../database';
-import { RegisterBranchDto } from '../utils/dto/branch/registerBranch';
 import { Observable } from 'rxjs';
+import { BranchDelegate } from '../../application/delegate/branchDelegate';
+import { infrastuctureBranchService } from '../service/infrastructureBranch.service';
+import { RegisterBranchDto } from '../utils/dto/branch/registerBranch';
 
 @Controller('api/v1/branch')
 export class BranchController {
     private readonly useCase: BranchDelegate;
 
     constructor(
-      private readonly branchService: branchServiceBD,
+      private readonly branchService: infrastuctureBranchService,
       private readonly eventBus: CommandBus
   
     ) {
@@ -20,18 +20,18 @@ export class BranchController {
     }
   
     @Post('register')
-   registerBranch(@Body() branch: RegisterBranchDto): Observable<BranchTypeOrmEntity> {
+   registerBranch(@Body() branch: RegisterBranchDto): Observable<void> {
       this.useCase.registerBranch();
       return this.useCase.execute(branch);
     }
 
     @Get(':idBranch')
-    findById(@Param('idBranch') id: string): Observable<BranchTypeOrmEntity> {
+    findById(@Param('idBranch') id: string): Observable<void> {
       return this.branchService.findBranchById(id);
     }
 
     @Get()
-    getAll(): Observable<BranchTypeOrmEntity[]> {
+    getAll(): Observable<void[]> {
       return this.branchService.getall();
     }
     

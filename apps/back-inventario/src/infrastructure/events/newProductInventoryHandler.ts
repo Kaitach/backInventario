@@ -5,6 +5,8 @@ import { ClientProxy } from '@nestjs/microservices';
 import { newProductInventoryCommand } from '../../domain/events/commands/newProductInvetory';
 import { EventRepository } from '../database/mongoDB/repository/eventRepository';
 import { CreateEventDto } from '../utils/dto/eventDto';
+import { IProductEntity } from '../../domain';
+import { RegisterquantityDTO } from 'apps/persistence/src';
 
 @CommandHandler(newProductInventoryCommand)
 export class newProductInventoryHandler
@@ -13,17 +15,21 @@ export class newProductInventoryHandler
   constructor(
     private readonly repository: EventRepository,
     @Inject('inventory') private client: ClientProxy,
-  ) {}
+  ) {  
+}
 
-  createEventFromCommand(command, aggregateID): void {
+  createEventFromCommand(command: IProductEntity): void {
+
     const nameEvent = 'new product inventory';
+    const eventAggregateId = command.branchId
+    console.log(eventAggregateId)
     const eventDataAsString = JSON.stringify(command);
     const createEventDto = new CreateEventDto(
       eventDataAsString,
       nameEvent,
-      aggregateID,
+      eventAggregateId,
     );
-    this.client.emit('new product add inventory', eventDataAsString);
+    this.client.emit('new product inventory', command as  RegisterquantityDTO) ;
 
     try {
       this.repository.create(createEventDto);
@@ -34,10 +40,12 @@ export class newProductInventoryHandler
   }
 
   execute(command: newProductInventoryCommand): void {
+     console.log(command) 
     this.createEventFromCommand(
       command.productEntity,
-      command.productEntity.branchId,
     );
+    console.log( command.productEntity) 
+
     console.log(new Date());
     console.log('Command executed successfully');
   }

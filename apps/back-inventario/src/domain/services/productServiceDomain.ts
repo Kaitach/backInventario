@@ -6,5 +6,5 @@ export interface ProductDomainService<T> {
   registerquantity(data: T): Observable<T>;
   registerCustomerSale(data: T): Observable<T>;
   registerResellerSale(data: T): Observable<T>;
-  findByID(id: string): Observable<T>;
+  findByID(id: string): Observable<T >;
 }

@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { Observable, catchError, map, of, switchMap, throwError } from 'rxjs';
+import { IRegisterUser } from 'apps/back-inventario/src/domain/interfaces/registerUserInterface';
+import { Observable, catchError, of, switchMap, throwError } from 'rxjs';
 import {
   BranchDomainService,
   CommandBus,
@@ -8,7 +9,6 @@ import {
   UserDomainService,
 } from '../../../../../';
 import { CreateUserCommand } from '../../../domain/events/commands/';
-import { IRegisterUser } from 'apps/back-inventario/src/domain/interfaces/registerUserInterface';
 export class registeruserUseCase {
   constructor(
     private readonly userService: UserDomainService<IUserEntity>,
@@ -23,14 +23,9 @@ export class registeruserUseCase {
   }
 
 
-  private validateBranchExistence(branchId: string): Observable<boolean> {
-    return this.breachDomanService.findBranchById(branchId).pipe(
-      map((branch) => !!branch),
-      catchError(() => of(false)),
-    );
-  }
 
-  private createUserCommand(userData: IUserEntity): void {
+
+  private createUserCommand(userData: IRegisterUser): void {
     const createUserCommand = new CreateUserCommand(userData);
     this.comandBus.execute(createUserCommand);
   }
@@ -44,27 +39,22 @@ export class registeruserUseCase {
       password: data.password,
       role: data.role,
     } as IUserEntity;
-    return this.validateBranchExistence(newUser.branchId).pipe(
-      switchMap((branchExists) => {
-        if (!branchExists) {
-          return throwError('La sucursal no existe.');
-        }
+  
 
         return this.validateUserData(newUser).pipe(
           switchMap(() => {
-            this.createUserCommand(newUser)
+            this.createUserCommand(data)
             return this.userService.registerUser(newUser);          
           }),
           catchError((error) => {
             return throwError(`Validation error: ${error}`);
           }),
         );
-      }),
-    );
-  }
+      }
+  
 
   execute(data: IRegisterUser): Observable<IUserEntity> {
     return this.registerUser(data);
   }
-}
 
+}

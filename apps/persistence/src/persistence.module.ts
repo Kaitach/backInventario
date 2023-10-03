@@ -1,10 +1,36 @@
 import { Module } from '@nestjs/common';
-import { PersistenceController } from './persistence.controller';
-import { PersistenceService } from './persistence.service';
+
+import { CqrsModule } from '@nestjs/cqrs';
+import { ClientsModule, Transport,  } from '@nestjs/microservices';
+import { BranchController, DatabaseModule,   UserController,  } from './infrastructure';
+import { ProductController } from './infrastructure/controller/product.controller';
 
 @Module({
-  imports: [],
-  controllers: [PersistenceController],
-  providers: [PersistenceService],
+  imports: [
+    DatabaseModule,
+    CqrsModule,
+    ClientsModule.register([
+      {
+        name: 'inventory',
+        transport: Transport.RMQ,
+        options: {
+          urls: ['amqp://localhost:5672'],
+          queue: 'branch',
+          queueOptions: {
+            durable: false,
+          },
+        },
+      },
+    ]),],
+  controllers: [
+
+    ProductController,
+    BranchController,
+    UserController,
+  ],
+
+  providers: [
+ 
+  ],
 })
 export class PersistenceModule {}

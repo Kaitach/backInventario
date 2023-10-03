@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
-import {  IUserEntity } from "../../entities";
+import { IRegisterUser } from "../../interfaces/registerUserInterface";
 export class CreateUserCommand {
-    constructor(public readonly userData: IUserEntity) {}
+    constructor(public readonly userData: IRegisterUser) {}
   }
   

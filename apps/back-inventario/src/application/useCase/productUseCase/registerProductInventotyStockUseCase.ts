@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Observable, catchError, map, mergeMap, of, throwError } from 'rxjs';
+import { Observable, mergeMap, of, throwError } from 'rxjs';
 import {
   CommandBus,
   IProductEntity,
@@ -33,27 +33,17 @@ export class registerquantityUseCase {
           return throwError('Product stock cannot be negative');
         }
 
-        return this.productDomainService.findByID(data.productId).pipe(
-          catchError(() => throwError('Product not found')),
-          map((product) => {
-            console.log(product)
-            if (!product) {
-              throw new Error('Product not found');
-            }
-
-            product.quantity = product.quantity + data.quantity
-            data.branchId = product.branchId;
-            console.log(data)
-            console.log(product)
+      
+            data.productId = id   
+           
             const createBranchCommand = new newProductInventoryCommand(data);
             this.comandBus.execute(createBranchCommand);
-            return this.productDomainService.registerquantity(product);
+            return this.productDomainService.registerquantity(data);
           }),
-          mergeMap((savedProduct) => savedProduct),
         );
-      }),
-    );
-  }
+      }
+    
+  
 
   execute(data: IProductEntity, id: string): Observable<IProductEntity> {
     return this.registerquantity(id, data);
