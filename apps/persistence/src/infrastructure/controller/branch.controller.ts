@@ -19,10 +19,8 @@ export class BranchController {
     }
   
    
-    @EventPattern('create branch')
     @Post('register')
    registerBranch(@Payload() eventData:RegisterBranchDto): Observable<BranchTypeOrmEntity> {
-    console.log(eventData)
       this.useCase.registerBranch();
       return this.useCase.execute(eventData);
     }

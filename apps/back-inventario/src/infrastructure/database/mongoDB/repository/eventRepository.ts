@@ -20,16 +20,25 @@ export class EventRepository {
     return from(this.eventModel.findOne({ 'eventData.productId': productId })).pipe(
       switchMap((event) => {
         if (!event) {
-   
           return throwError('No se encontró el evento con productId: ' + productId);
         }
 
-        const branchId = event.eventAggregateId;
+        eventData.eventAggregateId = event.eventAggregateId;
 
-        return of(branchId);
+        // Crear un nuevo evento con eventData y guardar en la base de datos
+        const newEvent = new this.eventModel({
+          eventData: eventData,
+        });
+
+        return from(newEvent.save()).pipe(
+          switchMap((savedEvent) => {
+            // Devolver el evento guardado en la base de datos
+            return of(savedEvent);
+          })
+        );
       }),
       catchError((error) => {
-        return throwError('Error al buscar el evento: ' + error);
+        return throwError('Error al buscar o guardar el evento: ' + error);
       })
     );
   } 

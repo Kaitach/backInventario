@@ -3,9 +3,9 @@ import { Body, Controller, Post } from '@nestjs/common';
 import { userDelegate } from '../../application/delegate/userDelegate';
 import { RegisterUserDto } from '../utils/dto/user/registerUser';
 import { Observable } from 'rxjs';
-import { CommandBus } from '@nestjs/cqrs';
 import { userServiceIntrastructure } from '../service/infrastructureUser.service';
 import { infrastuctureBranchService } from '../service/infrastructureBranch.service';
+import { MessagingService } from '../events/service/serviceEvent';
 
 @Controller('api/v1/user')
 export class UserController {
@@ -14,7 +14,7 @@ export class UserController {
     constructor(
       private readonly userService: userServiceIntrastructure,
       private readonly branchService: infrastuctureBranchService,
-       private readonly comandBus: CommandBus
+       private readonly comandBus: MessagingService
     ) {
       this.useCase = new userDelegate(this.userService,  this.comandBus,this.branchService ); 
     }

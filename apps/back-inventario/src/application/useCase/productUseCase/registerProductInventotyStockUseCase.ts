@@ -3,7 +3,6 @@ import { Observable, mergeMap, of, throwError } from 'rxjs';
 import {
   CommandBus,
   IProductEntity,
-  newProductInventoryCommand,
 } from '../../../../../';
 import { ProductDomainService } from './../../../domain/services/productServiceDomain';
 export class registerquantityUseCase {
@@ -32,12 +31,11 @@ export class registerquantityUseCase {
         if (data.quantity < 0) {
           return throwError('Product stock cannot be negative');
         }
-
-      
             data.productId = id   
-           
-            const createBranchCommand = new newProductInventoryCommand(data);
-            this.comandBus.execute(createBranchCommand);
+            const exchange = 'productInventory'
+            const routingKey = 'new.productInventory'
+            this.comandBus.execute(exchange,routingKey, JSON.stringify(data))
+            console.log(data)
             return this.productDomainService.registerquantity(data);
           }),
         );

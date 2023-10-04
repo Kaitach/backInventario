@@ -15,7 +15,6 @@ export class registerquantityUseCase {
   ): Observable<IProductEntity> {
     data.productId = id;
     const validatedProduct = new IProductEntity(data);
-
     return of(validatedProduct);
   }
 
@@ -23,13 +22,11 @@ export class registerquantityUseCase {
     id: string,
     data: IProductEntity,
   ): Observable<IProductEntity> {
-    return this.validateProductData(id, data).pipe(
-      mergeMap(() => {
-        if (data.quantity < 0) {
-          return throwError('Product stock cannot be negative');
-        }
+   console.log(data)
+    console.log('ya paso crack')
+    console.log(data)
 
-        return this.productDomainService.findByID(data.productId).pipe(
+        return this.productDomainService.findByID(id).pipe(
           catchError(() => throwError('Product not found')),
           map((product) => {
             console.log(product)
@@ -44,11 +41,11 @@ export class registerquantityUseCase {
           }),
           mergeMap((savedProduct) => savedProduct),
         );
-      }),
-    );
-  }
+      }
 
   execute(data: IProductEntity, id: string): Observable<IProductEntity> {
+ 
+
     return this.registerquantity(id, data);
   }
 }

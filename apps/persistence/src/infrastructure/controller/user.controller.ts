@@ -17,11 +17,12 @@ export class UserController {
       this.useCase = new userDelegate(this.userService, this.branchService ); 
     }
   
-    @EventPattern('create user')
     @Post('register')
    registerUser(@Body() user: RegisterUserDto): Observable<UserTypeOrmEntity> {
-    console.log(user);
       this.useCase.registerUser();
+  ;
+
+
       return this.useCase.execute(user);
     }
     

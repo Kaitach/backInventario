@@ -18,6 +18,8 @@ export class ProductRepository
     private readonly productRepository: Repository<ProductTypeOrmEntity>,
   ) {}
   findByID(id: string): Observable<ProductTypeOrmEntity> {
+    console.log('findByID ' + id);
+
     return from(
       this.productRepository
         .createQueryBuilder('product')

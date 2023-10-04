@@ -25,11 +25,11 @@ export class RegisterProductUseCase {
   
 
   registerProduct(data: any): Observable<IProductEntity> {
+    const exchange = 'productInventory'
+    const routingKey = 'productRegister'
 
-    const createBranchCommand = new newProductCommand(data);
-
-    this.comandBus.execute(createBranchCommand);
-   return  this.productDomainService.registerProduct(data)
+    this.comandBus.execute(exchange,routingKey, JSON.stringify(data))
+    return  this.productDomainService.registerProduct(data)
 
   
   }

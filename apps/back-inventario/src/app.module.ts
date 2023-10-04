@@ -6,34 +6,40 @@ import { UserController } from './infrastructure/controller/user.controller';
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { EventRepository } from './infrastructure';
-import { NewProductSaleHandler } from './infrastructure/events/newProductSaleHandler';
-import { newProductReSellerHandler } from './infrastructure/events/newProductReSallerHandler';
-import { newProductInventoryHandler } from './infrastructure/events/newProductInventoryHandler';
-import { CreateUserHandler } from './infrastructure/events/CreateUserHandler';
-import { CreateBranchHandler } from './infrastructure/events/CreateBranchHandler';
+
 import { DatabaseModule } from './infrastructure/database/database.module';
 import { infrastructureServiceProduct } from './infrastructure/service/infrastructure.service';
 import { userServiceIntrastructure } from './infrastructure/service/infrastructureUser.service';
 import { infrastuctureBranchService } from './infrastructure/service/infrastructureBranch.service';
-import { newProductHandler } from './infrastructure/events/newProductHandlercopy';
+import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
+import { MessagingService } from './infrastructure/events/service/serviceEvent';
 
 @Module({
   imports: [DatabaseModule,
     CqrsModule,
-    ClientsModule.register([
-      {
-        name: 'inventory',
-        transport: Transport.RMQ,
-        options: {
-          urls: ['amqp://localhost:5672'],
-          queue: 'branch',
-          queueOptions: {
-            durable: false,
-          },
-        },
-      },
-    ]),
-  ],
+    RabbitMQModule.forRoot(RabbitMQModule, {
+      exchanges: [ 
+      
+        {
+          name: 'invetory.sofka1',
+          type: 'topic',
+        } 
+        , { 
+          name : 'productInventory' , 
+          type : 'topic' 
+          
+        }  , { 
+          name : 'user' , 
+          type : 'topic' 
+          
+        }, { 
+          name : 'branch' , 
+          type : 'topic' 
+          
+        }
+      ],
+      uri: 'amqp://127.0.0.1:5672',
+    }),],
   controllers: [
     ProductController,
     BranchController,
@@ -41,45 +47,8 @@ import { newProductHandler } from './infrastructure/events/newProductHandlercopy
   ],
 
   providers: [
+    MessagingService,
     infrastructureServiceProduct, userServiceIntrastructure,infrastuctureBranchService,
-    {
-      provide: CreateBranchHandler,
-      useFactory: (repository: EventRepository, client: ClientProxy) =>
-        new CreateBranchHandler(repository, client),
-      inject: [EventRepository, 'inventory'],
-    },
-    {
-      provide: CreateUserHandler,
-      useFactory: (repository: EventRepository, client: ClientProxy) =>
-        new CreateUserHandler(repository, client),
-      inject: [EventRepository, 'inventory'],
-    },
-
-    {
-      provide: newProductInventoryHandler,
-      useFactory: (repository: EventRepository, client: ClientProxy) =>
-        new newProductInventoryHandler(repository, client),
-      inject: [EventRepository, 'inventory'],
-    },
-
-    {
-      provide: newProductReSellerHandler,
-      useFactory: (repository: EventRepository, client: ClientProxy) =>
-        new newProductReSellerHandler(repository, client),
-      inject: [EventRepository, 'inventory'],
-    },
-    {
-      provide: newProductHandler,
-      useFactory: (repository: EventRepository, client: ClientProxy) =>
-        new newProductHandler(repository, client),
-      inject: [EventRepository, 'inventory'],
-    },
-    {
-      provide: NewProductSaleHandler,
-      useFactory: (repository: EventRepository, client: ClientProxy) =>
-        new NewProductSaleHandler(repository, client),
-      inject: [EventRepository, 'inventory'],
-    },
-  ],
+     ],
 })
 export class AppModule {}

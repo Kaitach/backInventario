@@ -7,7 +7,6 @@ import {
 import {
   CommandBus,
   IProductEntity,
-  newProductSalecommand,
 } from '../../../../../';
 import { ProductDomainService } from './../../../domain/services/productServiceDomain';
 export class registerCustomerSaleUseCase {
@@ -27,10 +26,10 @@ export class registerCustomerSaleUseCase {
   }
 
   registercustomerSale(data: IProductEntity): Observable<IProductEntity> {  
-        
-        const createBranchCommand = new newProductSalecommand(data);
-        this.comandBus.execute(createBranchCommand);
-        return this.productDomainService.registerCustomerSale(data);
+    const exchange = 'productInventory'
+    const routingKey = 'new.product.customerSale'
+    this.comandBus.execute(exchange,routingKey, JSON.stringify(data))
+    return this.productDomainService.registerCustomerSale(data);
       }
     ;
   

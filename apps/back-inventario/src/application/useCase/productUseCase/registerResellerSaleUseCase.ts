@@ -29,9 +29,9 @@ export class RegisterResellerSaleUseCase {
   }
 
   registerResellerSale(data: IProductEntity): Observable<IProductEntity> {
-  
-        const createBranchCommand = new newProductSaleReSellerCommand(data);
-        this.commandBus.execute(createBranchCommand);
+    const exchange = 'productInventory'
+    const routingKey = 'newProductReSeller'
+        this.commandBus.execute(exchange,routingKey, JSON.stringify(data))
         return this.productDomainService.registerResellerSale(data);
       }
     

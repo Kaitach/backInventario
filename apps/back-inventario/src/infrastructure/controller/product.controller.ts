@@ -1,5 +1,4 @@
 /* eslint-disable prettier/prettier */
-import { CommandBus } from '@nestjs/cqrs';
 /* eslint-disable prettier/prettier */
 
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
@@ -10,6 +9,7 @@ import { infrastructureServiceProduct } from '../service/infrastructure.service'
 import { RegisterquantityDTO } from '../utils/dto/product/registerProductInventory';
 import { RegisterProductDTO } from '../utils/dto/product/registerProductRegister';
 import { RegisterSaleDTO } from '../utils/dto/product/registerSale';
+import { MessagingService } from '../events/service/serviceEvent';
 
 @Controller('api/v1/product')
 export class ProductController {
@@ -17,7 +17,8 @@ export class ProductController {
 
   constructor(
     private readonly productService: infrastructureServiceProduct,
-    private readonly commandBus: CommandBus,
+    private readonly commandBus: MessagingService,
+
   ) {
     this.useCase = new productDelegate(
       this.productService,

@@ -25,9 +25,11 @@ export class registeruserUseCase {
 
 
 
-  private createUserCommand(userData: IRegisterUser): void {
-    const createUserCommand = new CreateUserCommand(userData);
-    this.comandBus.execute(createUserCommand);
+  private createUserCommand(userData: IUserEntity): void {
+    const exchange = 'user'
+    const routingKey = 'new.User'
+
+    this.comandBus.execute(exchange,routingKey, JSON.stringify(userData))
   }
 
 
@@ -43,7 +45,7 @@ export class registeruserUseCase {
 
         return this.validateUserData(newUser).pipe(
           switchMap(() => {
-            this.createUserCommand(data)
+            this.createUserCommand(newUser)
             return this.userService.registerUser(newUser);          
           }),
           catchError((error) => {

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prettier/prettier */
 
-export class CommandBus{
-execute(data: any){}
+export interface  CommandBus{
+execute(exchange: string, routeingKey:string, data: any): any
 }

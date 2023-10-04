@@ -4,33 +4,47 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { ClientsModule, Transport,  } from '@nestjs/microservices';
 import { BranchController, DatabaseModule,   UserController,  } from './infrastructure';
 import { ProductController } from './infrastructure/controller/product.controller';
+import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
+import { MyRabbitSubscriber } from './infrastructure/service/eventServiceHandler';
 
 @Module({
   imports: [
     DatabaseModule,
     CqrsModule,
-    ClientsModule.register([
-      {
-        name: 'inventory',
-        transport: Transport.RMQ,
-        options: {
-          urls: ['amqp://localhost:5672'],
-          queue: 'branch',
-          queueOptions: {
-            durable: false,
-          },
-        },
-      },
-    ]),],
+    RabbitMQModule.forRoot(RabbitMQModule, {
+      exchanges: [ 
+      
+        {
+          name: 'invetory.sofka1',
+          type: 'topic',
+        } 
+        , { 
+          name : 'productInventory' , 
+          type : 'topic' 
+          
+        }  , { 
+          name : 'user' , 
+          type : 'topic' 
+          
+        }, { 
+          name : 'branch' , 
+          type : 'topic' 
+          
+        }
+      ],
+      uri: 'amqp://127.0.0.1:5672',
+       
+    }),],
   controllers: [
-
-    ProductController,
     BranchController,
+    ProductController,
     UserController,
   ],
 
-  providers: [
- 
+  providers: [UserController,
+    MyRabbitSubscriber,
+    BranchController,
+    ProductController
   ],
 })
 export class PersistenceModule {}

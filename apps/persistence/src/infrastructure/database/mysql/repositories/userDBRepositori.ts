@@ -14,7 +14,6 @@ export class userRepository implements UserDomainService<UserTypeOrmEntity> {
   ) { }
   registerUser(data: UserTypeOrmEntity): Observable<UserTypeOrmEntity> {
   
-    
     return from(this.userRepository.save(data)).pipe(
       catchError((error) => throwError(`Error al crear usuario: ${error.message}`)),
     );  }

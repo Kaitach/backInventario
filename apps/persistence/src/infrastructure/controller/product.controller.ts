@@ -20,28 +20,25 @@ export class ProductController {
       this.brancService,
     );
   }
-  @EventPattern('create product')
   @Post('register')
   registerProduct(
     @Payload () product: RegisterProductDTO,
   ): Observable<ProductTypeOrmEntity> {
     console.log('registerProduct', product)
-    console.log(JSON.stringify(product));
+   
     this.useCase.registerProduct();
     return this.useCase.execute(product);
   }
   
   
-  @EventPattern('new product sale')
   @Post('customer-sale/:idProduct')
   registerCustomerSale(
     @Body() product: RegisterSaleDTO,
   ): Observable<ProductTypeOrmEntity> {
-
+    console.log(product)
     this.useCase.registerCustomerSale();
     return this.useCase.execute(product, product.productId)
   }
-  @EventPattern('new product re seller')
   @Post('seller-sale/:idProduct')
   registerResellerSale(
   
@@ -50,11 +47,13 @@ export class ProductController {
     this.useCase.registerResellerSale();
     return this.useCase.execute(product, product.productId);
   }
-  @EventPattern('new product inventory')
   @Post('purchase/:idProduct')
   registerquantity(   
     @Body() product: RegisterquantityDTO,
   ): Observable<ProductTypeOrmEntity> {
+    console.log(product)
+    console.log('arriba crack')
+
     this.useCase.registerquantity();
     return this.useCase.execute(product, product.productId);
   }

@@ -40,7 +40,7 @@ export class RegisterResellerSaleUseCase {
           throw new Error('Insufficient inventory');
         }
 
-        product.quantity = product.quantity  +data.quantity;
+        product.quantity = product.quantity - data.quantity
         data.branchId = product.branchId;
 
 

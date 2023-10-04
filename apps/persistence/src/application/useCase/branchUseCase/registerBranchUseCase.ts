@@ -1,29 +1,30 @@
 /* eslint-disable prettier/prettier */
-import { BranchDomainService, IBranchEntiy } from 'apps/persistence/src';
-import { Observable, of } from 'rxjs';
+import { BranchDomainService, IBranchEntiy, IBranchRegister } from 'apps/persistence/src';
+import { Observable,  } from 'rxjs';
 
 export class registerBranchUseCase {
   constructor(
     private readonly branchService: BranchDomainService<IBranchEntiy>,
   ) {}
 
-  private validateBranchData(
-    data: IBranchEntiy,
-  
-  ): Observable<IBranchEntiy> {
-    const validatedUser = new IBranchEntiy(data);
 
-    return of(validatedUser);
-  }
 
-  registerBranch(data: IBranchEntiy): Observable<IBranchEntiy> {
- 
-        return this.branchService.RegisterBranch(data);
+
+  registerBranch(data: IBranchRegister): Observable<IBranchEntiy> {
+
+    const newBranch  = {
+      name:  data.name,
+      location: data.location.city + "," + data.location.country
+          } as IBranchEntiy
+          console.log(newBranch)
+
+
+        return this.branchService.RegisterBranch(newBranch);
    
     
   }
 
-  execute(data: IBranchEntiy): Observable<IBranchEntiy> {
+  execute(data: any): Observable<IBranchEntiy> {
     return this.registerBranch( data);
   }
 }

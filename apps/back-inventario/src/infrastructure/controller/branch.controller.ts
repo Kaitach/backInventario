@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { BranchDelegate } from '../../application/delegate/branchDelegate';
 import { infrastuctureBranchService } from '../service/infrastructureBranch.service';
 import { RegisterBranchDto } from '../utils/dto/branch/registerBranch';
+import { MessagingService } from '../events/service/serviceEvent';
 
 @Controller('api/v1/branch')
 export class BranchController {
@@ -13,7 +14,7 @@ export class BranchController {
 
     constructor(
       private readonly branchService: infrastuctureBranchService,
-      private readonly eventBus: CommandBus
+      private readonly eventBus: MessagingService
   
     ) {
       this.useCase = new BranchDelegate(this.branchService, this.eventBus); 

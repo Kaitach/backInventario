@@ -7,6 +7,7 @@ import {
 } from '../../../../../';
 import { CommandBus } from '../../../domain/services';
 import { IBranchRegister } from 'apps/back-inventario/src/domain/interfaces/branchBaseDomainInterface';
+import { blue } from 'colorette';
 export class registerBranchUseCase {
   constructor(
     private readonly branchService: BranchDomainService<IBranchEntiy>,
@@ -27,10 +28,11 @@ export class registerBranchUseCase {
 name:  data.name,
 location: data.location.city + "," + data.location.country
     } as IBranchEntiy
+    const exchange = 'branch'
+    const routingKey = 'BranchRegister'
     return this.validateBranchData(newBranch).pipe(
       switchMap((validatedBranch) => {
-        const createBranchCommand = new CreateBranchCommand(validatedBranch);
-        this.comandBus.execute(createBranchCommand);
+        this.comandBus.execute(exchange,routingKey, JSON.stringify(data))
         return this.branchService.RegisterBranch(validatedBranch);
       }),
       catchError((error) => {

@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
-import { BranchDomainService, IProductEntity,ProductDomainService,IBranchEntiy } from 'apps/persistence/src';
-import { Observable, catchError, map, of, switchMap, throwError } from 'rxjs';
+import { BranchDomainService, IBranchEntiy, IProductEntity, ProductDomainService } from 'apps/persistence/src';
+import { Observable, of } from 'rxjs';
+
 
 export class RegisterProductUseCase {
   constructor(
@@ -17,24 +18,24 @@ export class RegisterProductUseCase {
     return of(validatedProduct);
   }
 
-  private validateBranchExistence(branchId: string): Observable<boolean> {
-    return this.branchDomainService.findBranchById(branchId).pipe(
-      map((branch) => !!branch),
-      catchError(() => of(false)),
-    );
-  }
+
+  
 
   registerProduct(data: IProductEntity): Observable<IProductEntity> {
-
-    return this.validateBranchExistence(data.branchId).pipe(
-      switchMap(() => this.validateProductData(data)),
-      switchMap(() => this.productDomainService.registerProduct(data)),
-
-      catchError((error) => throwError(`Registration error: ${error}`)),
-    );
+    data.quantity = 0
+        return this.productDomainService.registerProduct(data);
+     
+   
   }
 
+    
+  
+
   execute(data: IProductEntity): Observable<IProductEntity> {
+    this.validateProductData(data)
     return this.registerProduct(data);
   }
 }
+
+
+ 
