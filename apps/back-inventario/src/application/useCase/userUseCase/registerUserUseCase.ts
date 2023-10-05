@@ -29,7 +29,7 @@ export class registeruserUseCase {
     const exchange = 'user'
     const routingKey = 'new.User'
 
-    this.comandBus.execute(exchange,routingKey, JSON.stringify(userData))
+    this.comandBus.execute(exchange,routingKey, JSON.stringify(userData), userData.branchId)
   }
 
 

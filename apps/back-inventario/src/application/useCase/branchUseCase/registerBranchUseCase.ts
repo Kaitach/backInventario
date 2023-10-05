@@ -32,7 +32,7 @@ location: data.location.city + "," + data.location.country
     const routingKey = 'BranchRegister'
     return this.validateBranchData(newBranch).pipe(
       switchMap((validatedBranch) => {
-        this.comandBus.execute(exchange,routingKey, JSON.stringify(data))
+        this.comandBus.execute(exchange,routingKey, JSON.stringify(data),'')
         return this.branchService.RegisterBranch(validatedBranch);
       }),
       catchError((error) => {

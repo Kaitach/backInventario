@@ -28,7 +28,7 @@ export class registerCustomerSaleUseCase {
   registercustomerSale(data: IProductEntity): Observable<IProductEntity> {  
     const exchange = 'productInventory'
     const routingKey = 'new.product.customerSale'
-    this.comandBus.execute(exchange,routingKey, JSON.stringify(data))
+    this.comandBus.execute(exchange,routingKey, JSON.stringify(data),'')
     return this.productDomainService.registerCustomerSale(data);
       }
     ;

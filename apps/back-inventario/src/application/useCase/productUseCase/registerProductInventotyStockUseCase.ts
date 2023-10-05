@@ -34,7 +34,7 @@ export class registerquantityUseCase {
             data.productId = id   
             const exchange = 'productInventory'
             const routingKey = 'new.productInventory'
-            this.comandBus.execute(exchange,routingKey, JSON.stringify(data))
+            this.comandBus.execute(exchange,routingKey, JSON.stringify(data), '')
             console.log(data)
             return this.productDomainService.registerquantity(data);
           }),

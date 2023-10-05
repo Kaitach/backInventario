@@ -4,7 +4,7 @@ import { Schema, Document } from 'mongoose';
 export class EventDocument extends Document {
   eventId: string;
   eventType: string;
-  eventData: string;
+  eventData: Record<string, any>;
   eventPublishedAt: Date;
   eventAggregateId:string
 }

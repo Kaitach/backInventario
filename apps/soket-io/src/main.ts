@@ -1,15 +1,8 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { NestFactory } from '@nestjs/core';
-import { blue } from 'colorette';
-import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
-import { SuccessResponseInterceptor } from './infrastructure/utils/exception-filters/responceInterceptor';
+import { SoketIoModule } from './soket-io.module';
 
 async function bootstrap() {
-
-  const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(new ValidationPipe());
-  app.useGlobalInterceptors(new SuccessResponseInterceptor());
+  const app = await NestFactory.create(SoketIoModule);
   app.enableCors({
     origin: 'http://localhost:4200',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
@@ -23,9 +16,6 @@ async function bootstrap() {
     res.header('Access-Control-Allow-Credentials', 'true');
     next();
   });
-  app.startAllMicroservices()
-  await app.listen(3000);
-  
-  console.log(blue('API corriendo en el puerto 3000'));
+  await app.listen(3001);
 }
 bootstrap();

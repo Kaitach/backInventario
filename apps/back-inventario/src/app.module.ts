@@ -5,7 +5,6 @@ import { BranchController } from './infrastructure/controller/branch.controller'
 import { UserController } from './infrastructure/controller/user.controller';
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
-import { EventRepository } from './infrastructure';
 
 import { DatabaseModule } from './infrastructure/database/database.module';
 import { infrastructureServiceProduct } from './infrastructure/service/infrastructure.service';
@@ -13,6 +12,8 @@ import { userServiceIntrastructure } from './infrastructure/service/infrastructu
 import { infrastuctureBranchService } from './infrastructure/service/infrastructureBranch.service';
 import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
 import { MessagingService } from './infrastructure/events/service/serviceEvent';
+import { APP_FILTER } from '@nestjs/core';
+import { ErrorExceptionFilter } from './infrastructure/utils/exception-filters/error.exception-filter';
 
 @Module({
   imports: [DatabaseModule,
@@ -46,7 +47,10 @@ import { MessagingService } from './infrastructure/events/service/serviceEvent';
     UserController,
   ],
 
-  providers: [
+  providers: [    {
+    provide: APP_FILTER,
+    useClass: ErrorExceptionFilter,
+  },
     MessagingService,
     infrastructureServiceProduct, userServiceIntrastructure,infrastuctureBranchService,
      ],

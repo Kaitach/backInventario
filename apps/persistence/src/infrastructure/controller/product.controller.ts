@@ -20,7 +20,6 @@ export class ProductController {
       this.brancService,
     );
   }
-  @Post('register')
   registerProduct(
     @Payload () product: RegisterProductDTO,
   ): Observable<ProductTypeOrmEntity> {
@@ -31,7 +30,6 @@ export class ProductController {
   }
   
   
-  @Post('customer-sale/:idProduct')
   registerCustomerSale(
     @Body() product: RegisterSaleDTO,
   ): Observable<ProductTypeOrmEntity> {
@@ -39,7 +37,6 @@ export class ProductController {
     this.useCase.registerCustomerSale();
     return this.useCase.execute(product, product.productId)
   }
-  @Post('seller-sale/:idProduct')
   registerResellerSale(
   
     @Body() product: RegisterSaleDTO,
@@ -47,7 +44,6 @@ export class ProductController {
     this.useCase.registerResellerSale();
     return this.useCase.execute(product, product.productId);
   }
-  @Post('purchase/:idProduct')
   registerquantity(   
     @Body() product: RegisterquantityDTO,
   ): Observable<ProductTypeOrmEntity> {

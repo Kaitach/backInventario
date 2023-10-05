@@ -1,45 +1,48 @@
-import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { EventDocument } from "../schemas/eventSchema";
-import { Observable, from, of, throwError } from 'rxjs';
-import { CreateEventDto } from "../../../utils/dto/eventDto";
-import { catchError, switchMap } from 'rxjs/operators';
+import { CreateEventDto } from "../../../utils";
+import { EventDocument } from "../schemas";
+import { Observable, catchError, from, of, switchMap, throwError } from "rxjs";
 
-@Injectable()
 export class EventRepository {
   constructor(
     @InjectModel('Event') private readonly eventModel: Model<EventDocument>,
   ) {}
 
-  create(eventData: CreateEventDto): Observable<EventDocument | string> {
-    // Analizar eventData para obtener el productId
-    const eventDataObject = JSON.parse(eventData.eventData);
-    const productId = eventDataObject.productId;
+  create(event: CreateEventDto): void {
+    
 
-    return from(this.eventModel.findOne({ 'eventData.productId': productId })).pipe(
+    // Llama a findOne para buscar el evento
+    this.findOne(event.eventAggregateId).subscribe((foundEvent) => {
+      if (foundEvent) {
+        // El evento fue encontrado, puedes hacer algo con él aquí
+        console.log('Evento encontrado:', foundEvent);
+  
+        // Ahora puedes crear el nuevo evento
+        this.eventModel.create(event);
+      } else {
+        // No se encontró el evento, puedes manejarlo aquí
+        console.log('No se encontró ningún evento con eventAggregateId:', event.eventAggregateId);
+      }
+    });
+  }
+
+
+  findOne(branchId: string): Observable<EventDocument> {
+    return from(this.eventModel.findOne({ 'eventAggregateId': branchId })).pipe(
       switchMap((event) => {
         if (!event) {
-          return throwError('No se encontró el evento con productId: ' + productId);
+          console.log('No se encontró ningún evento con branchId:', branchId);
+          return of(null);
         }
-
-        eventData.eventAggregateId = event.eventAggregateId;
-
-        // Crear un nuevo evento con eventData y guardar en la base de datos
-        const newEvent = new this.eventModel({
-          eventData: eventData,
-        });
-
-        return from(newEvent.save()).pipe(
-          switchMap((savedEvent) => {
-            // Devolver el evento guardado en la base de datos
-            return of(savedEvent);
-          })
-        );
+        console.log('Evento encontrado:', event);
+        return of(event);
       }),
       catchError((error) => {
-        return throwError('Error al buscar o guardar el evento: ' + error);
+        console.error('Error al buscar el evento:', error);
+        return throwError('Error al buscar el evento: ' + error);
       })
     );
-  } 
+}
+
 }

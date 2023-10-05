@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { BranchController, UserController } from '../controller';
 import { ProductController } from '../controller/product.controller';
 import {  RegisterSaleDTO, RegisterquantityDTO } from '../utils';
-import { Observable, switchMap } from 'rxjs';
+import {  switchMap } from 'rxjs';
 import { UUID } from 'crypto';
 
 @Injectable()

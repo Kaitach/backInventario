@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable prettier/prettier */
 
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Post, UseFilters } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { productDelegate } from '../../application/delegate/productDelegate';
 import { IProductEntity } from '../../domain';
@@ -10,7 +10,8 @@ import { RegisterquantityDTO } from '../utils/dto/product/registerProductInvento
 import { RegisterProductDTO } from '../utils/dto/product/registerProductRegister';
 import { RegisterSaleDTO } from '../utils/dto/product/registerSale';
 import { MessagingService } from '../events/service/serviceEvent';
-
+import { ErrorExceptionFilter } from '../utils/exception-filters/error.exception-filter';
+@UseFilters(ErrorExceptionFilter)
 @Controller('api/v1/product')
 export class ProductController {
   private readonly useCase: productDelegate;
@@ -27,6 +28,7 @@ export class ProductController {
   }
 
   @Post('register')
+  
   registerProduct(
     @Body() product: RegisterProductDTO,
   ): Observable<void> {
@@ -40,6 +42,7 @@ export class ProductController {
   ): Observable<void> {
     this.useCase.registerCustomerSale();
     return this.useCase.execute(product, idProduct);
+    
   }
   @Post('seller-sale/:idProduct')
   registerResellerSale(

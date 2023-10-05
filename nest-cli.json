@@ -45,6 +45,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/persistence/tsconfig.app.json"
       }
+    },
+    "soket-io": {
+      "type": "application",
+      "root": "apps/soket-io",
+      "entryFile": "main",
+      "sourceRoot": "apps/soket-io/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/soket-io/tsconfig.app.json"
+      }
     }
   }
 }

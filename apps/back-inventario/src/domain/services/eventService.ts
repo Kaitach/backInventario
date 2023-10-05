@@ -2,5 +2,5 @@
 /* eslint-disable prettier/prettier */
 
 export interface  CommandBus{
-execute(exchange: string, routeingKey:string, data: any): any
+execute(exchange: string, routeingKey:string, data: any, branchId:string): any
 }

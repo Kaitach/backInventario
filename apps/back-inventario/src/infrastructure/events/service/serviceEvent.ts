@@ -8,14 +8,15 @@ import { CreateEventDto } from '../../utils';
 export class MessagingService  implements CommandBus{
   constructor(private readonly amqpConnection: AmqpConnection,    private readonly repository: EventRepository,
     ) {}
-    execute(exchange: string, routeingKey: string, data: any) {
+    execute(exchange: string, routeingKey: string, data: any, branchId:string) {
         this.amqpConnection.publish(exchange, routeingKey, data);
         console.log(exchange + ' ' + routeingKey + ' ' + data);
         const eventDataAsString = JSON.stringify(data);
+
         const createEventDto = new CreateEventDto(
           eventDataAsString,
           routeingKey,
-          '',
+          branchId,
         );
         this.repository.create(createEventDto);
 

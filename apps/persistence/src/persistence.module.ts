@@ -1,11 +1,13 @@
 import { Module } from '@nestjs/common';
 
 import { CqrsModule } from '@nestjs/cqrs';
-import { ClientsModule, Transport,  } from '@nestjs/microservices';
 import { BranchController, DatabaseModule,   UserController,  } from './infrastructure';
 import { ProductController } from './infrastructure/controller/product.controller';
 import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
 import { MyRabbitSubscriber } from './infrastructure/service/eventServiceHandler';
+import { MongoServerErrorExceptionFilter } from './infrastructure/utils/exception-filters';
+import { ErrorExceptionFilter } from './infrastructure/utils/exception-filters/error.exception-filter';
+import { APP_FILTER } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -41,7 +43,13 @@ import { MyRabbitSubscriber } from './infrastructure/service/eventServiceHandler
     UserController,
   ],
 
-  providers: [UserController,
+  providers: [  {
+    provide: APP_FILTER,
+    useClass: MongoServerErrorExceptionFilter,
+  },  {
+    provide: APP_FILTER,
+    useClass: ErrorExceptionFilter,
+  },UserController,
     MyRabbitSubscriber,
     BranchController,
     ProductController
