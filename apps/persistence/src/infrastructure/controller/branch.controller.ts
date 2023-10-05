@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 
-import { Controller, Get, Param, Post } from '@nestjs/common';
-import { EventPattern, Payload } from '@nestjs/microservices';
+import { Controller, Get,  Post } from '@nestjs/common';
+import {  Payload } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
 import { BranchDelegate } from '../../application/delegate/branchDelegate';
 import { BranchTypeOrmEntity, branchServiceBD } from '../database';
@@ -25,14 +25,13 @@ export class BranchController {
       return this.useCase.execute(eventData);
     }
 
-    @Get(':idBranch')
-    findById(@Param('idBranch') id: string): Observable<BranchTypeOrmEntity> {
-      return this.branchService.findBranchById(id);
-    }
+ 
 
     @Get()
     getAll(): Observable<BranchTypeOrmEntity[]> {
-      return this.branchService.getall();
+      this.useCase.getAllBranch();
+
+      return this.useCase.execute();
     }
     
 }

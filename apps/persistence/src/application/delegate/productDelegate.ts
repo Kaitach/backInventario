@@ -1,3 +1,4 @@
+import {  getProductByIDUseCase } from './../useCase/productUseCase/getProductByIdUseCase';
 import { Observable } from 'rxjs';
 import { registerquantityUseCase } from './../useCase/productUseCase/registerProductInventotyStockUseCase';
 
@@ -45,6 +46,12 @@ export class productDelegate implements IUseCase {
 
   registerResellerSale(): void {
     this.delegate = new RegisterResellerSaleUseCase(
+      this.productService,
+    );
+  }
+
+  getProductByID(): void {
+    this.delegate = new getProductByIDUseCase(
       this.productService,
     );
   }

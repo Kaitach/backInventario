@@ -1,10 +1,10 @@
 
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { RegisterProductDTO, RegisterquantityDTO, productServiceBD } from '..';
 import { ProductTypeOrmEntity, branchServiceBD } from '../database';
 import { RegisterSaleDTO } from '../utils/dto/product/registerSale';
-import { EventPattern, Payload } from '@nestjs/microservices';
+import {  Payload } from '@nestjs/microservices';
 import { productDelegate } from '../..';
 
 @Controller('api/v1/product')
@@ -55,7 +55,8 @@ export class ProductController {
   }
   @Get(':id')
   findById(@Param('id') id: string): Observable<ProductTypeOrmEntity> {
-    return this.productService.findByID(id);
+    this.useCase.getProductByID()
+    return this.useCase.execute(id)
   }
 
 

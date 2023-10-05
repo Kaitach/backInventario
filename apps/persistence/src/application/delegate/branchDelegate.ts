@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { IUseCase } from '../../domain/interfaces/IUseCase';
 import { BranchDomainService, IBranchEntiy } from "../../domain";
 import { registerBranchUseCase } from "../useCase/branchUseCase/registerBranchUseCase";
+import { getallBranchUseCase } from "../useCase/branchUseCase/getAllBranchsUseCase";
 
 
 export class BranchDelegate implements IUseCase {
@@ -21,6 +22,12 @@ export class BranchDelegate implements IUseCase {
     this.delegate = new registerBranchUseCase(
       this.BranchService
     );
+  }
+
+  getAllBranch():void {
+    this.delegate = new getallBranchUseCase(
+      this.BranchService
+    )
   }
 
 }

@@ -5,4 +5,6 @@ import { Observable } from "rxjs";
 export interface BranchDomainService<T> {
     RegisterBranch(data: IBranchEntiy): Observable<T>;
     findBranchById(id: string): Observable<T>
+    getAllBranch(): Observable<T[]>
+
   }

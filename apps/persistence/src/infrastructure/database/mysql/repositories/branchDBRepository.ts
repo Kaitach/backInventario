@@ -29,7 +29,7 @@ export class branchRepository
       ),
     );
   }
-  getAll(): Observable<BranchTypeOrmEntity[]> {
+  getAllBranch(): Observable<BranchTypeOrmEntity[]> {
     return from(
       this.branchRepository
         .createQueryBuilder('branch')
