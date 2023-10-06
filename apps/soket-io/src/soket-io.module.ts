@@ -4,9 +4,12 @@ import { inventoryGatwey } from './gatweys/inventoryGatwey.service';
 import { SoketIoController } from './soket-io.controller';
 import {  userGatwey } from './gatweys/branchGatwey';
 import { branchGatwey } from './gatweys/userGatwey';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [
+  imports: [ConfigModule.forRoot({
+    envFilePath: '.env',
+  }),
     RabbitMQModule.forRoot(RabbitMQModule, {
       exchanges: [
         {
@@ -26,7 +29,7 @@ import { branchGatwey } from './gatweys/userGatwey';
           type: 'topic',
         },
       ],
-      uri: 'amqp://127.0.0.1:5672',
+      uri: process.env.RABBITURL ,
     }),
   ],
   controllers: [SoketIoController],

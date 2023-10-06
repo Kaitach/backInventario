@@ -14,10 +14,13 @@ import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
 import { MessagingService } from './infrastructure/events/service/serviceEvent';
 import { APP_FILTER } from '@nestjs/core';
 import { ErrorExceptionFilter } from './infrastructure/utils/exception-filters/error.exception-filter';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [DatabaseModule,
-    CqrsModule,
+    CqrsModule,ConfigModule.forRoot({
+      envFilePath: '.env',
+    }),
     RabbitMQModule.forRoot(RabbitMQModule, {
       exchanges: [ 
       
@@ -39,7 +42,7 @@ import { ErrorExceptionFilter } from './infrastructure/utils/exception-filters/e
           
         }
       ],
-      uri: 'amqp://127.0.0.1:5672',
+      uri: process.env.RABBITURL ,
     }),],
   controllers: [
     ProductController,

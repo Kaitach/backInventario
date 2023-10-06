@@ -8,11 +8,14 @@ import { MyRabbitSubscriber } from './infrastructure/service/eventServiceHandler
 import { MongoServerErrorExceptionFilter } from './infrastructure/utils/exception-filters';
 import { ErrorExceptionFilter } from './infrastructure/utils/exception-filters/error.exception-filter';
 import { APP_FILTER } from '@nestjs/core';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
     DatabaseModule,
-    CqrsModule,
+    CqrsModule,ConfigModule.forRoot({
+      envFilePath: '.env',
+    }),
     RabbitMQModule.forRoot(RabbitMQModule, {
       exchanges: [ 
       
@@ -34,7 +37,7 @@ import { APP_FILTER } from '@nestjs/core';
           
         }
       ],
-      uri: 'amqp://127.0.0.1:5672',
+      uri: process.env.RABBITURL ,
        
     }),],
   controllers: [
