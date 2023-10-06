@@ -18,6 +18,12 @@ async function bootstrap() {
     res.header('Access-Control-Allow-Credentials', 'true');
     next();
   });
+
+  console.log(process.env.MYSQL_DB_USER)
+  console.log(process.env.MYSQL_DB_PASSWORD)
+  console.log(process.env.MYSQL_DB_USER)
+
+
   await app.listen(3002);
   app.startAllMicroservices()
 }

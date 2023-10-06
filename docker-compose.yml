@@ -7,10 +7,15 @@ services:
       - 15672:15672
     volumes:
       - rabbitmq-data:/var/lib/rabbitmq
+    healthcheck:
+      test: ['CMD', 'rabbitmqctl', 'list_queues']
+      interval: 5s
+      timeout: 10s
+      retries: 5
   mysql-inventory:
     image: mysql
     ports:
-      - 3306:3306
+      - 3307:3307
     environment:
       - MYSQL_ROOT_PASSWORD=1234
       - MYSQL_DATABASE=inventariotraining
@@ -43,7 +48,7 @@ services:
       - RABBITURL=amqp://rabbitmq-inventory:5672
       - MYSQL_DB_USER=root
       - MYSQL_DB_PASSWORD=1234
-      - MYSQL_DB_PORT=3306
+      - MYSQL_DB_PORT=3307
       - MYSQL_DB_HOST=mysql-inventory
       - MYSQL_DB_DATABASE=inventariotraining
     links:
