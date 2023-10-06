@@ -1,3 +1,4 @@
+import { UUID } from 'crypto';
 /* eslint-disable prettier/prettier */
 import { IRegisterUser } from 'apps/back-inventario/src/domain/interfaces/registerUserInterface';
 import { Observable, catchError, of, switchMap, throwError } from 'rxjs';
@@ -8,7 +9,7 @@ import {
   IUserEntity,
   UserDomainService,
 } from '../../../../../';
-import { CreateUserCommand } from '../../../domain/events/commands/';
+import { v4 as uuidv4 } from 'uuid';
 export class registeruserUseCase {
   constructor(
     private readonly userService: UserDomainService<IUserEntity>,
@@ -28,8 +29,8 @@ export class registeruserUseCase {
   private createUserCommand(userData: IUserEntity): void {
     const exchange = 'user'
     const routingKey = 'new.User'
-
-    this.comandBus.execute(exchange,routingKey, JSON.stringify(userData), userData.branchId)
+    console.log('usuario nuevo' + userData)
+    this.comandBus.registerUser(exchange,routingKey, userData, userData.branchId)
   }
 
 
@@ -40,6 +41,7 @@ export class registeruserUseCase {
       name: `${data.name.firstName} ${data.name.lastName}`,
       password: data.password,
       role: data.role,
+      id: uuidv4()
     } as IUserEntity;
   
 

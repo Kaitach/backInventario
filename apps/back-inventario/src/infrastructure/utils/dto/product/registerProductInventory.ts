@@ -5,6 +5,8 @@ import { UUID } from 'crypto';
 export interface RegisterquantityDTO extends IProductEntity {
   productId: UUID;
   productStock: number;
+  branchId: string;
+
 }
 
 export function validateRegisterquantityDTO(dto: RegisterquantityDTO): boolean {

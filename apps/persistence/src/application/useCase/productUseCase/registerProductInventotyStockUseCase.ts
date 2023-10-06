@@ -8,39 +8,19 @@ export class registerquantityUseCase {
     private readonly productDomainService: ProductDomainService<IProductEntity>,
   ) {}
 
-  private validateProductData(
-    id: string,
-    data: IProductEntity,
-    
-  ): Observable<IProductEntity> {
-    data.productId = id;
-    const validatedProduct = new IProductEntity(data);
-    return of(validatedProduct);
-  }
+
 
   registerquantity(
     id: string,
     data: IProductEntity,
   ): Observable<IProductEntity> {
-   console.log(data)
-    console.log('ya paso crack')
-    console.log(data)
+ 
+    data.productId = id;
 
-        return this.productDomainService.findByID(id).pipe(
-          catchError(() => throwError('Product not found')),
-          map((product) => {
-            console.log(product)
-            if (!product) {
-              throw new Error('Product not found');
-            }
+    const validatedProduct = new IProductEntity(data);
 
-            product.quantity = product.quantity + data.quantity
-            data.branchId = product.branchId;
-           
-            return this.productDomainService.registerquantity(product);
-          }),
-          mergeMap((savedProduct) => savedProduct),
-        );
+            return this.productDomainService.registerquantity(validatedProduct);
+       
       }
 
   execute(data: IProductEntity, id: string): Observable<IProductEntity> {

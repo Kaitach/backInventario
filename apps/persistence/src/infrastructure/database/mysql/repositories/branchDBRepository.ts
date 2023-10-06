@@ -33,7 +33,11 @@ export class branchRepository
     return from(
       this.branchRepository
         .createQueryBuilder('branch')
-        .select(['branch.branchId', 'branch.name', 'branch.location'])
+        .leftJoinAndSelect('branch.products', 'products')
+        .leftJoinAndSelect('branch.users', 'employees')
+        .leftJoinAndSelect('branch.sales', 'sales')
+
+        .select(['branch.branchId', 'branch.name', 'branch.location', 'products', 'employees', 'sales'])
         .getMany()
     ).pipe(
       catchError((error) =>

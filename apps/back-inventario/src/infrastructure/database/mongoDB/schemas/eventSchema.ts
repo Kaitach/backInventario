@@ -4,9 +4,9 @@ import { Schema, Document } from 'mongoose';
 export class EventDocument extends Document {
   eventId: string;
   eventType: string;
-  eventData: Record<string, any>;
+  eventData: JSON
   eventPublishedAt: Date;
-  eventAggregateId:string
+  eventAggregateRootId:string
 }
 
 export const EventSchema = new Schema<EventDocument>({
@@ -14,7 +14,7 @@ export const EventSchema = new Schema<EventDocument>({
   eventType: { type: String, required: true },
   eventData: { type: String, required: true },
   eventPublishedAt: { type: Date, default: Date.now },
-  eventAggregateId: { type: String, required: true },
+  eventAggregateRootId: { type: String, required: true },
 
 });
 

@@ -23,27 +23,34 @@ export class registerquantityUseCase {
   }
 
   registerquantity(
-    id: string,
-    data: IProductEntity,
-  ): Observable<IProductEntity> {
-    return this.validateProductData(id, data).pipe(
-      mergeMap(() => {
-        if (data.quantity < 0) {
-          return throwError('Product stock cannot be negative');
-        }
-            data.productId = id   
-            const exchange = 'productInventory'
-            const routingKey = 'new.productInventory'
-            this.comandBus.execute(exchange,routingKey, JSON.stringify(data), '')
-            console.log(data)
-            return this.productDomainService.registerquantity(data);
-          }),
-        );
-      }
+    branchId: string,
+    product: IProductEntity[],
+  ): void {
+
+
+  
+
+
+    product.forEach((product) => {
+      const productExchange = 'productInventory';
+      const productRoutingKey = 'productRegister'; 
+      product.branchId = branchId
+     
+
+      this.comandBus.registerAddInventory(productExchange, productRoutingKey, product, branchId);
+      return this.productDomainService.registerquantity(product);
+
+    });
+
+
+  }
+      
+
     
   
 
-  execute(data: IProductEntity, id: string): Observable<IProductEntity> {
+  execute(data: IProductEntity[], id: string):void {
+
     return this.registerquantity(id, data);
   }
 }

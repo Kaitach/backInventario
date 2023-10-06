@@ -2,12 +2,12 @@
 import { Observable, catchError, of, switchMap, throwError } from 'rxjs';
 import {
   BranchDomainService,
-  CreateBranchCommand,
   IBranchEntiy,
 } from '../../../../../';
 import { CommandBus } from '../../../domain/services';
+import { v4 as uuidv4 } from 'uuid';
+
 import { IBranchRegister } from 'apps/back-inventario/src/domain/interfaces/branchBaseDomainInterface';
-import { blue } from 'colorette';
 export class registerBranchUseCase {
   constructor(
     private readonly branchService: BranchDomainService<IBranchEntiy>,
@@ -19,7 +19,8 @@ export class registerBranchUseCase {
   
   ): Observable<IBranchEntiy> {
     const validatedUser = new IBranchEntiy(data);
-
+    validatedUser.branchId = uuidv4()
+    console.log(validatedUser)
     return of(validatedUser);
   }
 
@@ -32,7 +33,7 @@ location: data.location.city + "," + data.location.country
     const routingKey = 'BranchRegister'
     return this.validateBranchData(newBranch).pipe(
       switchMap((validatedBranch) => {
-        this.comandBus.execute(exchange,routingKey, JSON.stringify(data),'')
+        this.comandBus.registerBranch(exchange,routingKey, validatedBranch, validatedBranch.branchId)
         return this.branchService.RegisterBranch(validatedBranch);
       }),
       catchError((error) => {

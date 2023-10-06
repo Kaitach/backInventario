@@ -36,9 +36,10 @@ export class inventoryGatwey
     routingKey: 'productRegister',
   })
   registerProduct(payload: any) {
-  
+    const branchId = JSON.parse(payload)
+
     try {
-      this.server.emit('productRegister', payload);
+      this.server.emit(`productRegister_${branchId.branchId}`, payload);
       console.log('Evento emitido correctamente');
     } catch (error) {
       console.error('Error al emitir el evento:', error);
@@ -51,9 +52,11 @@ export class inventoryGatwey
   reSellerSale(
     payload: any
   ) {
+    const branchId = JSON.parse(payload)
 
-    try {
-      this.server.emit('newProductReSeller', payload);
+      try {
+        console.log('va el evento' + payload)
+        this.server.emit(`productRegister_${branchId.branchId}`, payload);
       console.log('Evento emitido correctamente');
     } catch (error) {
       console.error('Error al emitir el evento:', error);
@@ -66,10 +69,12 @@ export class inventoryGatwey
   addInventory(
     payload: any
     ) {
-  
+      const branchId = JSON.parse(payload)
+
       try {
-        this.server.emit('newproductInventory', payload);
-      console.log('Evento emitido correctamente');
+
+        this.server.emit(`productRegister_${branchId.branchId}`, payload);
+      console.log('Evento emitido we');
     } catch (error) {
       console.error('Error al emitir el evento:', error);
     }
@@ -82,8 +87,12 @@ export class inventoryGatwey
     payload: any
     ) {
   
+      const branchId = JSON.parse(payload)
+
       try {
-        this.server.emit('new.product.customerSale', payload);
+        this.server.emit(`productRegister_${branchId.branchId}`, payload);
+        console.log('va el evento' + payload)
+
       console.log('Evento emitido correctamente');
     } catch (error) {
       console.error('Error al emitir el evento:', error);

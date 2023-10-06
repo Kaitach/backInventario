@@ -14,6 +14,9 @@ import {
   userRepository,
 } from './repositories';
 import { branchServiceBD, productServiceBD, userDBService } from './services';
+import { SaleTypeOrmEntity } from './entities/salesDBEntity';
+import { SaleTypeOrmRepository } from './repositories/saleRepository';
+import { SaleServiceBD } from './services/saleBd.service';
 
 @Module({
   imports: [
@@ -24,6 +27,7 @@ import { branchServiceBD, productServiceBD, userDBService } from './services';
       UserTypeOrmEntity,
       ProductTypeOrmEntity,
       BranchTypeOrmEntity,
+      SaleTypeOrmEntity
     ]),
 
   ],
@@ -35,6 +39,9 @@ import { branchServiceBD, productServiceBD, userDBService } from './services';
     ProductRepository,
     branchRepository,
     branchServiceBD,
+    SaleTypeOrmRepository,
+    SaleServiceBD
+    
   ],
   exports: [
     userDBService,
@@ -43,6 +50,9 @@ import { branchServiceBD, productServiceBD, userDBService } from './services';
     ProductRepository,
     branchRepository,
     branchServiceBD,
+    SaleTypeOrmRepository,
+    SaleServiceBD
+    
   ],
 })
 export class DatabaseModule {}

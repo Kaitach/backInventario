@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { BranchDomainService, IBranchEntiy, IBranchRegister } from 'apps/persistence/src';
+import { BranchDomainService, IBranchEntiy } from 'apps/persistence/src';
 import { Observable,  } from 'rxjs';
 
 export class registerBranchUseCase {
@@ -10,16 +10,12 @@ export class registerBranchUseCase {
 
 
 
-  registerBranch(data: IBranchRegister): Observable<IBranchEntiy> {
-
-    const newBranch  = {
-      name:  data.name,
-      location: data.location.city + "," + data.location.country
-          } as IBranchEntiy
-          console.log(newBranch)
+  registerBranch(data: IBranchEntiy): Observable<IBranchEntiy> {
 
 
-        return this.branchService.RegisterBranch(newBranch);
+
+
+        return this.branchService.RegisterBranch(data);
    
     
   }

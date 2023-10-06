@@ -2,30 +2,28 @@ import { Injectable } from '@nestjs/common';
 import { ProductDomainService } from 'apps/back-inventario/src/domain/services/productServiceDomain';
 import { IProductEntity } from '../../domain';
 import { Observable, of } from 'rxjs';
+import { ISale } from '../../domain/interfaces/sale.interface';
 @Injectable()
 export class infrastructureServiceProduct implements   ProductDomainService<IProductEntity>  {
 
-  registerProduct(data: IProductEntity): Observable<IProductEntity> {
-    console.log('Registrado correctamente:', data);
+  registerProduct(): Observable<IProductEntity> {
     return of(null);    }
-  registerquantity(data: IProductEntity): Observable<IProductEntity>{
-    console.log('Registrado correctamente:', data);
+  registerquantity(): Observable<IProductEntity>{
     return of(null);  
   }
-  registerCustomerSale(data:IProductEntity): Observable<IProductEntity>{
-    console.log('Registrado correctamente:', data);
+  registerCustomerSale(): Observable<ISale>{
     return of(null);  
   }
-  registerResellerSale(data: IProductEntity): Observable<IProductEntity>{
-    console.log('Registrado correctamente:', data);
+  registerResellerSale(): Observable<IProductEntity>{
+   
     return of(null);  
   }
-  findByID(id: string): Observable<IProductEntity>{
-    console.log('Registrado correctamente:' +id  );
+  findByID(): Observable<IProductEntity>{
+ ;
     return of(null);  
   }
   getAll(): Observable<void[]>{
-    console.log('Registrado correctamente:'   );
+    ;
     return of(null);  
   }
 }

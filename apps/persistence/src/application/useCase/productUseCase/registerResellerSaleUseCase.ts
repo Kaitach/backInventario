@@ -36,12 +36,7 @@ export class RegisterResellerSaleUseCase {
           throw new Error('Product not found');
         }
 
-        if (product.quantity < data.quantity) {
-          throw new Error('Insufficient inventory');
-        }
-
-        product.quantity = product.quantity - data.quantity
-        data.branchId = product.branchId;
+    
 
 
         return this.productDomainService.registerResellerSale(product);

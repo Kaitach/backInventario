@@ -1,12 +1,10 @@
 /* eslint-disable prettier/prettier */
 import {
   Observable,
-  catchError,
-  map,
-  mergeMap,
+  
+  
   of,
   switchMap,
-  throwError,
 } from 'rxjs';
 import {
   IProductEntity,
@@ -26,26 +24,11 @@ export class registerCustomerSaleUseCase {
   }
 
   registercustomerSale(data: IProductEntity): Observable<IProductEntity> {
-    console.log(data);
-
-    return this.productDomainService.findByID(data.productId as string).pipe(
-      catchError(() => throwError('Product not found')),
-      map((product) => {
-        if (!product) {
-          catchError(() => throwError('Product not found'));
-        }
-
-        if (product.quantity < data.quantity) {
-          throw new Error('Insufficient inventory');
-        }
+  
       
-        product.quantity = +product.quantity - +data.quantity;
-        data.branchId = product.branchId;
-        console.log(product);
-        return this.productDomainService.registerCustomerSale(product);
-      }),
-      mergeMap((savedProduct) => savedProduct),
-    );
+     
+        return this.productDomainService.registerCustomerSale(data);
+  
   }
 
   execute(data: IProductEntity): Observable<IProductEntity> {

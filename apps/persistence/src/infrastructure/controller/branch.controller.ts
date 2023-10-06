@@ -20,7 +20,7 @@ export class BranchController {
   
    
     @Post('register')
-   registerBranch(@Payload() eventData:RegisterBranchDto): Observable<BranchTypeOrmEntity> {
+   registerBranch(@Payload() eventData:BranchTypeOrmEntity): Observable<BranchTypeOrmEntity> {
       this.useCase.registerBranch();
       return this.useCase.execute(eventData);
     }

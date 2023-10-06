@@ -1,17 +1,16 @@
-/* eslint-disable prettier/prettier */
 import {
   Observable,
-  catchError,
-  of,
-  switchMap,
-  throwError,
+  of
+
 } from 'rxjs';
+import { v4 as uuidv4 } from 'uuid';
+
 import {
   CommandBus,
   IProductEntity,
-  newProductSaleReSellerCommand,
 } from '../../../../../';
 import { ProductDomainService } from './../../../domain/services/productServiceDomain';
+import { ISale } from 'apps/back-inventario/src/domain/interfaces/sale.interface';
 export class RegisterResellerSaleUseCase {
   constructor(
     private readonly productDomainService: ProductDomainService<IProductEntity>,
@@ -24,25 +23,49 @@ export class RegisterResellerSaleUseCase {
   ): Observable<IProductEntity> {
     data.productId = id;
     const validatedProduct = new IProductEntity(data);
-    console.log(data)
     return of(validatedProduct);
   }
 
-  registerResellerSale(data: IProductEntity): Observable<IProductEntity> {
+  registerResellerSale(product: IProductEntity[], branchId: string): Observable<IProductEntity> {
     const exchange = 'productInventory'
-    const routingKey = 'newProductReSeller'
-        this.commandBus.execute(exchange,routingKey, JSON.stringify(data), '')
-        return this.productDomainService.registerResellerSale(data);
-      }
-    
-  
+    const routingKey = 'productRegister'
 
-  execute(data: IProductEntity, id: string): Observable<IProductEntity> {
-    return this.validateProductData(id, data).pipe(
-      switchMap((validatedProduct) =>
-        this.registerResellerSale(validatedProduct),
-      ),
-      catchError((error) => throwError(`Validation error: ${error}`)),
-    );
+    let totalPrice = 0;
+    let totalQuantity = 0;
+    const productNamesWithQuantity: string[] = [];
+
+    product.forEach((product) => {
+      totalPrice += product.price;
+      totalQuantity += product.quantity;
+      productNamesWithQuantity.push(`${product.name} (${product.quantity})`);
+    });
+
+    const productNames = productNamesWithQuantity.join(', ');
+
+    const saleData: ISale = {
+      branchId,
+      productName: productNames as unknown as string [],
+      invoiceNumber:  uuidv4(),
+      productPrice: (totalPrice * 1.15 ),
+      quantity: totalQuantity,
+      type: 'resellerSales',
+      date: new Date().toISOString(),
+    };
+
+    this.commandBus.registerSale(exchange, routingKey, saleData, branchId);
+
+    product.forEach((product) => {
+      const productExchange = 'productInventory'; 
+      const productRoutingKey = 'productRegister';
+
+      this.commandBus.registerSellerSale(productExchange, productRoutingKey, product, branchId);
+    });
+
+
+    return this.productDomainService.registerResellerSale(saleData);
+  }
+
+  execute(product: IProductEntity[], branchId: string): Observable<IProductEntity> {
+    return this.registerResellerSale(product, branchId);
   }
 }

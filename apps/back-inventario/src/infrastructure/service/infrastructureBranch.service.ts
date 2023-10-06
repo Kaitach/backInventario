@@ -5,18 +5,17 @@ import { BranchDomainService, IBranchEntiy } from "../../domain";
 @Injectable()
 export class infrastuctureBranchService implements    BranchDomainService<IBranchEntiy>  {
 
-    RegisterBranch(data: IBranchEntiy): Observable<void>{
-        console.log('Registrado correctamente:', data);
+    RegisterBranch(): Observable<void>{
+       
         return of(null);        
 
     }
-    findBranchById(id: string): Observable<void>{
-        console.log('Registrado correctamente:', id);
+    findBranchById(): Observable<void>{
+       
         return of(null);          
 
     }
     getall(): Observable<void[]>{
-        console.log('Registrado correctamente:');
         return of(null);          
 
     }

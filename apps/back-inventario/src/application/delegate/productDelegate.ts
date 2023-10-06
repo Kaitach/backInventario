@@ -25,8 +25,9 @@ export class productDelegate implements IUseCase {
 
   registerCustomerSale(): void {
     this.delegate = new registerCustomerSaleUseCase(
-      this.productService,
       this.comandBus,
+
+      this.productService,
     );
   }
 

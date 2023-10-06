@@ -25,8 +25,10 @@ export class branchGatwey
   })
   registerProduct(payload: any) {
   
+    const branchId = JSON.parse(payload)
+
     try {
-      this.server.emit('branchRegister', payload);
+      this.server.emit(`new.User_${branchId.branchId}`, payload);
       console.log('Evento emitido correctamente');
     } catch (error) {
       console.error('Error al emitir el evento:', error);

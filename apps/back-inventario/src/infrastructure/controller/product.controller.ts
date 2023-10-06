@@ -1,18 +1,18 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable prettier/prettier */
 
-import { Body, Controller, Get, HttpCode, Param, Post, UseFilters } from '@nestjs/common';
+import { Body, Controller, Get,  Param, Post, UseFilters } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { productDelegate } from '../../application/delegate/productDelegate';
-import { IProductEntity } from '../../domain';
 import { infrastructureServiceProduct } from '../service/infrastructure.service';
 import { RegisterquantityDTO } from '../utils/dto/product/registerProductInventory';
 import { RegisterProductDTO } from '../utils/dto/product/registerProductRegister';
 import { RegisterSaleDTO } from '../utils/dto/product/registerSale';
 import { MessagingService } from '../events/service/serviceEvent';
 import { ErrorExceptionFilter } from '../utils/exception-filters/error.exception-filter';
-@UseFilters(ErrorExceptionFilter)
 @Controller('api/v1/product')
+@UseFilters(ErrorExceptionFilter)
+
 export class ProductController {
   private readonly useCase: productDelegate;
 
@@ -37,20 +37,26 @@ export class ProductController {
   }
   @Post('customer-sale/:idProduct')
   registerCustomerSale(
-    @Param('idProduct') idProduct: string,
-    @Body() product: RegisterSaleDTO,
+    @Param('idProduct') branchID: string,
+
+        @Body() product: RegisterSaleDTO[],
   ): Observable<void> {
     this.useCase.registerCustomerSale();
-    return this.useCase.execute(product, idProduct);
+    return this.useCase.execute(product, branchID);
     
   }
   @Post('seller-sale/:idProduct')
   registerResellerSale(
-    @Param('idProduct') idProduct: string,
+    @Param('idProduct') branchID: string,
     @Body() product: RegisterSaleDTO,
   ): Observable<void> {
+        console.log('product')
+        console.log(product)
+
+        console.log('product')
+
     this.useCase.registerResellerSale();
-    return this.useCase.execute(product, idProduct);
+    return this.useCase.execute(product, branchID);
   }
   @Post('purchase/:idProduct')
   registerquantity(
@@ -60,10 +66,7 @@ export class ProductController {
     this.useCase.registerquantity();
     return this.useCase.execute(product, idProduct);
   }
-  @Get(':id')
-  findById(@Param('id') id: string): Observable<IProductEntity> {
-    return this.productService.findByID(id);
-  }
+
 
 
   @Get()

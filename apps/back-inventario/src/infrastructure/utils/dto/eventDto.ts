@@ -6,15 +6,15 @@ export class CreateEventDto {
      eventType: string;
      eventData: string
      eventPublishedAt: Date;
-     eventAggregateId:string
+     eventAggregateRootId:string
 
 
-    constructor(eventData: string, eventName:string, eventAggregateId:string ) {
+    constructor(eventData: string, eventName:string, eventAggregateRootId:string ) {
         this.eventId = uuidv4(); 
         this.eventType = eventName;
         this.eventData = eventData; 
         this.eventPublishedAt = new Date();
-        this.eventAggregateId = eventAggregateId
+        this.eventAggregateRootId = eventAggregateRootId
 
       }
   }

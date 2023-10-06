@@ -1,3 +1,4 @@
+import { SaleServiceBD } from './../database/mysql/services/saleBd.service';
 import { RabbitSubscribe } from '@golevelup/nestjs-rabbitmq';
 import { Injectable } from '@nestjs/common';
 import { BranchController, UserController } from '../controller';
@@ -12,6 +13,7 @@ export class MyRabbitSubscriber {
     private readonly branchController: BranchController,
     private readonly usercontroller: UserController,
     private readonly productcontroller: ProductController,
+    private readonly saleServiceBD: SaleServiceBD
   ) {}
 
   @RabbitSubscribe({
@@ -48,7 +50,6 @@ export class MyRabbitSubscriber {
   @RabbitSubscribe({
     exchange: 'productInventory',
     routingKey: 'newProductReSeller',
-    queue: 'directRabbit',
   })
   newProdutReseller(message: any) {
     try {
@@ -114,6 +115,7 @@ export class MyRabbitSubscriber {
             return this.productcontroller.registerquantity({
               productId: parsedMessage.productId as UUID,
               quantity: parsedMessage.quantity,
+              branchId: parsedMessage.branchId
             } as RegisterquantityDTO );
           })
         )
@@ -163,4 +165,17 @@ export class MyRabbitSubscriber {
       console.error('Error:', error);
     }
 }
+
+
+@RabbitSubscribe({
+  exchange: 'branch',
+  routingKey: 'saleEvent',
+})newSaleEvent(message: any) {
+  
+    const parsedMessage = JSON.parse(message) ;
+    console.log('Mensaje recibido:', parsedMessage);
+
+    this.saleServiceBD.saveSales(parsedMessage)
+  }
+  
 }

@@ -5,6 +5,8 @@ type ProductSale = {
   productId: string;
   price: number;
   productStock: number;
+  branchId: string;
+
 };
 
 export interface RegisterSaleDTO extends IProductEntity {

@@ -1,10 +1,11 @@
 /* eslint-disable prettier/prettier */
 
-import { IBranch } from 'apps/back-inventario/src/domain/interfaces/branchInterfaceDomain';
 import { UUID } from 'crypto';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ProductTypeOrmEntity } from './productDBEntity';
 import { UserTypeOrmEntity } from './userDBentity';
+import { SaleTypeOrmEntity } from './salesDBEntity';
+import { IBranch } from 'apps/persistence/src/domain';
 @Entity('branch')
 export class BranchTypeOrmEntity implements IBranch {
   @PrimaryGeneratedColumn('uuid')
@@ -21,4 +22,7 @@ export class BranchTypeOrmEntity implements IBranch {
 
   @OneToMany(() => UserTypeOrmEntity, (user) => user.branchId)
   users: UserTypeOrmEntity[];
+
+  @OneToMany(() => SaleTypeOrmEntity, (sale) => sale.branchId)
+  sales: SaleTypeOrmEntity[];
 }
