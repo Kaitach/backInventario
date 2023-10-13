@@ -5,7 +5,6 @@ import {  Payload } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
 import { BranchDelegate } from '../../application/delegate/branchDelegate';
 import { BranchTypeOrmEntity, branchServiceBD } from '../database';
-import { RegisterBranchDto } from '../utils/dto/branch/registerBranch';
 
 @Controller('api/v1/branch')
 export class BranchController {

@@ -3,7 +3,8 @@ import { Model } from 'mongoose';
 import { CreateEventDto } from '../../../utils';
 import { EventDocument } from '../schemas';
 import { Observable,  catchError,  from, map, of, switchMap, throwError,    } from 'rxjs';
-import { IBranchRegister, RegisterProductDTO, RegisterUserDto } from 'apps/persistence/src';
+import {  RegisterProductDTO, RegisterUserDto } from '../../../'
+import { IBranchRegister } from '../../../../domain/interfaces/branchBaseDomainInterface';
 
 export class EventRepository {
   constructor(

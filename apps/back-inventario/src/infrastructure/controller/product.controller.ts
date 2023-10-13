@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable prettier/prettier */
 
-import { Body, Controller, Get,  Param, Post, UseFilters } from '@nestjs/common';
+import { Body, Controller, Get,  Param, Post, UseFilters, UseGuards } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { productDelegate } from '../../application/delegate/productDelegate';
 import { infrastructureServiceProduct } from '../service/infrastructure.service';
@@ -10,6 +10,8 @@ import { RegisterProductDTO } from '../utils/dto/product/registerProductRegister
 import { RegisterSaleDTO } from '../utils/dto/product/registerSale';
 import { MessagingService } from '../events/service/serviceEvent';
 import { ErrorExceptionFilter } from '../utils/exception-filters/error.exception-filter';
+import { AuthGuard } from '../utils/guards/auth.guard';
+import { AdminGuard } from '../utils/guards/admin.Guard';
 @Controller('api/v1/product')
 @UseFilters(ErrorExceptionFilter)
 
@@ -28,7 +30,8 @@ export class ProductController {
   }
 
   @Post('register')
-  
+  @UseGuards(AuthGuard,AdminGuard )
+
   registerProduct(
     @Body() product: RegisterProductDTO,
   ): Observable<void> {
@@ -36,6 +39,7 @@ export class ProductController {
     return this.useCase.execute(product);
   }
   @Post('customer-sale/:idProduct')
+  
   registerCustomerSale(
     @Param('idProduct') branchID: string,
 
@@ -46,19 +50,19 @@ export class ProductController {
     
   }
   @Post('seller-sale/:idProduct')
+  @UseGuards(AuthGuard,AdminGuard )
   registerResellerSale(
     @Param('idProduct') branchID: string,
     @Body() product: RegisterSaleDTO,
   ): Observable<void> {
-        console.log('product')
-        console.log(product)
-
-        console.log('product')
+ 
 
     this.useCase.registerResellerSale();
     return this.useCase.execute(product, branchID);
   }
   @Post('purchase/:idProduct')
+  @UseGuards(AuthGuard,AdminGuard )
+
   registerquantity(
     @Param('idProduct') idProduct: string,
     @Body() product: RegisterquantityDTO,

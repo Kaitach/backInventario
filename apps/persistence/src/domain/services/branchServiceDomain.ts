@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
-  import { IBranchEntiy } from "apps/back-inventario";
 import { Observable } from "rxjs";
+import { IBranchEntiy } from "../entities";
 
 export interface BranchDomainService<T> {
     RegisterBranch(data: IBranchEntiy): Observable<T>;

@@ -1,6 +1,4 @@
-import { UUID } from 'crypto';
 /* eslint-disable prettier/prettier */
-import { IRegisterUser } from 'apps/back-inventario/src/domain/interfaces/registerUserInterface';
 import { Observable, catchError, of, switchMap, throwError } from 'rxjs';
 import {
   BranchDomainService,
@@ -10,6 +8,7 @@ import {
   UserDomainService,
 } from '../../../../../';
 import { v4 as uuidv4 } from 'uuid';
+import { IRegisterUser } from '../../../domain/interfaces/registerUserInterface';
 export class registeruserUseCase {
   constructor(
     private readonly userService: UserDomainService<IUserEntity>,

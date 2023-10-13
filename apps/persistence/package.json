@@ -9,10 +9,10 @@
     "build": "nest build",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
     "start": "nest start",
-    "start:dev": "nest start --watch",
+    "start:dev": "nest start --watch",    
     "start:2": "npm run start:dev persistence",
     "start:3": "npm run start:dev soket-io",
-
+    "start:4": "npm run start:dev jwt-auth",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/apps/back-inventario/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",

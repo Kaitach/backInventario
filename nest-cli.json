@@ -54,6 +54,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/soket-io/tsconfig.app.json"
       }
+    },
+    "jwt-auth": {
+      "type": "application",
+      "root": "apps/jwt-auth",
+      "entryFile": "main",
+      "sourceRoot": "apps/jwt-auth/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/jwt-auth/tsconfig.app.json"
+      }
     }
   }
 }

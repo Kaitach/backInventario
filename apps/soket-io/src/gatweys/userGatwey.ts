@@ -15,13 +15,10 @@ export class branchGatwey
   @WebSocketServer() server: Server;
 
 
-
-
-
-
   @RabbitSubscribe({
     exchange: 'user',
     routingKey: 'new.User',
+    queue: 'new.UserSocket'
   })
   registerProduct(payload: any) {
   

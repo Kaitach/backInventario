@@ -19,6 +19,8 @@ export class MyRabbitSubscriber {
   @RabbitSubscribe({
     exchange: 'branch',
     routingKey: 'BranchRegister',
+        queue: 'BranchRegister'
+
   })
   newBranch(message: any) {
     try {
@@ -32,6 +34,8 @@ export class MyRabbitSubscriber {
   @RabbitSubscribe({
     exchange: 'user',
     routingKey: 'new.User',
+    queue: 'new.User'
+
   })
   newUSer(message: any) {
 
@@ -50,6 +54,8 @@ export class MyRabbitSubscriber {
   @RabbitSubscribe({
     exchange: 'productInventory',
     routingKey: 'newProductReSeller',
+    queue: 'newProductReSeller'
+
   })
   newProdutReseller(message: any) {
     try {
@@ -86,6 +92,8 @@ export class MyRabbitSubscriber {
   @RabbitSubscribe({
     exchange: 'productInventory',
     routingKey: 'productRegister',
+    queue: 'productRegister'
+
   })
   newProdut(message: any) {
     try {
@@ -103,6 +111,8 @@ export class MyRabbitSubscriber {
   @RabbitSubscribe({
     exchange: 'productInventory',
     routingKey: 'new.productInventory',
+    queue: 'new.productInventory'
+
   })
   newProductInventory(message: any) {
     try {
@@ -138,6 +148,8 @@ export class MyRabbitSubscriber {
   @RabbitSubscribe({
     exchange: 'productInventory',
     routingKey: 'new.product.customerSale',
+    queue: 'new.product.customerSale'
+
   })
   newProdutCustomerSale(message: any) {
     try {
@@ -170,6 +182,8 @@ export class MyRabbitSubscriber {
 @RabbitSubscribe({
   exchange: 'branch',
   routingKey: 'saleEvent',
+  queue: 'saleEvent'
+
 })newSaleEvent(message: any) {
   
     const parsedMessage = JSON.parse(message) ;

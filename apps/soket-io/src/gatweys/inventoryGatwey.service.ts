@@ -34,6 +34,8 @@ export class inventoryGatwey
   @RabbitSubscribe({
     exchange: 'productInventory',
     routingKey: 'productRegister',
+    queue: 'productRegisterSocket'
+
   })
   registerProduct(payload: any) {
     const branchId = JSON.parse(payload)
@@ -48,6 +50,8 @@ export class inventoryGatwey
   @RabbitSubscribe({
     exchange: 'productInventory',
     routingKey: 'newProductReSeller',
+    queue: 'newProductReSellerSocket'
+
   })
   reSellerSale(
     payload: any
@@ -65,6 +69,8 @@ export class inventoryGatwey
   @RabbitSubscribe({
     exchange: 'productInventory',
     routingKey: 'new.productInventory',
+    queue: 'new.productInventorySocket'
+
   })
   addInventory(
     payload: any
@@ -82,6 +88,8 @@ export class inventoryGatwey
   @RabbitSubscribe({
     exchange: 'productInventory',
     routingKey: 'new.product.customerSale',
+    queue: 'new.product.customerSaleSocket'
+
   })
   customerSale(
     payload: any
