@@ -4,8 +4,8 @@ import { Injectable } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { ProductTypeOrmEntity } from '../entities';
 import { ProductRepository } from '../repositories';
-import { ProductDomainService } from 'apps/persistence/src/domain/services';
-import { RegisterProductDTO , RegisterSaleDTO, RegisterquantityDTO, } from 'apps/persistence/src';
+import { ProductDomainService } from '../../../../';
+import { RegisterProductDTO , RegisterSaleDTO, RegisterquantityDTO, } from '../../../../';
 
 @Injectable()
 export class productServiceBD

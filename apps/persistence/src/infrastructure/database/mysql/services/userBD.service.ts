@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
-import { UserDomainService } from 'apps/persistence/src/domain';
+import { UserDomainService } from '../../../../';
 import { Observable } from 'rxjs';
 import { UserTypeOrmEntity } from '../entities/userDBentity';
 import { userRepository } from '../repositories';

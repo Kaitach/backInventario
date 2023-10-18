@@ -1,9 +1,9 @@
 import { Observable } from 'rxjs';
 import { Injectable } from "@nestjs/common";
-import { ISaleServiceDomain } from "apps/persistence/src/domain/services/sale.interface.serviceSomain";
+import { ISaleServiceDomain } from "../../../../domain/services/sale.interface.serviceSomain";
 import { SaleTypeOrmRepository } from "../repositories/saleRepository";
 import { SaleTypeOrmEntity } from '../entities/salesDBEntity';
-import { ISale } from 'apps/persistence/src/domain/interfaces/sale.interface';
+import { ISale } from '../../../../domain/interfaces/sale.interface';
 
 @Injectable()
 export class SaleServiceBD implements ISaleServiceDomain{

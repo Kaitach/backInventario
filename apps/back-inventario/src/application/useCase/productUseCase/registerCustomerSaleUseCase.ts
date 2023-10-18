@@ -4,10 +4,10 @@ import {
   
 } from 'rxjs';
 import {
+  CommandBus,
   IProductEntity,
 } from '../../../../../';
 import { ProductDomainService } from './../../../domain/services/productServiceDomain';
-import { CommandBus } from 'apps/back-inventario';
 import { ISale } from 'apps/back-inventario/src/domain/interfaces/sale.interface';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -20,7 +20,7 @@ export class registerCustomerSaleUseCase {
   registerCustomerSale(product: IProductEntity[], branchId: string): Observable<ISale> {
 console.log(product)
     const exchange = 'productInventory';
-    const routingKey = 'eventRegister';
+    const routingKey = 'saleEvent';
     let totalPrice = 0;
     let totalQuantity = 0;
     const productNamesWithQuantity: string[] = [];
@@ -57,8 +57,7 @@ console.log(product)
 
       this.commandBus.registerCustomerSale(productExchange, productRoutingKey, product, branchId);
     });
-
-
+  
     return this.productDomainService.registerCustomerSale(saleData);
   }
   

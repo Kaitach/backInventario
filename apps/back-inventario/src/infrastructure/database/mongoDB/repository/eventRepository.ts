@@ -60,10 +60,6 @@ export class EventRepository {
   }
   
   
-  
-  
-  
-  
   existUser(user: RegisterUserDto): Observable<boolean> {
 console.log(user)   
  return from(
@@ -169,6 +165,9 @@ console.log(user)
       })
     );
   }
+
+
+  
 }
   
   

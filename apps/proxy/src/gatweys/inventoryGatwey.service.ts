@@ -47,6 +47,30 @@ export class inventoryGatwey
       console.error('Error al emitir el evento:', error);
     }
   }
+
+
+  
+  @RabbitSubscribe({
+    exchange: 'productInventory',
+    routingKey: 'productreturn',
+    queue: 'productreturn'
+
+  })
+  productreturn(
+    payload: any
+  ) {
+    const branchId = JSON.parse(payload)
+
+      try {
+        console.log('va el evento' + payload)
+        this.server.emit(`productRegister_${branchId.branchId}`, payload);
+        this.server.emit(`saleEvent_${branchId.branchId}`, payload);
+
+      console.log('Evento emitido correctamente');
+    } catch (error) {
+      console.error('Error al emitir el evento:', error);
+    }
+  }
   @RabbitSubscribe({
     exchange: 'productInventory',
     routingKey: 'newProductReSeller',
@@ -61,6 +85,8 @@ export class inventoryGatwey
       try {
         console.log('va el evento' + payload)
         this.server.emit(`productRegister_${branchId.branchId}`, payload);
+        this.server.emit(`saleEvent_${branchId.branchId}`, payload);
+
       console.log('Evento emitido correctamente');
     } catch (error) {
       console.error('Error al emitir el evento:', error);
@@ -80,6 +106,7 @@ export class inventoryGatwey
       try {
 
         this.server.emit(`productRegister_${branchId.branchId}`, payload);
+        
       console.log('Evento emitido we');
     } catch (error) {
       console.error('Error al emitir el evento:', error);
@@ -99,6 +126,8 @@ export class inventoryGatwey
 
       try {
         this.server.emit(`productRegister_${branchId.branchId}`, payload);
+
+        this.server.emit(`saleEvent_${branchId.branchId}`, payload);
         console.log('va el evento' + payload)
 
       console.log('Evento emitido correctamente');

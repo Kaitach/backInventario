@@ -1,10 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { ProductDomainService } from 'apps/back-inventario/src/domain/services/productServiceDomain';
-import { IProductEntity } from '../../domain';
+import { IProductEntity, ProductDomainService } from '../../domain';
 import { Observable, of } from 'rxjs';
 import { ISale } from '../../domain/interfaces/sale.interface';
 @Injectable()
 export class infrastructureServiceProduct implements   ProductDomainService<IProductEntity>  {
+  returnquantity(): Observable<IProductEntity>{
+    return of(null);  
+  }
 
   registerProduct(): Observable<IProductEntity> {
     return of(null);    }
@@ -26,4 +28,5 @@ export class infrastructureServiceProduct implements   ProductDomainService<IPro
     ;
     return of(null);  
   }
+
 }

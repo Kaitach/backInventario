@@ -8,4 +8,5 @@ export interface ProductDomainService<T> {
   registerCustomerSale(data: ISale): Observable<ISale>;
   registerResellerSale(data: ISale): Observable<T>;
   findByID(id: string): Observable<T >;
+  returnquantity(data: T): Observable<T>;
 }

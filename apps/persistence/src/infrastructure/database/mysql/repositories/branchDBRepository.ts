@@ -5,7 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Observable, catchError, from, throwError } from 'rxjs';
 import { Repository } from 'typeorm';
 import { BranchTypeOrmEntity } from '../entities';
-import { BranchDomainService } from 'apps/persistence/src';
+import { BranchDomainService } from '../../../../domain/';
 
 @Injectable()
 export class branchRepository

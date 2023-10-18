@@ -12,6 +12,8 @@ import { MessagingService } from '../events/service/serviceEvent';
 import { ErrorExceptionFilter } from '../utils/exception-filters/error.exception-filter';
 import { AuthGuard } from '../utils/guards/auth.guard';
 import { AdminGuard } from '../utils/guards/admin.Guard';
+import { SaleEntity } from 'src/domain/entities/sale.entity';
+import { IProductEntity } from '../../../..';
 @Controller('api/v1/product')
 @UseFilters(ErrorExceptionFilter)
 
@@ -77,4 +79,15 @@ export class ProductController {
   getAll(): Observable<void[]> {
     return this.productService.getAll();
   }
+
+
+  @Post('returnSale')
+  @UseGuards(AuthGuard, AdminGuard)
+  returnSale(
+    @Body() requestBody: { branchID: string, idSale: SaleEntity,product: IProductEntity,  }
+  ): Observable<void> {
+    this.useCase.returnquantityUseCase();
+    return this.useCase.execute(requestBody);
+  }
+  
 }

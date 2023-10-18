@@ -1,9 +1,9 @@
-import { ISale } from "apps/persistence/src/domain/interfaces/sale.interface";
-import { ISaleServiceDomain } from "apps/persistence/src/domain/services/sale.interface.serviceSomain";
 import { Observable, from } from "rxjs";
 import { Repository } from "typeorm";
 import { SaleTypeOrmEntity } from "../entities/salesDBEntity";
 import { InjectRepository } from "@nestjs/typeorm";
+import { ISale } from "../../../../domain/interfaces/sale.interface";
+import { ISaleServiceDomain } from "../../../../domain/services/sale.interface.serviceSomain"
 
 export class SaleTypeOrmRepository implements ISaleServiceDomain {
     constructor(

@@ -5,8 +5,8 @@ import { Observable, from, throwError, of } from 'rxjs';
 import { catchError,  switchMap } from 'rxjs/operators';
 import { QueryFailedError } from 'typeorm/error/QueryFailedError';
 
-import { RegisterProductDTO } from './../../../utils/dto/product/registerProductRegister';
-import { ProductDomainService, RegisterSaleDTO, RegisterquantityDTO } from 'apps/persistence/src';
+import { RegisterProductDTO } from '../../../../';
+import { ProductDomainService, RegisterSaleDTO, RegisterquantityDTO } from '../../../../';
 import { ProductTypeOrmEntity } from '../entities/productDBEntity';
 
 @Injectable()

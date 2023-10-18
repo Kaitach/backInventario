@@ -4,7 +4,7 @@ import { Observable } from "rxjs";
 
 import { BranchTypeOrmEntity } from "../entities";
 import { branchRepository } from "../repositories";
-import { BranchDomainService } from "apps/persistence/src";
+import { BranchDomainService } from "../../../../";
 
 @Injectable()
 export class branchServiceBD implements  BranchDomainService<BranchTypeOrmEntity> {

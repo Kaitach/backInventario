@@ -28,7 +28,7 @@ export class RegisterResellerSaleUseCase {
 
   registerResellerSale(product: IProductEntity[], branchId: string): Observable<IProductEntity> {
     const exchange = 'productInventory'
-    const routingKey = 'productRegister'
+    const routingKey = 'saleEvent'
 
     let totalPrice = 0;
     let totalQuantity = 0;

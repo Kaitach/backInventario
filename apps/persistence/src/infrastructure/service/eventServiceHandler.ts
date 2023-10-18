@@ -191,5 +191,17 @@ export class MyRabbitSubscriber {
 
     this.saleServiceBD.saveSales(parsedMessage)
   }
+
+  @RabbitSubscribe({
+    exchange: 'productInventory',
+    routingKey: 'productreturn',
+    queue: 'productreturn'
   
+  })returnSaleEvent(message: any) {
+    
+      const parsedMessage = JSON.parse(message) ;
+      console.log('Mensaje recibido:', parsedMessage);
+  
+      this.saleServiceBD.saveSales(parsedMessage)
+    }
 }

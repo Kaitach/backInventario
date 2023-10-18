@@ -10,6 +10,7 @@ import { IUseCase } from '../../domain/interfaces/IUseCase';
 import { registerCustomerSaleUseCase } from '../useCase/productUseCase/registerCustomerSaleUseCase';
 import { RegisterProductUseCase } from '../useCase/productUseCase/registerProductUseCase';
 import { RegisterResellerSaleUseCase } from '../useCase/productUseCase/registerResellerSaleUseCase';
+import { returnquantityUseCase } from '../useCase/productUseCase/returntProductUSeCase';
 
 export class productDelegate implements IUseCase {
   private delegate: IUseCase;
@@ -47,6 +48,14 @@ export class productDelegate implements IUseCase {
 
   registerResellerSale(): void {
     this.delegate = new RegisterResellerSaleUseCase(
+      this.productService,
+      this.comandBus,
+    );
+  }
+
+
+  returnquantityUseCase(): void {
+    this.delegate = new returnquantityUseCase(
       this.productService,
       this.comandBus,
     );

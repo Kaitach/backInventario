@@ -1,15 +1,47 @@
 import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
 import { Injectable } from '@nestjs/common';
-import { CommandBus } from 'apps/back-inventario/src/domain';
 import { EventRepository } from '../../database';
 import { CreateEventDto } from '../../utils';
 import { catchError, throwError } from 'rxjs';
+import { CommandBus } from '../../../../..';
+import { SaleEntity } from 'src/domain/entities/sale.entity';
 
 @Injectable()
 export class MessagingService  implements CommandBus{
   constructor(private readonly amqpConnection: AmqpConnection,    
     private readonly repository: EventRepository,
     ) {}
+  returnAddInventory(exchange: string, routeingKey: string, data: any, branchId: string, saleId:SaleEntity) {
+
+    this.repository.findProduct(branchId, data.productId).subscribe(
+      (result) => {
+        if (result) {
+          console.log('Evento encontrado:', result);
+    
+          data.quantity += result.quantity;
+          const eventDataAsString = JSON.stringify(data);
+
+          const createEventDto = new CreateEventDto(
+          eventDataAsString,
+          'saleUpdate',
+         branchId,
+         )
+          this.repository.saveEvent(createEventDto, branchId);
+          console.log(data)
+       
+          this.amqpConnection.publish(exchange, routeingKey, JSON.stringify(saleId));
+
+        } else {
+          console.log('No se encontraron eventos para el producto con productId:', data.productId);
+    
+        }
+      },
+      (error) => {
+        console.error('Ocurrió un error al buscar el producto:', error);
+      }
+    );
+  
+  }
   registerSale(exchange: string, routeingKey: string, data: any, branchId: string) {
     const eventDataAsString = JSON.stringify(data);
     exchange = 'branch'
@@ -133,10 +165,9 @@ export class MessagingService  implements CommandBus{
               );
               this.repository.saveEvent(createEventDto, branchId);
       
+            
 
-              this.amqpConnection.publish(exchange, routeingKey, JSON.stringify({  productId: data.productId,
-                quantity: data.quantity,
-                branchId:data.branchId}))            }
+              this.amqpConnection.publish(exchange, routeingKey, JSON.stringify(data))         }
           } else {
             console.log('No se encontraron eventos para el producto con productId:', data.productId);
           }

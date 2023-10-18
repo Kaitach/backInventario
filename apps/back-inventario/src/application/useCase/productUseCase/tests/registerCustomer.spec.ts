@@ -83,27 +83,27 @@ describe('registerCustomerProductSaleUseCase', () => {
 
   it('debería manejar errores de inventario insuficiente', (done) => {
     // Arrange
-    const productData = {
+    const productData = [{
       productId: '9828eacd-01fb-45d2-91dc-24518b30b0a8',
       quantity: 100,
-    } as IProductEntity;
-
-    const existingProduct = {
-      productId: productData.productId,
-      quantity: 50, // Simulamos inventario insuficiente
-    } as IProductEntity;
+    },] as IProductEntity[];
+    const branchID =  ''
+    const productDatas = [{
+      productId: '9828eacd-01fb-45d2-91dc-24518b30b0a8',
+      quantity: 12,
+    },] as IProductEntity[];
 
     ProductServiceMock.findByID = jest
       .fn()
-      .mockReturnValueOnce(of(existingProduct));
+      .mockReturnValueOnce(of(productDatas));
 
     // Act
-    useCase.registercustomerSale(productData).subscribe({
+    useCase.registerCustomerSale(productData, branchID).subscribe({
       error: (error) => {
         // Assert
         expect(error).toStrictEqual(new Error('Insufficient inventory'));
         expect(ProductServiceMock.findByID).toHaveBeenCalledWith(
-          productData.productId,
+          productData[1].productId,
         );
         done();
       },
