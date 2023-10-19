@@ -1,7 +1,7 @@
 import { Observable, switchMap, of } from "rxjs";
 import { IUserEntity } from "../../domain/entity/userEntity";
-import { AuthDomainService } from "../../domain/service/authDomainService";
-import { UserDomainService } from "../../domain/service/userDomainService";
+import { UserDomainService, AuthDomainService } from "../../domain";
+
 
 
   export class LoginUserUseCase {

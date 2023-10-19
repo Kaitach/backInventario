@@ -1,22 +1,22 @@
 {
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
-  "sourceRoot": "apps/back-inventario/src",
+  "sourceRoot": "apps/command/src",
   "compilerOptions": {
     "deleteOutDir": true,
     "webpack": true,
-    "tsConfigPath": "apps/back-inventario/tsconfig.app.json"
+    "tsConfigPath": "apps/command/tsconfig.app.json"
   },
   "monorepo": true,
-  "root": "apps/back-inventario",
+  "root": "apps/command",
   "projects": {
-    "back-inventario": {
+    "command": {
       "type": "application",
-      "root": "apps/back-inventario",
+      "root": "apps/command",
       "entryFile": "main",
-      "sourceRoot": "apps/back-inventario/src",
+      "sourceRoot": "apps/command/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/back-inventario/tsconfig.app.json"
+        "tsConfigPath": "apps/command/tsconfig.app.json"
       }
     },
     "users": {
@@ -37,22 +37,22 @@
         "tsConfigPath": "apps/queri-comander/tsconfig.app.json"
       }
     },
-    "persistence": {
+    "query": {
       "type": "application",
-      "root": "apps/persistence",
+      "root": "apps/query",
       "entryFile": "main",
-      "sourceRoot": "apps/persistence/src",
+      "sourceRoot": "apps/query/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/persistence/tsconfig.app.json"
+        "tsConfigPath": "apps/query/tsconfig.app.json"
       }
     },
-    "soket-io": {
+    "proxy": {
       "type": "application",
-      "root": "apps/soket-io",
+      "root": "apps/proxy",
       "entryFile": "main",
-      "sourceRoot": "apps/soket-io/src",
+      "sourceRoot": "apps/proxy/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/soket-io/tsconfig.app.json"
+        "tsConfigPath": "apps/proxy/tsconfig.app.json"
       }
     },
     "jwt-auth": {

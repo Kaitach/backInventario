@@ -22,7 +22,6 @@ export class userGatwey
   @RabbitSubscribe({
     exchange: 'branch',
     routingKey: 'userRegister',
-    queue: 'userRegisterSocket'
 
   })
   registerProduct(payload: any) {
@@ -37,7 +36,6 @@ export class userGatwey
   @RabbitSubscribe({
     exchange: 'branch',
     routingKey: 'saleEvent',
-    queue: 'saleEventSocket'
 
   })
   registerSale(payload: any) {

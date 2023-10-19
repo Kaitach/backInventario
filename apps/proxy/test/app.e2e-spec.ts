@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { SoketIoModule } from '../src/soket-io.module';
+import { SoketIoModule } from '../src/proxy.module';
 
 describe('SoketIoController (e2e)', () => {
   let app: INestApplication;

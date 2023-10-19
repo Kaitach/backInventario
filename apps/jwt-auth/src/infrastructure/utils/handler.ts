@@ -7,7 +7,7 @@ import { userRepository } from '../database/mongoDB';
 export class BranchHandler {
   constructor(private readonly userRegister: userRepository) {}
   
-    useCase= new registeruserUseCase(    this.userRegister );
+    useCase= new registeruserUseCase(this.userRegister );
   
   @RabbitSubscribe({
     exchange: 'user',

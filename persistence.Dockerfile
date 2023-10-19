@@ -5,7 +5,7 @@ FROM node:18
 WORKDIR /app
 
 # Copia la carpeta dist de tu proyecto local al directorio /app en el contenedor
-COPY ./dist/apps/persistence ./dist/apps/persistence
+COPY ./dist/apps/query ./dist/apps/query
 
 # Copia cualquier otro archivo necesario para la ejecución de tu aplicación (por ejemplo, package.json)
 COPY package.json package-lock.json ./
@@ -17,4 +17,4 @@ RUN  npm install --production
 EXPOSE 3002
 
 # Define el comando para iniciar tu aplicación (asegúrate de que el archivo principal sea correcto)
-CMD ["node", "dist/apps/persistence/main.js"]
+CMD ["node", "dist/apps/query/main.js"]

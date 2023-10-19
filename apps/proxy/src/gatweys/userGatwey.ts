@@ -18,7 +18,6 @@ export class branchGatwey
   @RabbitSubscribe({
     exchange: 'user',
     routingKey: 'new.User',
-    queue: 'new.UserSocket'
   })
   registerProduct(payload: any) {
   

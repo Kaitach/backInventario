@@ -21,7 +21,7 @@ services:
       - MYSQL_DATABASE=inventariotraining
     volumes:
       - mysql-data:/var/lib/mysql
-  back-inventario:
+  command:
     build:
       context: ./
       dockerfile: backinventario.Dockerfile
@@ -37,10 +37,10 @@ services:
       - command-data:/command/app/data
     depends_on:
       - rabbitmq-inventory
-  persistence:
+  query:
     build:
       context: ./
-      dockerfile: persistence.Dockerfile
+      dockerfile: query.Dockerfile
     ports:
       - 3002:3002
     restart: on-failure

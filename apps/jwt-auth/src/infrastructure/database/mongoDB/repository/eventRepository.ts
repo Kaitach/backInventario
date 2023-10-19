@@ -16,10 +16,8 @@ export class userRepository implements UserDomainService<IUserEntity> {
       this.userModel.create(data);
     } catch (error) {
       if (error.code === 11000) {
-        // En caso de clave duplicada, lanza una excepción personalizada
         throw new DuplicateKeyException('email');
       }
-      // Maneja otros errores aquí si es necesario
       throw error;
     }
   }

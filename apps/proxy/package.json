@@ -1,5 +1,5 @@
 {
-  "name": "back-inventario",
+  "name": "proxy",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -10,17 +10,17 @@
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
-    "start:2": "npm run start:dev persistence",
-    "start:3": "npm run start:dev soket-io",
+    "start:2": "npm run start:dev query",
+    "start:3": "npm run start:dev proxy",
 
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/apps/back-inventario/main",
+    "start:prod": "node dist/apps/proxy/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./apps/back-inventario/test/jest-e2e.json"
+    "test:e2e": "jest --config ./apps/proxy/test/jest-e2e.json"
   },
   "dependencies": {
     "@golevelup/nestjs-rabbitmq": "^4.0.0",

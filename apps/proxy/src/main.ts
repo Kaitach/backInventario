@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { SoketIoModule } from './soket-io.module';
+import { SoketIoModule } from './proxy.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(SoketIoModule);

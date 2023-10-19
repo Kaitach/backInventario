@@ -5,7 +5,7 @@ FROM node:18
 WORKDIR /app
 
 # Copia la carpeta dist de tu proyecto local al directorio /app en el contenedor
-COPY ./dist/apps/back-inventario ./dist/apps/back-inventario
+COPY ./dist/apps/command ./dist/apps/command
 
 # Copia cualquier otro archivo necesario para la ejecución de tu aplicación (por ejemplo, package.json)
 COPY package.json package-lock.json ./
@@ -17,4 +17,4 @@ RUN  npm install --production
 EXPOSE 3000
 
 # Define el comando para iniciar tu aplicación (asegúrate de que el archivo principal sea correcto)
-CMD ["node", "dist/apps/back-inventario/main.js"]
+CMD ["node", "dist/apps/command/main.js"]
