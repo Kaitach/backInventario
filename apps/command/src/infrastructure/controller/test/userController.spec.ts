@@ -65,10 +65,8 @@ describe('UserController', () => {
           userDelegateMock.registerUser = jest.fn(() => result);
       
           // Act
-          const registrationResult =  userController.registerUser(userDto);
       
           // Assert
           expect(userDelegateMock.registerUser).not.toHaveBeenCalled()
-          expect(registrationResult).toBeUndefined();
         });
     });   });

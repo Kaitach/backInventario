@@ -11,27 +11,13 @@ export class MessagingService  implements CommandBus{
     private readonly repository: EventRepository,
     ) {}
   returnAddInventory(exchange: string, routeingKey: string, data: any, branchId: string, saleId:SaleEntity) {
-    const quantity = data.quantity
-
-    this.repository.findProduct(branchId, data.productId).subscribe(
-      (result) => {
-        if (result) {
-          console.log('Evento encontrado:', result);
     
-          data.quantity =   quantity + result.quantity;
-          console.log(data)
-       
+          saleId.branchId = branchId;   
           this.amqpConnection.publish(exchange, routeingKey, JSON.stringify(saleId));
 
-        } else {
-          console.log('No se encontraron eventos para el producto con productId:', data.productId);
+      
+     
     
-        }
-      },
-      (error) => {
-        console.error('Ocurrió un error al buscar el producto:', error);
-      }
-    );
   
   }
 
@@ -68,7 +54,7 @@ export class MessagingService  implements CommandBus{
             console.log('La branch  ya existe, muestra un mensaje de error si es necesario.');
           } else {
             this.amqpConnection.publish(exchange, routeingKey, JSON.stringify(data));
-
+            console.log(data)
           }
         },
         (error) => {
@@ -122,13 +108,15 @@ export class MessagingService  implements CommandBus{
         ).subscribe((result) => {
           if (result) {
             const newQuantity = result.quantity - quantity
-            
+           
+
+
             if (newQuantity < 0) {
               const customError = new Error('Error de cantidad insuficiente');
               return throwError(customError);
             } else {
               data.quantity = newQuantity;
-              data.name = result.name
+              data.name = data.name
               this.amqpConnection.publish(exchange, routeingKey, JSON.stringify(data))         }
           } else {
             console.log('No se encontraron eventos para el producto con productId:', data.productId);
@@ -147,14 +135,15 @@ export class MessagingService  implements CommandBus{
         })
       ).subscribe((result) => {
         if (result) {
-          const newQuantity = result.quantity - quantity;
-    
+          const newQuantity = result.quantity - quantity
+          console.log(newQuantity)
+
           if (newQuantity < 0) {
             const customError = new Error('Error de cantidad insuficiente');
             return throwError(customError);
           } else {
             data.quantity = newQuantity;
-            data.name  = result.name
+            data.name = data.name
             this.amqpConnection.publish(exchange, routeingKey, JSON.stringify({  productId: data.productId,
             quantity: data.quantity,
             branchId:branchId}));
@@ -167,12 +156,12 @@ export class MessagingService  implements CommandBus{
     
     registerAddInventory(exchange: string, routeingKey: string, data: any, branchId:string) {
       const quantity = data.quantity
-
         this.repository.findProduct(branchId, data.productId).subscribe(
           (result) => {
             if (result) {
            
-              data.name = result.name
+              data.name = data.name
+              console.log(result)
 
               data.quantity = quantity + result.quantity;
               routeingKey = 'new.productInventory'

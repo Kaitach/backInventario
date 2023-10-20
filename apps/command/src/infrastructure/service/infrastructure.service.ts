@@ -15,12 +15,13 @@ constructor(
 
 returnquantity(data: IProductEntity): any{
   const quantity = data.quantity
+  const name = data.name
   this.repository.findProduct(data.branchId, data.productId).subscribe(
     (result) => {
       if (result) {
         console.log('Evento en donde tiene que ir :', result);
         console.log('Evento en donde tiene que ir :', data);
-
+        data.name = name
         data.quantity =   quantity + result.quantity;
         const eventDataAsString = JSON.stringify(data);
         console.log('el evento guardado quedo con :', data);
@@ -80,12 +81,13 @@ returnquantity(data: IProductEntity): any{
   
   returnAddInventory( data: any, branchId: string, ) {
     const quantity = data.quantity
+    const name = data.name
 
     this.repository.findProduct(branchId, data.productId).subscribe(
       (result) => {
         if (result) {
           console.log('Evento encontrado:', result);
-    
+          data.name = name
           data.quantity = result.quantity + quantity;
           const eventDataAsString = JSON.stringify(data);
 

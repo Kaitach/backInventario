@@ -13,8 +13,11 @@ import { ErrorExceptionFilter } from '../utils/exception-filters/error.exception
 import { AuthGuard } from '../utils/guards/auth.guard';
 import { AdminGuard } from '../utils/guards/admin.Guard';
 import { SaleEntity, IProductEntity } from '../../../../shared';
+import { ApiBody, ApiTags} from '@nestjs/swagger';
+
 @Controller('api/v1/product')
 @UseFilters(ErrorExceptionFilter)
+@ApiTags('product')
 
 export class ProductController {
   private readonly useCase: productDelegate;
@@ -79,6 +82,7 @@ export class ProductController {
 
   @Post('returnSale')
   @UseGuards(AuthGuard, AdminGuard)
+  @ApiBody({ type: SaleEntity })
   returnSale(
     @Body() requestBody: { branchID: string, idSale: SaleEntity,product: IProductEntity,  }
   ): Observable<void> {

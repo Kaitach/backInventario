@@ -23,12 +23,14 @@ export class registeruserUseCase {
   private createUserCommand(userData: IUserEntity): void {
     const exchange = 'user'
     const routingKey = 'new.User'
-    console.log('usuario nuevo' + userData)
+    console.log('usuario nuevo' + JSON.stringify( userData))
+    console.log( userData)
+
     this.comandBus.registerUser(exchange,routingKey, userData, userData.branchId)
   }
 
 
-  public registerUser(data: IRegisterUser): Observable<IUserEntity> {
+  public registerUser(data: IRegisterUser): any {
     const newUser = {
       branchId: data.branchId,
       email: data.email,
@@ -37,18 +39,11 @@ export class registeruserUseCase {
       role: data.role,
       id: uuidv4()
     } as IUserEntity;
-  
-
-        return this.validateUserData(newUser).pipe(
-          switchMap(() => {
-            this.createUserCommand(newUser)
-            return this.userService.registerUser(newUser);          
-          }),
-          catchError((error) => {
-            return throwError(`Validation error: ${error}`);
-          }),
-        );
-      }
+    this.createUserCommand(newUser)
+    this.userService.registerUser(newUser);          
+  }
+        
+      
   
 
   execute(data: IRegisterUser): Observable<IUserEntity> {

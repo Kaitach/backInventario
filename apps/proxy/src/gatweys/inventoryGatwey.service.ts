@@ -41,7 +41,7 @@ export class inventoryGatwey
 
     try {
       this.server.emit(`productRegister_${branchId.branchId}`, payload);
-      console.log('Evento emitido correctamente');
+      console.log('Evento emitido correctamente de producto registrado ');
     } catch (error) {
       console.error('Error al emitir el evento:', error);
     }
@@ -61,10 +61,13 @@ export class inventoryGatwey
 
       try {
         console.log('va el evento' + payload)
-        this.server.emit(`productRegister_${branchId.branchId}`, payload);
         this.server.emit(`saleEvent_${branchId.branchId}`, payload);
 
-      console.log('Evento emitido correctamente');
+      console.log('Evento emitido correctamente doble evento ');
+      this.server.emit(`productRegister_${branchId.branchId}`, payload);
+      console.log('Evento emitido correctamente doble evento ');
+      console.log('va el evento' + payload)
+
     } catch (error) {
       console.error('Error al emitir el evento:', error);
     }
@@ -84,7 +87,7 @@ export class inventoryGatwey
         this.server.emit(`productRegister_${branchId.branchId}`, payload);
         this.server.emit(`saleEvent_${branchId.branchId}`, payload);
 
-      console.log('Evento emitido correctamente');
+      console.log('Evento emitido correctamente de venta de reseller');
     } catch (error) {
       console.error('Error al emitir el evento:', error);
     }
@@ -103,7 +106,7 @@ export class inventoryGatwey
 
         this.server.emit(`productRegister_${branchId.branchId}`, payload);
         
-      console.log('Evento emitido we');
+      console.log('Evento emitido agragamos productos');
     } catch (error) {
       console.error('Error al emitir el evento:', error);
     }
@@ -121,11 +124,11 @@ export class inventoryGatwey
 
       try {
         this.server.emit(`productRegister_${branchId.branchId}`, payload);
+        console.log('Evento emitido correctamente');
 
-        this.server.emit(`saleEvent_${branchId.branchId}`, payload);
+        this.server.emit(`saleEvente_${branchId.branchId}`, payload);
         console.log('va el evento' + payload)
 
-      console.log('Evento emitido correctamente');
     } catch (error) {
       console.error('Error al emitir el evento:', error);
     }

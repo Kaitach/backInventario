@@ -10,7 +10,7 @@ export class SaleEntity {
   invoiceNumber: IdValueObject;
   productPrice: priceValueObject;
   quantity: quantityValueObject;
-
+  branchId?: string
   constructor(data: ISale) {
     if (data.id) this.id = new IdValueObject(data.id);
     else this.id = new IdValueObject(uuidv4());

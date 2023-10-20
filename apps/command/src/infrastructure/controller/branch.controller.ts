@@ -9,10 +9,11 @@ import { MessagingService } from '../events/service/serviceEvent';
 import { ErrorExceptionFilter } from '../utils/exception-filters/error.exception-filter';
 import { AuthGuard } from '../utils/guards/auth.guard';
 import { SuperAdminGuard } from '../utils/guards/superAdmin.guard';
+import { ApiTags} from '@nestjs/swagger';
 
 @Controller('api/v1/branch')
 @UseFilters(ErrorExceptionFilter)
-
+@ApiTags('Branch')
 export class BranchController {
     private readonly useCase: BranchDelegate;
 
@@ -27,6 +28,7 @@ export class BranchController {
     @Post('register')
     @UseGuards(AuthGuard,SuperAdminGuard )
    registerBranch(@Body() branch: RegisterBranchDto): Observable<void> {
+    console.log(branch)
       this.useCase.registerBranch();
       return this.useCase.execute(branch);
     }

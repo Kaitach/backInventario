@@ -17,25 +17,21 @@ export class registerBranchUseCase {
     const validatedUser = new IBranchEntiy(data);
     validatedUser.branchId = uuidv4()
     console.log(validatedUser)
+       const exchange = 'branch'
+    const routingKey = 'BranchRegister'
+    this.comandBus.registerBranch(exchange,routingKey, validatedUser, validatedUser.branchId)
+    this.branchService.RegisterBranch(validatedUser);
     return of(validatedUser);
   }
 
-  registerBranch(data: IBranchRegister): Observable<void> {
+  registerBranch(data: IBranchRegister): any {
   const newBranch  = {
 name:  data.name,
 location: data.location.city + "," + data.location.country
     } as IBranchEntiy
     const exchange = 'branch'
     const routingKey = 'BranchRegister'
-    return this.validateBranchData(newBranch).pipe(
-      switchMap((validatedBranch) => {
-        this.comandBus.registerBranch(exchange,routingKey, validatedBranch, validatedBranch.branchId)
-        return this.branchService.RegisterBranch(validatedBranch);
-      }),
-      catchError((error) => {
-        return throwError(`Error de validación: ${error}`);
-      }),
-    );
+    this.validateBranchData(newBranch)
   }
 
   execute(data: IBranchRegister): Observable<void> {

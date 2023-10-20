@@ -3,8 +3,10 @@ import { IProductEntity } from '../../../../../../shared';
 import { UUID } from 'crypto';
 
 export interface RegisterquantityDTO extends IProductEntity {
+  
   productId: UUID;
   productStock: number;
+  
   branchId: string;
 
 }

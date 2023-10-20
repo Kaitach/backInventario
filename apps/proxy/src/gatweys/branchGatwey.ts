@@ -21,14 +21,17 @@ export class userGatwey
 
   @RabbitSubscribe({
     exchange: 'branch',
-    routingKey: 'userRegister',
+    routingKey: 'BranchRegister',
 
   })
   registerProduct(payload: any) {
   
     try {
-      this.server.emit('branchRegister', payload);
+      
+      this.server.emit(`branchRegister`, payload);
       console.log('Evento emitido correctamente');
+            console.log('Evento emitido correctamente' +  JSON.parse(payload));
+
     } catch (error) {
       console.error('Error al emitir el evento:', error);
     }
@@ -44,7 +47,7 @@ export class userGatwey
     try {
 
       this.server.emit(`saleEvent_${branchId.branchId}`, payload);
-      console.log('Evento emitido correctamente');
+      console.log('Evento emitido correctamente por?');
     } catch (error) {
       console.error('Error al emitir el evento:', error);
     }

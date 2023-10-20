@@ -21,10 +21,8 @@ export class RegisterResellerSaleUseCase {
     id: string,
     data: IProductEntity,
   ): Observable<IProductEntity> {
-    data.productId = id;
-    const validatedProduct = new IProductEntity(data);
     console.log(data)
-    return of(validatedProduct);
+    return of(data);
   }
 
   registerResellerSale(data: IProductEntity): Observable<IProductEntity> {
@@ -38,7 +36,7 @@ export class RegisterResellerSaleUseCase {
 
     
 
-
+        console.log('la conncha de tu madre' + product)
         return this.productDomainService.registerResellerSale(product);
       }),
       mergeMap((savedProduct) => savedProduct),

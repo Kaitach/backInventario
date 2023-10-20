@@ -9,9 +9,11 @@ import { MessagingService } from '../events/service/serviceEvent';
 import { ErrorExceptionFilter } from '../utils/exception-filters/error.exception-filter';
 import { AdminGuard } from '../utils/guards/admin.Guard';
 import { AuthGuard } from '../utils/guards/auth.guard';
+import { ApiTags} from '@nestjs/swagger';
 
 @Controller('api/v1/user')
 @UseFilters(ErrorExceptionFilter)
+@ApiTags('user')
 
 export class UserController {
     private readonly useCase: userDelegate;

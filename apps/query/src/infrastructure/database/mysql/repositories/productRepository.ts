@@ -78,11 +78,13 @@ export class ProductRepository implements ProductDomainService<ProductTypeOrmEnt
     }
 }
 
-  registerquantity(
+registerquantity(
     data: RegisterquantityDTO,
   ): Observable<ProductTypeOrmEntity> {
     try {
       console.log(data);
+      console.log('data');
+
       return from(this.productRepository.save(data)).pipe(
         catchError((error) => {
           if (error instanceof QueryFailedError && error.message.includes('ER_NO_REFERENCED_ROW_2')) {
@@ -105,6 +107,7 @@ export class ProductRepository implements ProductDomainService<ProductTypeOrmEnt
   ): Observable<ProductTypeOrmEntity> {
     const productId = data.productId;
     const quantity = data.quantity;
+   
     try {
      
       return from(this.findByID(productId)).pipe(
@@ -117,7 +120,7 @@ export class ProductRepository implements ProductDomainService<ProductTypeOrmEnt
           if (!product) {
             throw new Error('Producto no encontrado');
           }
-
+          product.name = data.name
           product.quantity = quantity;
 
           return from(this.productRepository.save(product));
@@ -132,7 +135,7 @@ export class ProductRepository implements ProductDomainService<ProductTypeOrmEnt
   registerResellerSale(data: RegisterSaleDTO): Observable<ProductTypeOrmEntity> {
     const productId = data.productId;
     const quantity = data.quantity;
-
+  
     try {
       return from(this.findByID(productId)).pipe(
         catchError((error) => {
@@ -144,8 +147,10 @@ export class ProductRepository implements ProductDomainService<ProductTypeOrmEnt
           if (!product) {
             throw new Error('Producto no encontrado');
           }
-
           product.quantity = quantity;
+        
+          console.log(product)
+
 
           return from(this.productRepository.save(product));
         }),

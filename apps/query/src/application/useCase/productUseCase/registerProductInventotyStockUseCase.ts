@@ -15,16 +15,14 @@ export class registerquantityUseCase {
     data: IProductEntity,
   ): Observable<IProductEntity> {
  
-    data.productId = id;
+   
 
-    const validatedProduct = new IProductEntity(data);
-
-            return this.productDomainService.registerquantity(validatedProduct);
+            return this.productDomainService.registerquantity(data);
        
       }
 
   execute(data: IProductEntity, id: string): Observable<IProductEntity> {
- 
+
 
     return this.registerquantity(id, data);
   }

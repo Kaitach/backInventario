@@ -25,7 +25,7 @@ export class branchGatwey
 
     try {
       this.server.emit(`new.User_${branchId.branchId}`, payload);
-      console.log('Evento emitido correctamente');
+      console.log('Evento emitido correctamente usuario creado');
     } catch (error) {
       console.error('Error al emitir el evento:', error);
     }

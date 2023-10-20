@@ -31,15 +31,23 @@ export class returnquantityUseCase {
 
     product.forEach((product) => {
       const productExchange = 'productInventory';
-      const productRoutingKey = 'productreturn'; 
+      const productRoutingKey = 'new.productInventory'; 
       product.branchId = branchId
      
 
-      this.comandBus.returnAddInventory(productExchange, productRoutingKey, product, branchId, saleId);
-      return this.productDomainService.returnquantity(product);
+      this.comandBus.registerAddInventory(productExchange, productRoutingKey, product, branchId);
+      this.productDomainService.returnquantity(product);
 
-    });
+    },
+ 
 
+    
+    );
+    const productExchange = 'productInventory';
+
+    const productRoutingKey = 'productreturn'; 
+ 
+     this.comandBus.returnAddInventory(productExchange, productRoutingKey, product, branchId, saleId);
 
   }
       

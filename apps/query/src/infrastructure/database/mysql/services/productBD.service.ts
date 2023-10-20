@@ -13,6 +13,7 @@ export class productServiceBD
 {
   constructor(private readonly productRepository: ProductRepository) {}
   returnquantity(data: ProductTypeOrmEntity): Observable<ProductTypeOrmEntity> {
+    console.log(data)
     return this.productRepository.returnquantity(data);
   }
   findByID(id: string): Observable<ProductTypeOrmEntity> {

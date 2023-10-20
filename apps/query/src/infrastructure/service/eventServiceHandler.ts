@@ -3,7 +3,6 @@ import { RabbitSubscribe } from '@golevelup/nestjs-rabbitmq';
 import { Injectable } from '@nestjs/common';
 
 import {  RegisterSaleDTO, RegisterquantityDTO } from '../utils';
-import {  mergeMap, switchMap } from 'rxjs';
 import { UUID } from 'crypto';
 import { BranchDelegate, productDelegate, userDelegate } from '../../';
 import { branchServiceBD, productServiceBD, userDBService } from '../database';
@@ -78,9 +77,13 @@ export class MyRabbitSubscriber {
       
             this.useCaseProduct.registerResellerSale()
                
-                 this.useCaseProduct.execute({
+                 this.useCaseProduct.execute( {
                   productId: parsedMessage.productId as UUID,
                   quantity: parsedMessage.quantity,
+                  name: parsedMessage.name,
+                  description: parsedMessage.description,
+                  price: parsedMessage.price,
+                  category: parsedMessage.category,
                 });
               }
     catch (error) {
@@ -113,7 +116,6 @@ export class MyRabbitSubscriber {
   @RabbitSubscribe({
     exchange: 'productInventory',
     routingKey: 'new.productInventory',
-    queue: 'new.productInventory'
 
   })
   newProductInventory(message: any) {
@@ -128,6 +130,8 @@ export class MyRabbitSubscriber {
                   productId: parsedMessage.productId as UUID,
                   quantity: parsedMessage.quantity,
                   branchId: parsedMessage.branchId,
+                  name: parsedMessage.name,
+                  price: parsedMessage.price,
                 });
              
   }catch (error) {

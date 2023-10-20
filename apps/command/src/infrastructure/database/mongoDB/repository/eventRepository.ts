@@ -45,13 +45,12 @@ export class EventRepository {
         });
         return branchExists;
       }),
-      switchMap((branchExists) => {
-        if (branchExists) {
-          return throwError('La sucursal ya existe.');
-        } else {
+      switchMap(() => {
+        
           return of(false);
         }
-      }),
+      ),
+
       catchError((error) => {
         console.error('Error al buscar sucursales en la base de datos:', error);
         return throwError('Error al buscar sucursales en la base de datos.');
@@ -62,6 +61,8 @@ export class EventRepository {
   
   existUser(user: RegisterUserDto): Observable<boolean> {
 console.log(user)   
+console.log('user')   
+
  return from(
       this.eventModel.find({
         eventType: 'new.User',
@@ -80,13 +81,12 @@ console.log(user)
         });
         return eventExists;
       }),
-      switchMap((eventExists) => {
-        if (eventExists) {
-          return throwError('El usuario ya existe.');
-        } else {
+      switchMap(() => {
+        
+        
           return of(false);
-        }
-      }),
+        }),
+  
       catchError((error) => {
         console.error('Error al buscar eventos en la base de datos:', error);
         return throwError('Error al buscar eventos en la base de datos.');
